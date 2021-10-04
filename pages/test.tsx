@@ -63,6 +63,7 @@ export default function Test() {
           }}
           className={css`
             color: white;
+            cursor: var(--cursor-pointer);
           `}
         >
           DISCONNECT
@@ -74,6 +75,7 @@ export default function Test() {
           }}
           className={css`
             color: white;
+            cursor: var(--cursor-pointer);
           `}
         >
           CONNECT
@@ -91,6 +93,7 @@ export default function Test() {
         }}
         className={css`
           color: white;
+          cursor: var(--cursor-pointer);
         `}
       >
         MINT

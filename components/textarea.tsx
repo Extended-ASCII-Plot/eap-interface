@@ -85,6 +85,7 @@ export default function Textarea(props: {
           resize: none;
           border: none;
           outline: none;
+          cursor: var(--cursor-text);
           padding: 0;
           color: ${hex};
           caret-color: transparent;
