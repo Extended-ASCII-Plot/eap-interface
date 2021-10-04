@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { injectGlobal } from '@emotion/css'
+import { UseWalletProvider } from 'use-wallet'
 
 injectGlobal`
 ::-webkit-scrollbar {
@@ -33,7 +34,9 @@ function App({ Component, pageProps }: AppProps) {
         <title>Extended ASCII Plot</title>
       </Head>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
+      <UseWalletProvider>
+        <Component {...pageProps} />
+      </UseWalletProvider>
     </>
   )
 }
