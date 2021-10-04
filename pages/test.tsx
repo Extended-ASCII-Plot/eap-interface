@@ -130,6 +130,11 @@ function Token(props: { index: number }) {
     () => contract!.tokenOfOwnerByIndex(signer!._address, props.index),
     { revalidateOnFocus: false },
   )
+  const { data: tokenURI } = useSWR(
+    token && contract ? ['tokenURI', token.toHexString(), contract.address] : null,
+    () => contract!.tokenURI(token!.toHexString()),
+  )
+  console.log(tokenURI)
 
   return (
     <Border width={44} height={3}>
