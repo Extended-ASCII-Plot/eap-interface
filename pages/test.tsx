@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 import { ethers } from 'ethers'
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
 import { ExtendedAsciiPlot__factory } from '../abi'
@@ -29,6 +29,30 @@ export default function Test() {
     signer && contract ? ['balanceOf', signer._address, contract.address] : null,
     () => contract!.balanceOf(signer!._address),
   )
+  const event = useMemo(
+    () =>
+      signer
+        ? {
+            address: ADDRESS,
+            topics: [
+              ethers.utils.id('Transfer(address,address,uint256)'),
+              null,
+              ethers.utils.hexZeroPad(signer._address, 32),
+            ],
+          }
+        : undefined,
+    [signer],
+  )
+  const handleRefresh = useCallback(() => mutate(), [mutate])
+  useEffect(() => {
+    if (!signer || !event) {
+      return
+    }
+    signer.provider.on(event, handleRefresh)
+    return () => {
+      signer.provider.removeListener(event, handleRefresh)
+    }
+  }, [event, signer, handleRefresh])
 
   return (
     <Box width={44} height={3}>
@@ -109,7 +133,7 @@ function Token(props: { index: number }) {
 
   return (
     <Border width={44} height={3}>
-      <Text value={token?.toHexString()} />
+      {token ? <Text value={ethers.utils.hexZeroPad(token.toHexString(), 20)} /> : null}
     </Border>
   )
 }
