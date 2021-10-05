@@ -26,9 +26,7 @@ export default function IndexPage() {
     () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
     [signer],
   )
-  const [text, setText] = useState(
-    '0000000000000000000000000000000000000000000000000000000000000000',
-  )
+  const [text, setText] = useState('')
   const { data: balance, mutate } = useSWR(
     signer && contract ? ['balanceOf', signer._address, contract.address] : null,
     () => contract!.balanceOf(signer!._address),
