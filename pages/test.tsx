@@ -55,7 +55,7 @@ export default function Test() {
   }, [event, signer, handleRefresh])
 
   return (
-    <Box width={44} height={3}>
+    <Box width={68} height={3}>
       {wallet.status === 'connected' ? (
         <button
           onClick={() => {
@@ -83,6 +83,17 @@ export default function Test() {
       )}
       <button
         onClick={async () => {
+          setText(ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString())
+        }}
+        className={css`
+          color: white;
+          cursor: var(--cursor-pointer);
+        `}
+      >
+        RANDOM
+      </button>
+      <button
+        onClick={async () => {
           if (contract && signer) {
             await contract.mint(signer._address, text, {
               value: ethers.utils.parseEther('0.001'),
@@ -98,10 +109,10 @@ export default function Test() {
       >
         MINT
       </button>
-      <Border width={44} height={3}>
-        <Textarea value={text} onChange={setText} width={42} height={1} />
+      <Border width={68} height={3}>
+        <Textarea value={text} onChange={setText} width={66} height={1} />
       </Border>
-      <Border width={44} height={3}>
+      <Border width={68} height={3}>
         <Text value={balance?.toBigInt().toString()} />
       </Border>
       {balance
@@ -140,8 +151,8 @@ function Token(props: { index: number }) {
   console.log(tokenURI)
 
   return (
-    <Border width={44} height={3}>
-      {token ? <Text value={ethers.utils.hexZeroPad(token.toHexString(), 20)} /> : null}
+    <Border width={68} height={3}>
+      {token ? <Text value={ethers.utils.hexZeroPad(token.toHexString(), 32)} /> : null}
     </Border>
   )
 }
