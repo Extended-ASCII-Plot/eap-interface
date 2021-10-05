@@ -6,12 +6,12 @@ import { useWallet } from 'use-wallet'
 import Link from 'next/link'
 import { ExtendedAsciiPlot__factory } from '../abi'
 import Border from '../components/border'
-import Box from '../components/box'
 import Plot from '../components/plot'
 import Text from '../components/text'
 import Input from '../components/input'
 import Button from '../components/button'
 import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
+import CodeMap from '../components/code-map'
 
 const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
@@ -57,13 +57,15 @@ export default function IndexPage() {
       signer.provider.removeListener(event, handleRefresh)
     }
   }, [event, signer, handleRefresh])
+  useEffect(() => {
+    setText(ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''))
+  }, [])
 
   return (
-    <Box
-      width={68}
-      height={40}
+    <div
       className={css`
         margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
+        width: ${66 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
       <Text>Extended ASCII Plot</Text>
@@ -115,23 +117,32 @@ export default function IndexPage() {
           </Button>
         )}
       </div>
-      <Border width={68} height={3}>
+      <Border width={66} height={3}>
         <div
           className={css`
             display: flex;
           `}
         >
-          <Text color={0xcccfn}>0x</Text>
           <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
         </div>
       </Border>
-      <Border width={4 + 2} height={4 + 2}>
-        {text ? (
-          <Plot
-            value={ethers.utils.hexZeroPad(ethers.BigNumber.from(`0x${text}`).toHexString(), 32)}
-          />
-        ) : null}
-      </Border>
+      <div
+        className={css`
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+        `}
+      >
+        <Border width={16 + 2} height={16 + 2}>
+          {text ? (
+            <Plot
+              value={ethers.utils.hexZeroPad(ethers.BigNumber.from(`0x${text}`).toHexString(), 32)}
+              factor={4}
+            />
+          ) : null}
+        </Border>
+        <CodeMap />
+      </div>
       {balance ? (
         <>
           <Text>{` balance: ${balance.toBigInt().toString()}`}</Text>
@@ -139,7 +150,6 @@ export default function IndexPage() {
             className={css`
               display: flex;
               flex-wrap: wrap;
-              padding-left: ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
             `}
           >
             {Array.from({ length: balance.toNumber() }).map((_, index) => (
@@ -148,7 +158,7 @@ export default function IndexPage() {
           </div>
         </>
       ) : null}
-    </Box>
+    </div>
   )
 }
 

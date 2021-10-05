@@ -8,7 +8,7 @@ import { ascii } from '../utils/encoding'
 
 const SIZE = 4
 
-export default function Plot(props: { value?: string }) {
+export default function Plot(props: { value?: string; factor?: number }) {
   const { data } = useSWR(
     props.value === undefined ? null : `/plot/${props.value}`,
     (url) => fetch(url).then((response) => response.text()),
@@ -20,8 +20,8 @@ export default function Plot(props: { value?: string }) {
   )
   const className = css`
     display: inline-block;
-    width: ${FONT_WIDTH * FONT_SCALE_FACTOR * SIZE}px;
-    height: ${FONT_HEIGHT * FONT_SCALE_FACTOR * SIZE}px;
+    width: ${FONT_WIDTH * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}px;
+    height: ${FONT_HEIGHT * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}px;
     background-repeat: no-repeat;
     background-position: 0 0;
   `
@@ -30,8 +30,8 @@ export default function Plot(props: { value?: string }) {
     <PlotSvg
       value={props.value}
       className={className}
-      width={FONT_WIDTH * FONT_SCALE_FACTOR * SIZE}
-      height={FONT_HEIGHT * FONT_SCALE_FACTOR * SIZE}
+      width={FONT_WIDTH * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}
+      height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}
     />
   ) : (
     <i style={{ backgroundImage, backgroundSize: 'cover' }} className={className} />
