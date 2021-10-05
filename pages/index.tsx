@@ -57,7 +57,13 @@ export default function IndexPage() {
   }, [event, signer, handleRefresh])
 
   return (
-    <Box width={68} height={3}>
+    <Box
+      width={68}
+      height={40}
+      className={css`
+        margin: 0 auto;
+      `}
+    >
       {wallet.status === 'connected' ? (
         <Button
           onClick={() => {
@@ -105,7 +111,7 @@ export default function IndexPage() {
           `}
         >
           <Text color={0xcccfn}>0x</Text>
-          <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={66} />
+          <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
         </div>
       </Border>
       <Border width={4 + 2} height={4 + 2}>
@@ -115,12 +121,21 @@ export default function IndexPage() {
           />
         ) : null}
       </Border>
-      <Text>{` balance: ${balance ? balance.toBigInt().toString() : '-'}`}</Text>
-      {balance
-        ? Array.from({ length: balance.toNumber() }).map((_, index) => (
-            <Token key={index} index={index} />
-          ))
-        : null}
+      {balance ? (
+        <>
+          <Text>{` balance: ${balance.toBigInt().toString()}`}</Text>
+          <div
+            className={css`
+              display: flex;
+              flex-wrap: wrap;
+            `}
+          >
+            {Array.from({ length: balance.toNumber() }).map((_, index) => (
+              <Token key={index} index={index} />
+            ))}
+          </div>
+        </>
+      ) : null}
     </Box>
   )
 }
