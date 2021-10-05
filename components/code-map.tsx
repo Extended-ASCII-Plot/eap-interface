@@ -10,7 +10,7 @@ const charEncodingMap = new Uint8Array(
 export default function CodeMap() {
   return (
     <Box
-      width={FONT_MAP_SIZE + 2}
+      width={FONT_MAP_SIZE + 6}
       height={FONT_MAP_SIZE + 2}
       className={css`
         position: relative;
@@ -26,6 +26,22 @@ export default function CodeMap() {
       </Box>
       <Box width={FONT_MAP_SIZE} height={FONT_MAP_SIZE} x={2} y={2}>
         <Text>{charEncodingMap}</Text>
+      </Box>
+      <Box width={1} height={FONT_MAP_SIZE + 1} x={FONT_MAP_SIZE + 3} y={1}>
+        <Text color={0xff0fn}>c</Text>
+        {Array.from({ length: FONT_MAP_SIZE }).map((_, index) => (
+          <Text color={0xbbbbn} key={index}>
+            {index.toString(16).toUpperCase()}
+          </Text>
+        ))}
+      </Box>
+      <Box width={1} height={FONT_MAP_SIZE + 1} x={FONT_MAP_SIZE + 5} y={1}>
+        <Text color={0xff0fn}>d</Text>
+        {Array.from({ length: FONT_MAP_SIZE }).map((_, index) => (
+          <Text color={0xbbbbn} key={index}>
+            {index.toString(16).toUpperCase()}
+          </Text>
+        ))}
       </Box>
     </Box>
   )
