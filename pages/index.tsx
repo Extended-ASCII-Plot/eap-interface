@@ -8,7 +8,7 @@ import Border from '../components/border'
 import Box from '../components/box'
 import Plot from '../components/plot'
 import Text from '../components/text'
-import Textarea from '../components/textarea'
+import Input from '../components/input'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../utils/constants'
 
 const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
@@ -85,7 +85,9 @@ export default function IndexPage() {
       )}
       <button
         onClick={async () => {
-          setText(ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString())
+          setText(
+            ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''),
+          )
         }}
         className={css`
           color: white;
@@ -112,12 +114,19 @@ export default function IndexPage() {
         MINT
       </button>
       <Border width={68} height={3}>
-        <Textarea value={text} onChange={setText} width={66} height={1} />
+        <div
+          className={css`
+            display: flex;
+          `}
+        >
+          <Text value="0x" color={0xcccfn} />
+          <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={66} />
+        </div>
       </Border>
       <Border width={SCALE + 2} height={SCALE + 2}>
         {text ? (
           <Plot
-            value={ethers.utils.hexZeroPad(ethers.BigNumber.from(text).toHexString(), 32)}
+            value={ethers.utils.hexZeroPad(ethers.BigNumber.from(`0x${text}`).toHexString(), 32)}
             width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE}
             height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE}
           />

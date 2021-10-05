@@ -1,7 +1,6 @@
 import { css } from '@emotion/css'
 import type { ReactNode } from 'react'
 import React from 'react'
-import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 import { ascii } from '../utils/encoding'
 import Box from './box'
 import Dot from './dot'

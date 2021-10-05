@@ -5,18 +5,15 @@ import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR } from '../utils/constants'
 import { color2Opacity, color2Hex } from '../utils/encoding'
 import Box from './box'
 
-export default function Textarea(props: {
+export default function Input(props: {
   value: string
   onChange(value: string): void
+  mask?: RegExp
   width: number
-  height: number
   color?: bigint
 }) {
   const ref = useRef<HTMLTextAreaElement>(null)
-  const [caret, setCaret] = useState<{ left: number; top: number }>({
-    left: 0,
-    top: 0,
-  })
+  const [caret, setCaret] = useState(0)
   const [focused, setFocused] = useState(false)
   const handleCaret = useCallback(() => {
     if (ref.current) {
@@ -26,7 +23,7 @@ export default function Textarea(props: {
           ? ref.current.selectionStart
           : ref.current.selectionEnd,
       )
-      setCaret({ left: coordinates.left, top: coordinates.top - ref.current.scrollTop })
+      setCaret(coordinates.left)
     }
   }, [])
   useEffect(() => {
@@ -49,7 +46,7 @@ export default function Textarea(props: {
   return (
     <Box
       width={props.width}
-      height={props.height}
+      height={1}
       className={css`
         position: relative;
         opacity: ${opacity};
@@ -59,13 +56,16 @@ export default function Textarea(props: {
         ref={ref}
         value={props.value}
         onChange={(e) => {
-          props.onChange(e.target.value.replace(/[^\u0020-\u007f\n]+/g, ''))
-          handleCaret()
+          const newValue = props.mask ? e.target.value.match(props.mask)?.[0] || '' : e.target.value
+          props.onChange(newValue)
+          if (newValue) {
+            handleCaret()
+          }
         }}
         autoCorrect="off"
         spellCheck="false"
         cols={props.width}
-        rows={props.height}
+        rows={1}
         onFocus={() => {
           setFocused(true)
         }}
@@ -75,7 +75,7 @@ export default function Textarea(props: {
         className={css`
           position: absolute;
           width: ${props.width * FONT_WIDTH * FONT_SCALE_FACTOR}px;
-          height: ${props.height * FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          height: ${1 * FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           font-family: 'Kitchen Sink';
           font-size: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           line-height: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
@@ -90,6 +90,7 @@ export default function Textarea(props: {
           color: ${hex};
           caret-color: transparent;
           -webkit-font-smoothing: antialiased;
+          overflow: hidden;
           ::selection {
             color: ${hex};
             background-color: #555;
@@ -99,8 +100,7 @@ export default function Textarea(props: {
       {focused ? (
         <i
           style={{
-            left: caret.left,
-            top: caret.top,
+            left: caret,
           }}
           className={css`
             @keyframes blink {
