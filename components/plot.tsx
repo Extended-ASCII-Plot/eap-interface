@@ -11,7 +11,9 @@ const SCALE = 10
  */
 export default function Plot(props: { value: string }) {
   const buf = Buffer.from(
-    ethers.BigNumber.from(props.value).toHexString().replace(/^0x/, ''),
+    ethers.utils
+      .hexZeroPad(ethers.BigNumber.from(props.value).toHexString(), 32)
+      .replace(/^0x/, ''),
     'hex',
   )
 
@@ -26,7 +28,7 @@ export default function Plot(props: { value: string }) {
         Array.from({ length: SIZE }).map((_, x) => (
           <PlotDot
             key={`${x}-${y}`}
-            value={buf.readUInt16BE(y * SIZE + x)}
+            value={buf.readUInt16BE((y * SIZE + x) << 1)}
             x={x * FONT_WIDTH}
             y={y * FONT_HEIGHT}
           />
