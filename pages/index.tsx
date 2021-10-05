@@ -12,6 +12,7 @@ import Input from '../components/input'
 import Button from '../components/button'
 import { CONTRACT_ADDRESS, FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 import CodeMap from '../components/code-map'
+import AsciiDot from '../components/ascii-dot'
 
 export default function IndexPage() {
   const wallet = useWallet()
@@ -74,7 +75,34 @@ export default function IndexPage() {
         width: ${36 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
-      <Text>Extended ASCII Plot</Text>
+      <div
+        className={css`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        `}
+      >
+        <span>
+          <Text>Extended ASCII Plot</Text>
+        </span>
+        <span>
+          <a href="" target="_blank">
+            <AsciiDot value={0xe2c0} />
+          </a>
+          <Text> </Text>
+          <a href="" target="_blank">
+            <AsciiDot value={0xe5d0} />
+          </a>
+          <Text> </Text>
+          <a href="https://polyducks.itch.io/kitchen-sink-textmode-font" target="_blank">
+            <AsciiDot value={0x1450} />
+          </a>
+          <Text> </Text>
+          <a href="https://github.com/Extended-ASCII-Plot" target="_blank">
+            <AsciiDot value={0xf906} />
+          </a>
+        </span>
+      </div>
       <div
         className={css`
           display: flex;
@@ -211,12 +239,7 @@ function Token(props: { index: number }) {
   return (
     <Border width={4 + 2} height={4 + 2}>
       <Link href={`/plot/${value}`} passHref={true}>
-        <a
-          target="_blank"
-          className={css`
-            cursor: var(--cursor-pointer);
-          `}
-        >
+        <a target="_blank">
           <Plot value={value} />
         </a>
       </Link>

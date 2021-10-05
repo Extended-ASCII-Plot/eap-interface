@@ -29,6 +29,16 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+a {
+  line-height: 0;
+  display: inline-block;
+  cursor: var(--cursor-pointer);
+}
+
+span {
+  line-height: 0;
+}
+
 @font-face {
   font-family: 'Kitchen Sink';
   src: url('/Kitchen Sink.ttf') format('truetype');
