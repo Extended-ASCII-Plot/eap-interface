@@ -81,6 +81,7 @@ export default function IndexPage() {
           align-items: center;
           justify-content: space-between;
           margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          margin-bottom: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
         `}
       >
         <Button onClick={handleRandom}>RANDOM</Button>
@@ -147,7 +148,7 @@ export default function IndexPage() {
         </div>
         <div
           className={css`
-            margin-top: ${1 * FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+            margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           `}
         >
           <Text color={0xaaafn}> Tips:</Text>
@@ -155,7 +156,11 @@ export default function IndexPage() {
         </div>
       </div>
       {balance ? (
-        <>
+        <div
+          className={css`
+            margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          `}
+        >
           <Text>{`Balance:${balance.toBigInt().toString()}`}</Text>
           <div
             className={css`
@@ -167,7 +172,7 @@ export default function IndexPage() {
               <Token key={index} index={balance.toNumber() - index - 1} />
             ))}
           </div>
-        </>
+        </div>
       ) : null}
     </div>
   )
