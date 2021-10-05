@@ -43,7 +43,7 @@ export default function Input(props: {
       }}
       className={css`
         position: relative;
-        cursor: var(--cursor-text);
+        cursor: var(--cursor-pointer);
       `}
     >
       <Text>{props.value}</Text>

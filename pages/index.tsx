@@ -71,7 +71,7 @@ export default function IndexPage() {
     <div
       className={css`
         margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
-        width: ${48 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${36 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
       <Text>Extended ASCII Plot</Text>
@@ -114,17 +114,6 @@ export default function IndexPage() {
           </Button>
         )}
       </div>
-      <Border width={18} height={6}>
-        <Input value={text} onChange={setText} width={16} height={4} />
-      </Border>
-      <div>
-        <Text color={0xff0fn}> abcd</Text>
-        {Array.from({ length: 3 }).map((_, index) => (
-          <Text key={index} color={0xaaafn}>
-            {Uint8Array.from([0x99, 0x96, 0x96, 0x9a])}
-          </Text>
-        ))}
-      </div>
       <div
         className={css`
           display: flex;
@@ -132,15 +121,38 @@ export default function IndexPage() {
           justify-content: space-between;
         `}
       >
-        <Border width={16 + 2} height={16 + 2}>
-          {text ? (
-            <Plot
-              value={ethers.utils.hexZeroPad(ethers.BigNumber.from(`0x${text}`).toHexString(), 32)}
-              factor={4}
-            />
-          ) : null}
-        </Border>
-        <CodeMap />
+        <div>
+          <div>
+            <Text color={0xff0fn}> abcd</Text>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Text key={index} color={0xaaafn}>
+                {Uint8Array.from([0x89, 0x96, 0x96, 0x8a])}
+              </Text>
+            ))}
+          </div>
+          <Border width={18} height={6}>
+            <Input value={text} onChange={setText} width={16} height={4} />
+          </Border>
+          <Border width={16 + 2} height={16 + 2}>
+            {text ? (
+              <Plot
+                value={ethers.utils.hexZeroPad(
+                  ethers.BigNumber.from(`0x${text}`).toHexString(),
+                  32,
+                )}
+                factor={4}
+              />
+            ) : null}
+          </Border>
+        </div>
+        <div
+          className={css`
+            margin-top: ${1 * FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          `}
+        >
+          <Text color={0xaaafn}> Tips:</Text>
+          <CodeMap />
+        </div>
       </div>
       {balance ? (
         <>
