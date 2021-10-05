@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
+import Link from 'next/link'
 import { ExtendedAsciiPlot__factory } from '../abi'
 import Border from '../components/border'
 import Box from '../components/box'
@@ -10,6 +11,7 @@ import Plot from '../components/plot'
 import Text from '../components/text'
 import Input from '../components/input'
 import Button from '../components/button'
+import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 
 const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
@@ -61,49 +63,76 @@ export default function IndexPage() {
       width={68}
       height={40}
       className={css`
-        margin: 0 auto;
+        margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
       `}
     >
-      {wallet.status === 'connected' ? (
-        <Button
-          onClick={() => {
-            wallet.reset()
-          }}
-        >
-          DISCONNECT
-        </Button>
-      ) : (
+      <div
+        className={css`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        `}
+      >
+        <span>
+          <Text>Extended ASCII Plot</Text>
+        </span>
+        {wallet.status === 'connected' ? (
+          <Button
+            onClick={() => {
+              wallet.reset()
+            }}
+          >
+            DISCONNECT
+          </Button>
+        ) : (
+          <Button
+            onClick={async () => {
+              await wallet.connect('injected')
+            }}
+          >
+            CONNECT
+          </Button>
+        )}
+      </div>
+      <div
+        className={css`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        `}
+      >
         <Button
           onClick={async () => {
-            await wallet.connect('injected')
+            setText(
+              ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''),
+            )
           }}
         >
-          CONNECT
+          RANDOM
         </Button>
-      )}
-      <Button
-        onClick={async () => {
-          setText(
-            ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''),
-          )
-        }}
-      >
-        RANDOM
-      </Button>
-      <Button
-        disabled={!text || !contract || !signer}
-        onClick={async () => {
-          if (contract && signer) {
-            await contract.mint(signer._address, `0x${text}`, {
-              value: ethers.utils.parseEther('0.001'),
-            })
-            setText('')
-            mutate()
-          }
-        }}
-      >
-        MINT
-      </Button>
+        {contract && signer ? (
+          <Button
+            disabled={!text}
+            onClick={async () => {
+              if (contract && signer) {
+                try {
+                  // throw if does now have owner
+                  await contract.ownerOf(`0x${text}`)
+                  confirm('Token already minted.')
+                } catch {
+                  await contract.mint(signer._address, `0x${text}`, {
+                    value: ethers.utils.parseEther('0.001'),
+                  })
+                  setText('')
+                  mutate()
+                }
+              }
+            }}
+          >
+            MINT
+          </Button>
+        ) : null}
+      </div>
       <Border width={68} height={3}>
         <div
           className={css`
@@ -128,10 +157,11 @@ export default function IndexPage() {
             className={css`
               display: flex;
               flex-wrap: wrap;
+              padding-left: ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
             `}
           >
             {Array.from({ length: balance.toNumber() }).map((_, index) => (
-              <Token key={index} index={index} />
+              <Token key={index} index={balance.toNumber() - index - 1} />
             ))}
           </div>
         </>
@@ -164,11 +194,24 @@ function Token(props: { index: number }) {
     token && contract ? ['tokenURI', token.toHexString(), contract.address] : null,
     () => contract!.tokenURI(token!.toHexString()),
   )
+  const value = useMemo(
+    () => (token ? ethers.utils.hexZeroPad(token.toHexString(), 32) : undefined),
+    [token],
+  )
   console.log(tokenURI)
 
   return (
-    <Border width={4 + 2} height={4 + 2}>
-      {token ? <Plot value={ethers.utils.hexZeroPad(token.toHexString(), 32)} /> : null}
-    </Border>
+    <Link href={`/plot/${value}`} passHref={true}>
+      <a
+        target="_blank"
+        className={css`
+          cursor: var(--cursor-pointer);
+        `}
+      >
+        <Border width={4 + 2} height={4 + 2}>
+          <Plot value={value} />
+        </Border>
+      </a>
+    </Link>
   )
 }
