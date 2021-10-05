@@ -8,12 +8,15 @@ import Box from './box'
 export default function Input(props: {
   value: string
   onChange(value: string): void
-  mask?: RegExp
   width: number
+  height: number
   color?: bigint
 }) {
   const ref = useRef<HTMLTextAreaElement>(null)
-  const [caret, setCaret] = useState(0)
+  const [caret, setCaret] = useState<{ left: number; top: number }>({
+    left: 0,
+    top: 0,
+  })
   const [focused, setFocused] = useState(false)
   const handleCaret = useCallback(() => {
     if (ref.current) {
@@ -23,7 +26,7 @@ export default function Input(props: {
           ? ref.current.selectionStart
           : ref.current.selectionEnd,
       )
-      setCaret(coordinates.left)
+      setCaret({ left: coordinates.left, top: coordinates.top - ref.current.scrollTop })
     }
   }, [])
   useEffect(() => {
@@ -40,13 +43,30 @@ export default function Input(props: {
       current.removeEventListener('keyup', handleCaret)
     }
   }, [handleCaret])
+  const handleCursor = useCallback(() => {
+    if (ref.current) {
+      const s = ref.current.selectionStart
+      ref.current.value = ref.current.value.substr(0, s) + ref.current.value.substr(s + 1)
+      ref.current.selectionEnd = s
+    }
+  }, [])
+  useEffect(() => {
+    const { current } = ref
+    if (!current) {
+      return
+    }
+    current.addEventListener('keydown', handleCursor)
+    return () => {
+      current.removeEventListener('keydown', handleCursor)
+    }
+  }, [handleCursor])
   const hex = color2Hex(props.color || 0xffffn)
   const opacity = color2Opacity(props.color || 0xffffn)
 
   return (
     <Box
       width={props.width}
-      height={1}
+      height={props.height}
       className={css`
         position: relative;
         opacity: ${opacity};
@@ -56,7 +76,9 @@ export default function Input(props: {
         ref={ref}
         value={props.value}
         onChange={(e) => {
-          const newValue = props.mask ? e.target.value.match(props.mask)?.[0] || '' : e.target.value
+          const newValue =
+            e.target.value.match(/[0-9a-fA-F]{0,64}/g)?.[0]?.toUpperCase() ||
+            '0000000000000000000000000000000000000000000000000000000000000000'
           props.onChange(newValue)
           if (newValue) {
             handleCaret()
@@ -65,7 +87,7 @@ export default function Input(props: {
         autoCorrect="off"
         spellCheck="false"
         cols={props.width}
-        rows={1}
+        rows={props.height}
         onFocus={() => {
           setFocused(true)
         }}
@@ -75,7 +97,7 @@ export default function Input(props: {
         className={css`
           position: absolute;
           width: ${props.width * FONT_WIDTH * FONT_SCALE_FACTOR}px;
-          height: ${1 * FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          height: ${props.height * FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           font-family: 'Kitchen Sink';
           font-size: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           line-height: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
@@ -85,12 +107,10 @@ export default function Input(props: {
           resize: none;
           border: none;
           outline: none;
-          cursor: var(--cursor-text);
           padding: 0;
           color: ${hex};
           caret-color: transparent;
           -webkit-font-smoothing: antialiased;
-          overflow: hidden;
           ::selection {
             color: ${hex};
             background-color: #555;
@@ -100,12 +120,13 @@ export default function Input(props: {
       {focused ? (
         <i
           style={{
-            left: caret,
+            left: caret.left,
+            top: caret.top,
           }}
           className={css`
             @keyframes blink {
               50% {
-                border-bottom-color: transparent;
+                background: transparent;
               }
             }
             position: absolute;
@@ -113,9 +134,7 @@ export default function Input(props: {
             width: ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
             height: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
             display: inline-block;
-            background: transparent;
-            border-bottom: ${FONT_SCALE_FACTOR}px solid lightgoldenrodyellow;
-            cursor: var(--cursor-text);
+            background: #aaa;
           `}
         />
       ) : null}

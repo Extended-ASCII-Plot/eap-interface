@@ -26,7 +26,9 @@ export default function IndexPage() {
     () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
     [signer],
   )
-  const [text, setText] = useState('')
+  const [text, setText] = useState(
+    '0000000000000000000000000000000000000000000000000000000000000000',
+  )
   const { data: balance, mutate } = useSWR(
     signer && contract ? ['balanceOf', signer._address, contract.address] : null,
     () => contract!.balanceOf(signer!._address),
@@ -56,14 +58,19 @@ export default function IndexPage() {
     }
   }, [event, signer, handleRefresh])
   useEffect(() => {
-    setText(ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''))
+    setText(
+      ethers.BigNumber.from(ethers.utils.randomBytes(32))
+        .toHexString()
+        .replace(/^0x/, '')
+        .toUpperCase(),
+    )
   }, [])
 
   return (
     <div
       className={css`
         margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
-        width: ${66 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${44 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
       <Text>Extended ASCII Plot</Text>
@@ -78,7 +85,10 @@ export default function IndexPage() {
         <Button
           onClick={async () => {
             setText(
-              ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''),
+              ethers.BigNumber.from(ethers.utils.randomBytes(32))
+                .toHexString()
+                .replace(/^0x/, '')
+                .toUpperCase(),
             )
           }}
         >
@@ -115,23 +125,12 @@ export default function IndexPage() {
           </Button>
         )}
       </div>
-      <div>
-        <Text> </Text>
-        {Array.from({ length: 4 }).map((_, index) => (
-          <Text key={index} color={0xaaafn}>
-            {Uint8Array.from([
-              0x89, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96,
-              0x96, 0x8a,
-            ])}
-          </Text>
-        ))}
-      </div>
-      <Border width={66} height={3}>
-        <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
+      <Border width={18} height={6}>
+        <Input value={text} onChange={setText} width={16} height={4} />
       </Border>
       <div>
         <Text color={0xff0fn}> abcd</Text>
-        {Array.from({ length: 15 }).map((_, index) => (
+        {Array.from({ length: 3 }).map((_, index) => (
           <Text key={index} color={0xaaafn}>
             {Uint8Array.from([0x99, 0x96, 0x96, 0x9a])}
           </Text>
