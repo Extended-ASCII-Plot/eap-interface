@@ -115,6 +115,7 @@ export default function Textarea(props: {
             display: inline-block;
             background: transparent;
             border-bottom: ${FONT_SCALE_FACTOR}px solid lightgoldenrodyellow;
+            cursor: var(--cursor-text);
           `}
         />
       ) : null}
