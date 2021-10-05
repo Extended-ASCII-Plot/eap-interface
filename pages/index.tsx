@@ -66,39 +66,13 @@ export default function IndexPage() {
         margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
       `}
     >
+      <Text>Extended ASCII Plot</Text>
       <div
         className={css`
           display: flex;
           align-items: center;
           justify-content: space-between;
-        `}
-      >
-        <span>
-          <Text>Extended ASCII Plot</Text>
-        </span>
-        {wallet.status === 'connected' ? (
-          <Button
-            onClick={() => {
-              wallet.reset()
-            }}
-          >
-            DISCONNECT
-          </Button>
-        ) : (
-          <Button
-            onClick={async () => {
-              await wallet.connect('injected')
-            }}
-          >
-            CONNECT
-          </Button>
-        )}
-      </div>
-      <div
-        className={css`
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
         `}
       >
         <Button
@@ -110,7 +84,7 @@ export default function IndexPage() {
         >
           RANDOM
         </Button>
-        {contract && signer ? (
+        {wallet.status === 'connected' ? (
           <Button
             disabled={!text}
             onClick={async () => {
@@ -131,7 +105,15 @@ export default function IndexPage() {
           >
             MINT
           </Button>
-        ) : null}
+        ) : (
+          <Button
+            onClick={async () => {
+              await wallet.connect('injected')
+            }}
+          >
+            CONNECT
+          </Button>
+        )}
       </div>
       <Border width={68} height={3}>
         <div
