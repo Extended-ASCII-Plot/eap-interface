@@ -10,6 +10,7 @@ import Plot from '../components/plot'
 import Text from '../components/text'
 import Input from '../components/input'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../utils/constants'
+import Button from '../components/button'
 
 const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
@@ -59,44 +60,33 @@ export default function IndexPage() {
   return (
     <Box width={68} height={3}>
       {wallet.status === 'connected' ? (
-        <button
+        <Button
           onClick={() => {
             wallet.reset()
           }}
-          className={css`
-            color: white;
-            cursor: var(--cursor-pointer);
-          `}
         >
           DISCONNECT
-        </button>
+        </Button>
       ) : (
-        <button
+        <Button
           onClick={async () => {
             await wallet.connect('injected')
           }}
-          className={css`
-            color: white;
-            cursor: var(--cursor-pointer);
-          `}
         >
           CONNECT
-        </button>
+        </Button>
       )}
-      <button
+      <Button
         onClick={async () => {
           setText(
             ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''),
           )
         }}
-        className={css`
-          color: white;
-          cursor: var(--cursor-pointer);
-        `}
       >
         RANDOM
-      </button>
-      <button
+      </Button>
+      <Button
+        disabled={!text}
         onClick={async () => {
           if (contract && signer) {
             await contract.mint(signer._address, text, {
@@ -106,20 +96,16 @@ export default function IndexPage() {
             mutate()
           }
         }}
-        className={css`
-          color: white;
-          cursor: var(--cursor-pointer);
-        `}
       >
         MINT
-      </button>
+      </Button>
       <Border width={68} height={3}>
         <div
           className={css`
             display: flex;
           `}
         >
-          <Text value="0x" color={0xcccfn} />
+          <Text color={0xcccfn}>0x</Text>
           <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={66} />
         </div>
       </Border>
@@ -132,7 +118,7 @@ export default function IndexPage() {
           />
         ) : null}
       </Border>
-      <Text value={` balance: ${balance ? balance.toBigInt().toString() : '-'}`} />
+      <Text>{` balance: ${balance ? balance.toBigInt().toString() : '-'}`}</Text>
       {balance
         ? Array.from({ length: balance.toNumber() }).map((_, index) => (
             <Token key={index} index={index} />

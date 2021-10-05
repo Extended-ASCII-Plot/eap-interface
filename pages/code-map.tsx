@@ -10,13 +10,13 @@ export default function CodeMapPage() {
   return (
     <>
       <Box height={1} width={FONT_MAP_SIZE + 2} x={2} y={0}>
-        <Text value={Uint8Array.from(Buffer.from('0123456789ABCDEF'))} color={0xbbbbn} />
+        <Text color={0xbbbbn}>0123456789ABCDEF</Text>
       </Box>
       <Box width={1} height={FONT_MAP_SIZE + 2} x={0} y={2}>
-        <Text value={Uint8Array.from(Buffer.from('0123456789ABCDEF'))} color={0xbbbbn} />
+        <Text color={0xbbbbn}>0123456789ABCDEF</Text>
       </Box>
       <Box width={FONT_MAP_SIZE} height={FONT_MAP_SIZE} x={2} y={2}>
-        <Text value={charEncodingMap} />
+        <Text>{charEncodingMap}</Text>
       </Box>
     </>
   )
