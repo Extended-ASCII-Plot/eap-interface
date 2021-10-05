@@ -10,10 +10,8 @@ import Plot from '../components/plot'
 import Text from '../components/text'
 import Input from '../components/input'
 import Button from '../components/button'
-import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
+import { CONTRACT_ADDRESS, FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 import CodeMap from '../components/code-map'
-
-const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
 export default function IndexPage() {
   const wallet = useWallet()
@@ -25,7 +23,7 @@ export default function IndexPage() {
     [wallet],
   )
   const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(ADDRESS, signer) : undefined),
+    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
     [signer],
   )
   const [text, setText] = useState('')
@@ -37,7 +35,7 @@ export default function IndexPage() {
     () =>
       signer
         ? {
-            address: ADDRESS,
+            address: CONTRACT_ADDRESS,
             topics: [
               ethers.utils.id('Transfer(address,address,uint256)'),
               null,
@@ -113,7 +111,7 @@ export default function IndexPage() {
               await wallet.connect('injected')
             }}
           >
-            CONNECT
+            CONNECT METAMASK
           </Button>
         )}
       </div>
@@ -145,7 +143,7 @@ export default function IndexPage() {
       </div>
       {balance ? (
         <>
-          <Text>{` balance: ${balance.toBigInt().toString()}`}</Text>
+          <Text>{`Balance:${balance.toBigInt().toString()}`}</Text>
           <div
             className={css`
               display: flex;
@@ -172,7 +170,7 @@ function Token(props: { index: number }) {
     [wallet],
   )
   const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(ADDRESS, signer) : undefined),
+    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
     [signer],
   )
   const { data: token } = useSWR(
@@ -193,17 +191,17 @@ function Token(props: { index: number }) {
   console.log(tokenURI)
 
   return (
-    <Link href={`/plot/${value}`} passHref={true}>
-      <a
-        target="_blank"
-        className={css`
-          cursor: var(--cursor-pointer);
-        `}
-      >
-        <Border width={4 + 2} height={4 + 2}>
+    <Border width={4 + 2} height={4 + 2}>
+      <Link href={`/plot/${value}`} passHref={true}>
+        <a
+          target="_blank"
+          className={css`
+            cursor: var(--cursor-pointer);
+          `}
+        >
           <Plot value={value} />
-        </Border>
-      </a>
-    </Link>
+        </a>
+      </Link>
+    </Border>
   )
 }
