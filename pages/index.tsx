@@ -115,6 +115,17 @@ export default function IndexPage() {
           </Button>
         )}
       </div>
+      <div>
+        <Text> </Text>
+        {Array.from({ length: 4 }).map((_, index) => (
+          <Text key={index} color={0xaaafn}>
+            {Uint8Array.from([
+              0x89, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96, 0x96,
+              0x96, 0x8a,
+            ])}
+          </Text>
+        ))}
+      </div>
       <Border width={66} height={3}>
         <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
       </Border>
