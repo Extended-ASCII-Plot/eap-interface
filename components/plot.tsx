@@ -10,7 +10,7 @@ const SIZE = 4
 
 export default function Plot(props: { value?: string }) {
   const { data } = useSWR(
-    props.value === undefined ? null : `/${props.value}`,
+    props.value === undefined ? null : `/plot/${props.value}`,
     (url) => fetch(url).then((response) => response.text()),
     { revalidateOnFocus: false },
   )

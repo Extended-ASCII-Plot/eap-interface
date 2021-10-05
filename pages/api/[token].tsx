@@ -13,6 +13,6 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     description: `0x${buf.toString('hex')}`,
     image: process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}/0x${buf.toString('hex')}`
-      : `http://localhost:3000/0x${buf.toString('hex')}`,
+      : `http://localhost:3000/plot/0x${buf.toString('hex')}`,
   })
 }

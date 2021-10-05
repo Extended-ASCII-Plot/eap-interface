@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { PlotSvg } from '../components/plot'
-import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../utils/constants'
+import { PlotSvg } from '../../components/plot'
+import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../../utils/constants'
 
 export default function TokenPage() {
   return null
