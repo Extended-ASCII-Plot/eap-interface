@@ -9,7 +9,6 @@ import Box from '../components/box'
 import Plot from '../components/plot'
 import Text from '../components/text'
 import Input from '../components/input'
-import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../utils/constants'
 import Button from '../components/button'
 
 const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
@@ -86,10 +85,10 @@ export default function IndexPage() {
         RANDOM
       </Button>
       <Button
-        disabled={!text}
+        disabled={!text || !contract || !signer}
         onClick={async () => {
           if (contract && signer) {
-            await contract.mint(signer._address, text, {
+            await contract.mint(signer._address, `0x${text}`, {
               value: ethers.utils.parseEther('0.001'),
             })
             setText('')
@@ -109,12 +108,10 @@ export default function IndexPage() {
           <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={66} />
         </div>
       </Border>
-      <Border width={SCALE + 2} height={SCALE + 2}>
+      <Border width={4 + 2} height={4 + 2}>
         {text ? (
           <Plot
             value={ethers.utils.hexZeroPad(ethers.BigNumber.from(`0x${text}`).toHexString(), 32)}
-            width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE}
-            height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE}
           />
         ) : null}
       </Border>
@@ -127,8 +124,6 @@ export default function IndexPage() {
     </Box>
   )
 }
-
-const SCALE = 8
 
 function Token(props: { index: number }) {
   const wallet = useWallet()
@@ -157,14 +152,8 @@ function Token(props: { index: number }) {
   console.log(tokenURI)
 
   return (
-    <Border width={SCALE + 2} height={SCALE + 2}>
-      {token ? (
-        <Plot
-          value={ethers.utils.hexZeroPad(token.toHexString(), 32)}
-          width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE}
-          height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE}
-        />
-      ) : null}
+    <Border width={4 + 2} height={4 + 2}>
+      {token ? <Plot value={ethers.utils.hexZeroPad(token.toHexString(), 32)} /> : null}
     </Border>
   )
 }

@@ -1,13 +1,52 @@
 import { ethers } from 'ethers'
+import { useMemo } from 'react'
+import useSWR from 'swr'
+import svgToMiniDataURI from 'mini-svg-data-uri'
+import { css } from '@emotion/css'
 import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR } from '../utils/constants'
 import { ascii } from '../utils/encoding'
 
 const SIZE = 4
 
+export default function Plot(props: { value?: string }) {
+  const { data } = useSWR(
+    props.value === undefined ? null : `/${props.value}`,
+    (url) => fetch(url).then((response) => response.text()),
+    { revalidateOnFocus: false },
+  )
+  const backgroundImage = useMemo(
+    () => (data === undefined ? undefined : `url("${svgToMiniDataURI(data)}")`),
+    [data],
+  )
+  const className = css`
+    display: inline-block;
+    width: ${FONT_WIDTH * FONT_SCALE_FACTOR * SIZE}px;
+    height: ${FONT_HEIGHT * FONT_SCALE_FACTOR * SIZE}px;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+  `
+
+  return props.value === undefined ? null : backgroundImage === undefined ? (
+    <PlotSvg
+      value={props.value}
+      className={className}
+      width={FONT_WIDTH * FONT_SCALE_FACTOR * SIZE}
+      height={FONT_HEIGHT * FONT_SCALE_FACTOR * SIZE}
+    />
+  ) : (
+    <i style={{ backgroundImage, backgroundSize: 'cover' }} className={className} />
+  )
+}
+
 /**
  * split uint256 into 16 x uint16
  */
-export default function Plot(props: { value: string; width: number; height: number }) {
+export function PlotSvg(props: {
+  value: string
+  width: number
+  height: number
+  className?: string
+}) {
   const buf = Buffer.from(
     ethers.utils
       .hexZeroPad(ethers.BigNumber.from(props.value).toHexString(), 32)
@@ -21,6 +60,7 @@ export default function Plot(props: { value: string; width: number; height: numb
       viewBox={`0 0 ${FONT_WIDTH * SIZE} ${FONT_HEIGHT * SIZE}`}
       width={props.width}
       height={props.height}
+      className={props.className}
     >
       {Array.from({ length: SIZE }).map((_, y) =>
         Array.from({ length: SIZE }).map((_, x) => (

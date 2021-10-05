@@ -1,6 +1,6 @@
 import type { GetServerSideProps } from 'next'
 import { renderToStaticMarkup } from 'react-dom/server'
-import Plot from '../components/plot'
+import { PlotSvg } from '../components/plot'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../utils/constants'
 
 export default function TokenPage() {
@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps<{}, { token: string }> = asy
   res.setHeader('Content-Type', 'image/svg+xml')
   res.write(
     renderToStaticMarkup(
-      <Plot
+      <PlotSvg
         value={params.token}
         width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE}
         height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE}
