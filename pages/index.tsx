@@ -55,15 +55,23 @@ export default function IndexPage() {
       signer.provider.removeListener(event, handleRefresh)
     }
   }, [event, signer, handleRefresh])
-  useEffect(() => {
-    setText(ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''))
+  const handleRandom = useCallback(() => {
+    setText(
+      ethers.BigNumber.from(ethers.utils.randomBytes(32))
+        .toHexString()
+        .replace(/^0x/, '')
+        .toUpperCase(),
+    )
   }, [])
+  useEffect(() => {
+    handleRandom()
+  }, [handleRandom])
 
   return (
     <div
       className={css`
         margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
-        width: ${66 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${36 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
       <Text>Extended ASCII Plot</Text>
@@ -73,17 +81,10 @@ export default function IndexPage() {
           align-items: center;
           justify-content: space-between;
           margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          margin-bottom: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
         `}
       >
-        <Button
-          onClick={async () => {
-            setText(
-              ethers.BigNumber.from(ethers.utils.randomBytes(32)).toHexString().replace(/^0x/, ''),
-            )
-          }}
-        >
-          RANDOM
-        </Button>
+        <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
           <Button
             disabled={!text}
@@ -97,7 +98,6 @@ export default function IndexPage() {
                   await contract.mint(signer._address, `0x${text}`, {
                     value: ethers.utils.parseEther('0.001'),
                   })
-                  setText('')
                   mutate()
                 }
               }
@@ -115,15 +115,6 @@ export default function IndexPage() {
           </Button>
         )}
       </div>
-      <Border width={66} height={3}>
-        <div
-          className={css`
-            display: flex;
-          `}
-        >
-          <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
-        </div>
-      </Border>
       <div
         className={css`
           display: flex;
@@ -131,18 +122,45 @@ export default function IndexPage() {
           justify-content: space-between;
         `}
       >
-        <Border width={16 + 2} height={16 + 2}>
-          {text ? (
-            <Plot
-              value={ethers.utils.hexZeroPad(ethers.BigNumber.from(`0x${text}`).toHexString(), 32)}
-              factor={4}
-            />
-          ) : null}
-        </Border>
-        <CodeMap />
+        <div>
+          <div>
+            <Text color={0xff0fn}> abcd</Text>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <Text key={index} color={0xaaafn}>
+                {Uint8Array.from([0x89, 0x96, 0x96, 0x8a])}
+              </Text>
+            ))}
+          </div>
+          <Border width={18} height={6}>
+            <Input value={text} onChange={setText} width={16} height={4} />
+          </Border>
+          <Border width={16 + 2} height={16 + 2}>
+            {text ? (
+              <Plot
+                value={ethers.utils.hexZeroPad(
+                  ethers.BigNumber.from(`0x${text}`).toHexString(),
+                  32,
+                )}
+                factor={4}
+              />
+            ) : null}
+          </Border>
+        </div>
+        <div
+          className={css`
+            margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          `}
+        >
+          <Text color={0xaaafn}> Tips:</Text>
+          <CodeMap />
+        </div>
       </div>
       {balance ? (
-        <>
+        <div
+          className={css`
+            margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          `}
+        >
           <Text>{`Balance:${balance.toBigInt().toString()}`}</Text>
           <div
             className={css`
@@ -154,7 +172,7 @@ export default function IndexPage() {
               <Token key={index} index={balance.toNumber() - index - 1} />
             ))}
           </div>
-        </>
+        </div>
       ) : null}
     </div>
   )
