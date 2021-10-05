@@ -6,7 +6,7 @@ const charEncodingMap = new Uint8Array(
   Array.from({ length: FONT_MAP_SIZE * FONT_MAP_SIZE }).map((_, index) => index),
 )
 
-export default function CodeMap() {
+export default function CodeMapPage() {
   return (
     <>
       <Box height={1} width={FONT_MAP_SIZE + 2} x={2} y={0}>

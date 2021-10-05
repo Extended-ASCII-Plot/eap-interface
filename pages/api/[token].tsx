@@ -1,10 +1,10 @@
 import { ethers } from 'ethers'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function ValueAPI(req: NextApiRequest, res: NextApiResponse) {
-  const { value } = req.query
+export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse) {
+  const { token } = req.query
   const buf = Buffer.from(
-    ethers.utils.hexZeroPad(ethers.BigNumber.from(value).toHexString(), 32).replace(/^0x/, ''),
+    ethers.utils.hexZeroPad(ethers.BigNumber.from(token).toHexString(), 32).replace(/^0x/, ''),
     'hex',
   )
 
