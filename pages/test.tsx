@@ -6,8 +6,10 @@ import { useWallet } from 'use-wallet'
 import { ExtendedAsciiPlot__factory } from '../abi'
 import Border from '../components/border'
 import Box from '../components/box'
+import Plot from '../components/plot'
 import Text from '../components/text'
 import Textarea from '../components/textarea'
+import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../utils/constants'
 
 const ADDRESS = '0x5FbDB2315678afecb367f032d93F642f64180aa3'
 
@@ -112,9 +114,16 @@ export default function Test() {
       <Border width={68} height={3}>
         <Textarea value={text} onChange={setText} width={66} height={1} />
       </Border>
-      <Border width={68} height={3}>
-        <Text value={balance?.toBigInt().toString()} />
+      <Border width={SCALE + 2} height={SCALE + 2}>
+        {text ? (
+          <Plot
+            value={ethers.utils.hexZeroPad(ethers.BigNumber.from(text).toHexString(), 32)}
+            width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE}
+            height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE}
+          />
+        ) : null}
       </Border>
+      <Text value={` balance: ${balance ? balance.toBigInt().toString() : '-'}`} />
       {balance
         ? Array.from({ length: balance.toNumber() }).map((_, index) => (
             <Token key={index} index={index} />
@@ -123,6 +132,8 @@ export default function Test() {
     </Box>
   )
 }
+
+const SCALE = 8
 
 function Token(props: { index: number }) {
   const wallet = useWallet()
@@ -151,8 +162,14 @@ function Token(props: { index: number }) {
   console.log(tokenURI)
 
   return (
-    <Border width={68} height={3}>
-      {token ? <Text value={ethers.utils.hexZeroPad(token.toHexString(), 32)} /> : null}
+    <Border width={SCALE + 2} height={SCALE + 2}>
+      {token ? (
+        <Plot
+          value={ethers.utils.hexZeroPad(token.toHexString(), 32)}
+          width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE}
+          height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE}
+        />
+      ) : null}
     </Border>
   )
 }

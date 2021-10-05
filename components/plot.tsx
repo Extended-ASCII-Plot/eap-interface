@@ -4,12 +4,10 @@ import { ascii } from '../utils/encoding'
 
 const SIZE = 4
 
-const SCALE = 10
-
 /**
  * split uint256 into 16 x uint16
  */
-export default function Plot(props: { value: string }) {
+export default function Plot(props: { value: string; width: number; height: number }) {
   const buf = Buffer.from(
     ethers.utils
       .hexZeroPad(ethers.BigNumber.from(props.value).toHexString(), 32)
@@ -21,8 +19,8 @@ export default function Plot(props: { value: string }) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${FONT_WIDTH * SIZE} ${FONT_HEIGHT * SIZE}`}
-      width={FONT_WIDTH * FONT_SCALE_FACTOR * SCALE * SIZE}
-      height={FONT_HEIGHT * FONT_SCALE_FACTOR * SCALE * SIZE}
+      width={props.width}
+      height={props.height}
     >
       {Array.from({ length: SIZE }).map((_, y) =>
         Array.from({ length: SIZE }).map((_, x) => (
