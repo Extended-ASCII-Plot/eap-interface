@@ -120,6 +120,11 @@ export default function IndexPage() {
       </Border>
       <div>
         <Text color={0xff0fn}> abcd</Text>
+        {Array.from({ length: 15 }).map((_, index) => (
+          <Text key={index} color={0xaaafn}>
+            {Uint8Array.from([0x99, 0x96, 0x96, 0x9a])}
+          </Text>
+        ))}
       </div>
       <div
         className={css`
