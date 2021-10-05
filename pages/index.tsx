@@ -116,14 +116,11 @@ export default function IndexPage() {
         )}
       </div>
       <Border width={66} height={3}>
-        <div
-          className={css`
-            display: flex;
-          `}
-        >
-          <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
-        </div>
+        <Input value={text} onChange={setText} mask={/[0-9a-fA-F]{0,64}/g} width={65} />
       </Border>
+      <div>
+        <Text color={0xff0fn}> abcd</Text>
+      </div>
       <div
         className={css`
           display: flex;
