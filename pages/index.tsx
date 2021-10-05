@@ -57,7 +57,7 @@ export default function IndexPage() {
       signer.provider.removeListener(event, handleRefresh)
     }
   }, [event, signer, handleRefresh])
-  useEffect(() => {
+  const handleRandom = useCallback(() => {
     setText(
       ethers.BigNumber.from(ethers.utils.randomBytes(32))
         .toHexString()
@@ -65,12 +65,15 @@ export default function IndexPage() {
         .toUpperCase(),
     )
   }, [])
+  useEffect(() => {
+    handleRandom()
+  }, [handleRandom])
 
   return (
     <div
       className={css`
         margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
-        width: ${44 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${48 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
       <Text>Extended ASCII Plot</Text>
@@ -82,18 +85,7 @@ export default function IndexPage() {
           margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
         `}
       >
-        <Button
-          onClick={async () => {
-            setText(
-              ethers.BigNumber.from(ethers.utils.randomBytes(32))
-                .toHexString()
-                .replace(/^0x/, '')
-                .toUpperCase(),
-            )
-          }}
-        >
-          RANDOM
-        </Button>
+        <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
           <Button
             disabled={!text}
@@ -107,7 +99,6 @@ export default function IndexPage() {
                   await contract.mint(signer._address, `0x${text}`, {
                     value: ethers.utils.parseEther('0.001'),
                   })
-                  setText('')
                   mutate()
                 }
               }
