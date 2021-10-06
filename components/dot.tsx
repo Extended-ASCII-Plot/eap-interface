@@ -1,7 +1,5 @@
 import { css, cx } from '@emotion/css'
 import { CSSProperties, useMemo } from 'react'
-import useSWR from 'swr'
-import svgToMiniDataURI from 'mini-svg-data-uri'
 import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
 export default function Dot(props: {
@@ -11,11 +9,6 @@ export default function Dot(props: {
   bottom?: number
   left?: number
 }) {
-  const { data } = useSWR(
-    props.value === undefined ? null : `/dot/${props.value}`,
-    (url) => fetch(url).then((response) => response.text()),
-    { revalidateOnFocus: false },
-  )
   const style = useMemo(
     () => ({
       top: props?.top === undefined ? undefined : props.top * FONT_SCALE_FACTOR * FONT_HEIGHT,
@@ -25,10 +18,6 @@ export default function Dot(props: {
       left: props?.left === undefined ? undefined : props.left * FONT_SCALE_FACTOR * FONT_WIDTH,
     }),
     [props.bottom, props.left, props.right, props.top],
-  )
-  const backgroundImage = useMemo(
-    () => (data === undefined ? undefined : `url("${svgToMiniDataURI(data)}")`),
-    [data],
   )
   const className = cx(
     css`
@@ -48,10 +37,8 @@ export default function Dot(props: {
       : undefined,
   )
 
-  return props.value === undefined ? null : backgroundImage === undefined ? (
+  return props.value === undefined ? null : (
     <DotSvg style={style} value={props.value} className={className} />
-  ) : (
-    <i style={{ ...style, backgroundImage }} className={className} />
   )
 }
 
@@ -61,7 +48,7 @@ export default function Dot(props: {
  * 8~11: foreground
  * 12~15: background
  */
-export function DotSvg(props: { value: number; style?: CSSProperties; className?: string }) {
+function DotSvg(props: { value: number; style?: CSSProperties; className?: string }) {
   const { value } = props
   const pixel = ASCII[(value & 0xff00) >> 0x8]
   const foreground = (value & 0xf0) >> 0x4
