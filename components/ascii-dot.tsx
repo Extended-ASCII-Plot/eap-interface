@@ -2,8 +2,7 @@ import { css, cx } from '@emotion/css'
 import { CSSProperties, useMemo } from 'react'
 import useSWR from 'swr'
 import svgToMiniDataURI from 'mini-svg-data-uri'
-import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR } from '../utils/constants'
-import { ascii } from '../utils/encoding'
+import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
 export default function AsciiDot(props: {
   value?: number
@@ -64,7 +63,7 @@ export default function AsciiDot(props: {
  */
 export function AsciiDotSvg(props: { value: number; style?: CSSProperties; className?: string }) {
   const { value } = props
-  const pixel = ascii[(value & 0xff00) >> 0x8] >> 0x10n
+  const pixel = ASCII[(value & 0xff00) >> 0x8] >> 0x10n
   const foreground = (value & 0xf0) >> 0x4
   const background = value & 0xf
 

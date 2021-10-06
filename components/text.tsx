@@ -1,4 +1,4 @@
-import { ascii } from '../utils/encoding'
+import { ASCII } from '../utils/constants'
 import Dot from './dot'
 
 export default function Text(props: { children?: Uint8Array | string; color?: bigint }) {
@@ -8,7 +8,7 @@ export default function Text(props: { children?: Uint8Array | string; color?: bi
         ? Array.from(
             typeof props.children === 'string' ? Buffer.from(props.children) : props.children,
           ).map((char, index) => (
-            <Dot key={`${index}${char}`} value={ascii[char]} color={props.color} />
+            <Dot key={`${index}${char}`} value={ASCII[char]} color={props.color} />
           ))
         : null}
     </>

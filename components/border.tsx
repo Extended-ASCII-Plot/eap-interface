@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import type { ReactNode } from 'react'
 import React from 'react'
-import { ascii } from '../utils/encoding'
+import { ASCII } from '../utils/constants'
 import Box from './box'
 import Dot from './dot'
 
@@ -10,9 +10,9 @@ const defaultBorder: [
   [bigint, bigint, bigint],
   [bigint, bigint, bigint],
 ] = [
-  [ascii[0x89], ascii[0x96], ascii[0x8a]],
-  [ascii[0x86], ascii[0x20], ascii[0x86]],
-  [ascii[0x99], ascii[0x96], ascii[0x9a]],
+  [ASCII[0x89], ASCII[0x96], ASCII[0x8a]],
+  [ASCII[0x86], ASCII[0x20], ASCII[0x86]],
+  [ASCII[0x99], ASCII[0x96], ASCII[0x9a]],
 ]
 
 export default function Border(props: {

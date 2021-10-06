@@ -3,8 +3,7 @@ import { useMemo } from 'react'
 import useSWR from 'swr'
 import svgToMiniDataURI from 'mini-svg-data-uri'
 import { css } from '@emotion/css'
-import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR } from '../utils/constants'
-import { ascii } from '../utils/encoding'
+import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
 const SIZE = 4
 
@@ -84,7 +83,7 @@ export function PlotSvg(props: {
  */
 function PlotDot(props: { value: number; x: number; y: number }) {
   const { value } = props
-  const pixel = ascii[(value & 0xff00) >> 0x8] >> 0x10n
+  const pixel = ASCII[(value & 0xff00) >> 0x8] >> 0x10n
   const foreground = (value & 0xf0) >> 0x4
   const background = value & 0xf
 
