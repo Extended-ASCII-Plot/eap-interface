@@ -33,6 +33,8 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     "getChainId()": FunctionFragment;
     "getDomainSeperator()": FunctionFragment;
     "getNonce(address)": FunctionFragment;
+    "indexByToken(uint256)": FunctionFragment;
+    "indexOfOwnerByToken(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
@@ -89,6 +91,14 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getNonce", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "indexByToken",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "indexOfOwnerByToken",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
@@ -183,6 +193,14 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "indexByToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "indexOfOwnerByToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -368,6 +386,16 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { nonce: BigNumber }>;
 
+    indexByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    indexOfOwnerByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -504,6 +532,16 @@ export class ExtendedAsciiPlot extends BaseContract {
 
   getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  indexByToken(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  indexOfOwnerByToken(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -631,6 +669,16 @@ export class ExtendedAsciiPlot extends BaseContract {
     getDomainSeperator(overrides?: CallOverrides): Promise<string>;
 
     getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    indexByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    indexOfOwnerByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -849,6 +897,16 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    indexByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    indexOfOwnerByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -991,6 +1049,16 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     getNonce(
       user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    indexByToken(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    indexOfOwnerByToken(
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
