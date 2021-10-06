@@ -1,19 +1,21 @@
 import { css, cx } from '@emotion/css'
-import type { HTMLAttributes } from 'react'
+import { forwardRef, HTMLAttributes } from 'react'
 import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 
-export default function Box(
-  props: {
+export default forwardRef<
+  HTMLDivElement,
+  {
     width?: number
     height?: number
     x?: number
     y?: number
-  } & HTMLAttributes<HTMLDivElement>,
-) {
+  } & HTMLAttributes<HTMLDivElement>
+>(function Box(props, ref) {
   const { width, height, x, y, className, ...restProps } = props
 
   return (
     <div
+      ref={ref}
       style={{
         width: width === undefined ? undefined : width * FONT_WIDTH * FONT_SCALE_FACTOR,
         height: height === undefined ? undefined : height * FONT_HEIGHT * FONT_SCALE_FACTOR,
@@ -34,4 +36,4 @@ export default function Box(
       {...restProps}
     />
   )
-}
+})

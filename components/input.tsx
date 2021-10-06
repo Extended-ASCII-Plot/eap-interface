@@ -1,5 +1,5 @@
 import { css } from '@emotion/css'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR } from '../utils/constants'
 import Box from './box'
 import Text from './text'
@@ -13,9 +13,31 @@ export default function Input(props: {
   const [cursorX, setCursorX] = useState(0)
   const [cursorY, setCursorY] = useState(0)
   const [focused, setFocused] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const { current } = ref
+    if (!current) {
+      return
+    }
+    function onClick(e: MouseEvent) {
+      if (!current) {
+        return
+      }
+      const rect = current.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      setCursorX(Math.floor(x / FONT_WIDTH / FONT_SCALE_FACTOR))
+      setCursorY(Math.floor(y / FONT_HEIGHT / FONT_SCALE_FACTOR))
+    }
+    current.addEventListener('click', onClick)
+    return () => {
+      current.removeEventListener('click', onClick)
+    }
+  }, [])
 
   return (
     <Box
+      ref={ref}
       width={props.width}
       height={props.height}
       tabIndex={0}
@@ -43,7 +65,7 @@ export default function Input(props: {
       }}
       className={css`
         position: relative;
-        cursor: var(--cursor-pointer);
+        cursor: var(--cursor-text);
       `}
     >
       <Text>{props.value}</Text>
