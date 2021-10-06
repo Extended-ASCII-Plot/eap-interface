@@ -22,20 +22,24 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
   functions: {
+    "ERC712_VERSION()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(uint256)": FunctionFragment;
+    "baseTokenURI()": FunctionFragment;
+    "executeMetaTransaction(address,bytes,bytes32,bytes32,uint8)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getChainId()": FunctionFragment;
+    "getDomainSeperator()": FunctionFragment;
+    "getNonce(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "pause()": FunctionFragment;
-    "paused()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setBaseTokenURI(string)": FunctionFragment;
     "setMintFee(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
@@ -45,20 +49,39 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "unpause()": FunctionFragment;
     "withdraw()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "ERC712_VERSION",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "baseTokenURI",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "executeMetaTransaction",
+    values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getChainId",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getDomainSeperator",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "getNonce", values: [string]): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
@@ -73,8 +96,6 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
-  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -86,6 +107,10 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setBaseTokenURI",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setMintFee",
@@ -120,16 +145,32 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
+  decodeFunctionResult(
+    functionFragment: "ERC712_VERSION",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "baseTokenURI",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "executeMetaTransaction",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getChainId", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getDomainSeperator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -138,8 +179,6 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -150,6 +189,10 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBaseTokenURI",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setMintFee", data: BytesLike): Result;
@@ -179,24 +222,21 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "MetaTransactionExecuted(address,address,bytes)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "Paused(address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
-    "Unpaused(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MetaTransactionExecuted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
 
 export type ApprovalEvent = TypedEvent<
@@ -215,17 +255,21 @@ export type ApprovalForAllEvent = TypedEvent<
   }
 >;
 
+export type MetaTransactionExecutedEvent = TypedEvent<
+  [string, string, string] & {
+    userAddress: string;
+    relayerAddress: string;
+    functionSignature: string;
+  }
+>;
+
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string] & { previousOwner: string; newOwner: string }
 >;
 
-export type PausedEvent = TypedEvent<[string] & { account: string }>;
-
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
 >;
-
-export type UnpausedEvent = TypedEvent<[string] & { account: string }>;
 
 export class ExtendedAsciiPlot extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -271,6 +315,8 @@ export class ExtendedAsciiPlot extends BaseContract {
   interface: ExtendedAsciiPlotInterface;
 
   functions: {
+    ERC712_VERSION(overrides?: CallOverrides): Promise<[string]>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -279,15 +325,30 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    burn(
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
+
+    executeMetaTransaction(
+      userAddress: string,
+      functionSignature: BytesLike,
+      sigR: BytesLike,
+      sigS: BytesLike,
+      sigV: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getChainId(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getDomainSeperator(overrides?: CallOverrides): Promise<[string]>;
+
+    getNonce(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { nonce: BigNumber }>;
 
     isApprovedForAll(
       owner: string,
@@ -309,12 +370,6 @@ export class ExtendedAsciiPlot extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    pause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    paused(overrides?: CallOverrides): Promise<[boolean]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -338,6 +393,11 @@ export class ExtendedAsciiPlot extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setBaseTokenURI(
+      newBaseTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -383,14 +443,12 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     withdraw(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  ERC712_VERSION(overrides?: CallOverrides): Promise<string>;
 
   approve(
     to: string,
@@ -400,15 +458,27 @@ export class ExtendedAsciiPlot extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  burn(
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
+  baseTokenURI(overrides?: CallOverrides): Promise<string>;
+
+  executeMetaTransaction(
+    userAddress: string,
+    functionSignature: BytesLike,
+    sigR: BytesLike,
+    sigS: BytesLike,
+    sigV: BigNumberish,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getChainId(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getDomainSeperator(overrides?: CallOverrides): Promise<string>;
+
+  getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: string,
@@ -427,12 +497,6 @@ export class ExtendedAsciiPlot extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  pause(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  paused(overrides?: CallOverrides): Promise<boolean>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -456,6 +520,11 @@ export class ExtendedAsciiPlot extends BaseContract {
   setApprovalForAll(
     operator: string,
     approved: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setBaseTokenURI(
+    newBaseTokenURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -498,15 +567,13 @@ export class ExtendedAsciiPlot extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  unpause(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   withdraw(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    ERC712_VERSION(overrides?: CallOverrides): Promise<string>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -515,12 +582,27 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    burn(tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
+    baseTokenURI(overrides?: CallOverrides): Promise<string>;
+
+    executeMetaTransaction(
+      userAddress: string,
+      functionSignature: BytesLike,
+      sigR: BytesLike,
+      sigS: BytesLike,
+      sigV: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getChainId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getDomainSeperator(overrides?: CallOverrides): Promise<string>;
+
+    getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -539,10 +621,6 @@ export class ExtendedAsciiPlot extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    pause(overrides?: CallOverrides): Promise<void>;
-
-    paused(overrides?: CallOverrides): Promise<boolean>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -564,6 +642,11 @@ export class ExtendedAsciiPlot extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBaseTokenURI(
+      newBaseTokenURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -606,8 +689,6 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    unpause(overrides?: CallOverrides): Promise<void>;
-
     withdraw(overrides?: CallOverrides): Promise<void>;
   };
 
@@ -648,6 +729,24 @@ export class ExtendedAsciiPlot extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
+    "MetaTransactionExecuted(address,address,bytes)"(
+      userAddress?: null,
+      relayerAddress?: null,
+      functionSignature?: null
+    ): TypedEventFilter<
+      [string, string, string],
+      { userAddress: string; relayerAddress: string; functionSignature: string }
+    >;
+
+    MetaTransactionExecuted(
+      userAddress?: null,
+      relayerAddress?: null,
+      functionSignature?: null
+    ): TypedEventFilter<
+      [string, string, string],
+      { userAddress: string; relayerAddress: string; functionSignature: string }
+    >;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -663,12 +762,6 @@ export class ExtendedAsciiPlot extends BaseContract {
       [string, string],
       { previousOwner: string; newOwner: string }
     >;
-
-    "Paused(address)"(
-      account?: null
-    ): TypedEventFilter<[string], { account: string }>;
-
-    Paused(account?: null): TypedEventFilter<[string], { account: string }>;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
@@ -687,15 +780,11 @@ export class ExtendedAsciiPlot extends BaseContract {
       [string, string, BigNumber],
       { from: string; to: string; tokenId: BigNumber }
     >;
-
-    "Unpaused(address)"(
-      account?: null
-    ): TypedEventFilter<[string], { account: string }>;
-
-    Unpaused(account?: null): TypedEventFilter<[string], { account: string }>;
   };
 
   estimateGas: {
+    ERC712_VERSION(overrides?: CallOverrides): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -704,15 +793,27 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    burn(
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
+
+    executeMetaTransaction(
+      userAddress: string,
+      functionSignature: BytesLike,
+      sigR: BytesLike,
+      sigS: BytesLike,
+      sigV: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getChainId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getDomainSeperator(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -734,12 +835,6 @@ export class ExtendedAsciiPlot extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    pause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    paused(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -763,6 +858,11 @@ export class ExtendedAsciiPlot extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setBaseTokenURI(
+      newBaseTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -808,16 +908,14 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    unpause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     withdraw(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    ERC712_VERSION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -829,13 +927,30 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    burn(
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+    baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    executeMetaTransaction(
+      userAddress: string,
+      functionSignature: BytesLike,
+      sigR: BytesLike,
+      sigS: BytesLike,
+      sigV: BigNumberish,
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getChainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getDomainSeperator(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getNonce(
+      user: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -860,12 +975,6 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    pause(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    paused(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -888,6 +997,11 @@ export class ExtendedAsciiPlot extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseTokenURI(
+      newBaseTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -930,10 +1044,6 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     transferOwnership(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    unpause(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
