@@ -96,6 +96,8 @@ export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
 
 export const CHAIN_ID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || '1', 10)
 
+export const FEE_RECIPIENT = process.env.FEE_RECIPIENT
+
 export const ASCII = BigUint64Array.from([
   0xffffffffffffn,
   0x3c5672563c00n,
