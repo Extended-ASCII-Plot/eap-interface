@@ -95,19 +95,23 @@ export default function IndexPage() {
           <Text>Extended ASCII Plot</Text>
         </span>
         <span>
-          <a href="" target="_blank">
-            <AsciiDot value={0xe2c0} />
-          </a>
-          <Text> </Text>
-          <a href="" target="_blank">
-            <AsciiDot value={0xe5d0} />
-          </a>
-          <Text> </Text>
-          <a href="https://polyducks.itch.io/kitchen-sink-textmode-font" target="_blank">
+          <a
+            title="Font"
+            href="https://polyducks.itch.io/kitchen-sink-textmode-font"
+            target="_blank"
+          >
             <AsciiDot value={0x1450} />
           </a>
           <Text> </Text>
-          <a href="https://github.com/Extended-ASCII-Plot" target="_blank">
+          <a
+            title="OpenSea"
+            href="https://opensea.io/collection/extended-ascii-plot"
+            target="_blank"
+          >
+            <AsciiDot value={0x067c} />
+          </a>
+          <Text> </Text>
+          <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
             <AsciiDot value={0xf906} />
           </a>
         </span>
