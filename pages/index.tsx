@@ -82,6 +82,21 @@ export default function IndexPage() {
       handleRandom()
     }
   }, [handleRandom])
+  const handleMint = useCallback(async () => {
+    if (contract && signer) {
+      try {
+        // throw if does now have owner
+        await contract.ownerOf(`0x${value}`)
+        confirm('Token already minted.')
+      } catch {
+        await contract.mint(signer._address, `0x${value}`, {
+          value: ethers.utils.parseEther('0'),
+        })
+        localStorage.setItem('value', value)
+        setPending(true)
+      }
+    }
+  }, [contract, signer, value])
 
   return (
     <div
@@ -135,23 +150,7 @@ export default function IndexPage() {
         <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
-            <Button
-              disabled={!value || pending}
-              onClick={async () => {
-                if (contract && signer) {
-                  try {
-                    // throw if does now have owner
-                    await contract.ownerOf(`0x${value}`)
-                    confirm('Token already minted.')
-                  } catch {
-                    await contract.mint(signer._address, `0x${value}`, {
-                      value: ethers.utils.parseEther('0'),
-                    })
-                    setPending(true)
-                  }
-                }
-              }}
-            >
+            <Button disabled={!value || pending} onClick={handleMint}>
               {pending ? 'PENDING' : 'MINT'}
             </Button>
           ) : (
