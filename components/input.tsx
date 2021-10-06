@@ -26,14 +26,18 @@ export default function Input(props: {
       const rect = current.getBoundingClientRect()
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
-      setCursorX(Math.floor(x / FONT_WIDTH / FONT_SCALE_FACTOR))
-      setCursorY(Math.floor(y / FONT_HEIGHT / FONT_SCALE_FACTOR))
+      setCursorX(
+        Math.max(0, Math.min(props.width - 1, Math.floor(x / FONT_WIDTH / FONT_SCALE_FACTOR))),
+      )
+      setCursorY(
+        Math.max(0, Math.min(props.height - 1, Math.floor(y / FONT_HEIGHT / FONT_SCALE_FACTOR))),
+      )
     }
     current.addEventListener('click', onClick)
     return () => {
       current.removeEventListener('click', onClick)
     }
-  }, [])
+  }, [props.height, props.width])
 
   return (
     <Box

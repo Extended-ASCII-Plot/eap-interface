@@ -19,7 +19,16 @@ export default function Button(props: {
         cursor: var(${props.disabled ? '--cursor-default' : '--cursor-pointer'});
       `}
     >
-      <Border color={color} width={props.children.length + 2} height={3}>
+      <Border
+        color={color}
+        width={props.children.length + 2}
+        height={3}
+        value={[
+          [0x8b, 0x96, 0x8c],
+          [0x86, 0x20, 0x86],
+          [0x9b, 0x96, 0x9c],
+        ]}
+      >
         <Text color={color}>{props.children}</Text>
       </Border>
     </button>
