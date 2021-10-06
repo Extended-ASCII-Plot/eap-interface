@@ -36,7 +36,7 @@ export default function IndexPage() {
         : undefined,
     [signer],
   )
-  const [text, setText] = useState('')
+  const [value, setValue] = useState('')
   const { data: balance, mutate } = useSWR(
     signer && contract ? ['balanceOf', signer._address, contract.address] : null,
     () => contract!.balanceOf(signer!._address),
@@ -66,7 +66,7 @@ export default function IndexPage() {
     }
   }, [event, signer, handleRefresh])
   const handleRandom = useCallback(() => {
-    setText(
+    setValue(
       ethers.BigNumber.from(ethers.utils.randomBytes(32))
         .toHexString()
         .replace(/^0x/, '')
@@ -74,7 +74,12 @@ export default function IndexPage() {
     )
   }, [])
   useEffect(() => {
-    handleRandom()
+    const cache = localStorage.getItem('value')
+    if (typeof cache === 'string' && cache.length === 64) {
+      setValue(cache)
+    } else {
+      handleRandom()
+    }
   }, [handleRandom])
 
   return (
@@ -129,16 +134,16 @@ export default function IndexPage() {
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
             <Button
-              disabled={!text}
+              disabled={!value}
               onClick={async () => {
                 if (contract && signer) {
                   try {
                     // throw if does now have owner
-                    await contract.ownerOf(`0x${text}`)
+                    await contract.ownerOf(`0x${value}`)
                     confirm('Token already minted.')
                   } catch {
-                    await contract.mint(signer._address, `0x${text}`, {
-                      value: ethers.utils.parseEther('0.001'),
+                    await contract.mint(signer._address, `0x${value}`, {
+                      value: ethers.utils.parseEther('0'),
                     })
                     mutate()
                   }
@@ -185,13 +190,21 @@ export default function IndexPage() {
             ))}
           </div>
           <Border width={18} height={6}>
-            <Input value={text} onChange={setText} width={16} height={4} />
+            <Input
+              value={value}
+              onChange={(v) => {
+                setValue(v)
+                localStorage.setItem('value', v)
+              }}
+              width={16}
+              height={4}
+            />
           </Border>
           <Border width={16 + 2} height={16 + 2}>
-            {text ? (
+            {value ? (
               <Plot
                 value={ethers.utils.hexZeroPad(
-                  ethers.BigNumber.from(`0x${text}`).toHexString(),
+                  ethers.BigNumber.from(`0x${value}`).toHexString(),
                   32,
                 )}
                 factor={4}
