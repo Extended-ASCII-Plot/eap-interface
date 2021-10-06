@@ -9,9 +9,7 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     ethers.utils.hexZeroPad(ethers.BigNumber.from(token).toHexString(), 32).replace(/^0x/, ''),
     'hex',
   )
-  const url = `${
-    process.env.NODE_ENV === 'production' ? BASE_URL : 'http://localhost:3000/'
-  }plot/0x${buf.toString('hex')}`
+  const url = `${BASE_URL}plot/0x${buf.toString('hex')}`
 
   res.json({
     name: `${base85.encode(buf)}`,
