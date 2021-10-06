@@ -7,7 +7,7 @@ export default function Button(props: {
   onClick: () => void
   disabled?: boolean
 }) {
-  const color = props.disabled ? 0x60 : 0x70
+  const color = props.disabled ? 0x50 : 0x70
 
   return (
     <button

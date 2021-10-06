@@ -184,7 +184,7 @@ export default function IndexPage() {
           <div>
             <Text color={0xa0}>{Uint8Array.from([0x20, 0x03, 0x04, 0x05, 0x06])}</Text>
             {Array.from({ length: 3 }).map((_, index) => (
-              <Text key={index} color={0x60}>
+              <Text key={index} color={0x50}>
                 {Uint8Array.from([0x89, 0x96, 0x96, 0x8a])}
               </Text>
             ))}
@@ -217,7 +217,7 @@ export default function IndexPage() {
             margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           `}
         >
-          <Text color={0x60}> Tips:</Text>
+          <Text color={0x50}> Tips:</Text>
           <CodeMap />
         </div>
       </div>

@@ -83,7 +83,7 @@ export function PlotSvg(props: {
  */
 function PlotDot(props: { value: number; x: number; y: number }) {
   const { value } = props
-  const pixel = ASCII[(value & 0xff00) >> 0x8] >> 0x10n
+  const pixel = ASCII[(value & 0xff00) >> 0x8]
   const foreground = (value & 0xf0) >> 0x4
   const background = value & 0xf
 
