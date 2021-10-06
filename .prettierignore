@@ -5,3 +5,4 @@ nginx.conf
 .npmrc
 .next/
 out/
+abi/
