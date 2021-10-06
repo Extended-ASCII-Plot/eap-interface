@@ -94,7 +94,7 @@ export const COLOR = [
 
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
 
-export const CHAIN_ID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || '0', 10)
+export const CHAIN_ID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || '1', 10)
 
 export const ASCII = BigUint64Array.from([
   0xffffffffffffffffn,
