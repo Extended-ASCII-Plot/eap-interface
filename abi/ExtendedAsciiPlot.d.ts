@@ -26,6 +26,8 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseTokenURI()": FunctionFragment;
+    "contractURI()": FunctionFragment;
+    "destory()": FunctionFragment;
     "executeMetaTransaction(address,bytes,bytes32,bytes32,uint8)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getChainId()": FunctionFragment;
@@ -65,6 +67,11 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     functionFragment: "baseTokenURI",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "contractURI",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "destory", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "executeMetaTransaction",
     values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
@@ -157,6 +164,11 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     functionFragment: "baseTokenURI",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "contractURI",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "destory", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "executeMetaTransaction",
     data: BytesLike
@@ -327,6 +339,12 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
 
+    contractURI(overrides?: CallOverrides): Promise<[string]>;
+
+    destory(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     executeMetaTransaction(
       userAddress: string,
       functionSignature: BytesLike,
@@ -460,6 +478,12 @@ export class ExtendedAsciiPlot extends BaseContract {
 
   baseTokenURI(overrides?: CallOverrides): Promise<string>;
 
+  contractURI(overrides?: CallOverrides): Promise<string>;
+
+  destory(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   executeMetaTransaction(
     userAddress: string,
     functionSignature: BytesLike,
@@ -583,6 +607,10 @@ export class ExtendedAsciiPlot extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     baseTokenURI(overrides?: CallOverrides): Promise<string>;
+
+    contractURI(overrides?: CallOverrides): Promise<string>;
+
+    destory(overrides?: CallOverrides): Promise<void>;
 
     executeMetaTransaction(
       userAddress: string,
@@ -795,6 +823,12 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
 
+    contractURI(overrides?: CallOverrides): Promise<BigNumber>;
+
+    destory(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     executeMetaTransaction(
       userAddress: string,
       functionSignature: BytesLike,
@@ -928,6 +962,12 @@ export class ExtendedAsciiPlot extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    contractURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    destory(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     executeMetaTransaction(
       userAddress: string,
