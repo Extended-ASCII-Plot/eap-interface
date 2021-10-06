@@ -36,7 +36,7 @@ a {
   cursor: var(--cursor-pointer);
 }
 
-span {
+div, span {
   line-height: 0;
 }
 `

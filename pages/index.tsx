@@ -188,6 +188,7 @@ export default function IndexPage() {
                 {Uint8Array.from([0x89, 0x96, 0x96, 0x8a])}
               </Text>
             ))}
+            <Text color={0x50}>{Uint8Array.from([0x96])}</Text>
           </div>
           <Border width={18} height={6}>
             <Input
@@ -212,12 +213,12 @@ export default function IndexPage() {
             ) : null}
           </Border>
         </div>
-        <div
-          className={css`
-            margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
-          `}
-        >
-          <Text color={0x50}> Tips:</Text>
+        <div>
+          <Text color={0x50}>{Uint8Array.from([0x96, 0x8a])}</Text>
+          <div>
+            <Text color={0x50}>{Uint8Array.from([0x20, 0x1e])}</Text>
+            <Text color={0x60}> CODEBOOK</Text>
+          </div>
           <CodeMap />
         </div>
       </div>
