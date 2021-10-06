@@ -37,6 +37,7 @@ export default function IndexPage() {
     [signer],
   )
   const [value, setValue] = useState('')
+  const [pending, setPending] = useState(false)
   const { data: balance, mutate } = useSWR(
     signer && contract ? ['balanceOf', signer._address, contract.address] : null,
     () => contract!.balanceOf(signer!._address),
@@ -55,7 +56,10 @@ export default function IndexPage() {
         : undefined,
     [signer],
   )
-  const handleRefresh = useCallback(() => mutate(), [mutate])
+  const handleRefresh = useCallback(async () => {
+    await mutate()
+    setPending(false)
+  }, [mutate])
   useEffect(() => {
     if (!signer || !event) {
       return
@@ -135,7 +139,7 @@ export default function IndexPage() {
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
             <Button
-              disabled={!value}
+              disabled={!value || pending}
               onClick={async () => {
                 if (contract && signer) {
                   try {
@@ -146,12 +150,12 @@ export default function IndexPage() {
                     await contract.mint(signer._address, `0x${value}`, {
                       value: ethers.utils.parseEther('0'),
                     })
-                    mutate()
+                    setPending(true)
                   }
                 }
               }}
             >
-              MINT
+              {pending ? 'PENDING' : 'MINT'}
             </Button>
           ) : (
             <Button
