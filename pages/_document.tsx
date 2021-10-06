@@ -1,6 +1,7 @@
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import createEmotionServer from '@emotion/server/create-instance'
 import { cache } from '@emotion/css'
+import { GoogleAnalytics } from '@lukeshay/next-ga'
 
 const renderStatic = async (html: string) => {
   const { extractCritical } = createEmotionServer(cache)
@@ -79,6 +80,7 @@ export default class MyDocument extends Document {
           <meta property="og:site_name" content="Extended ASCII Plot" />
           <meta property="og:url" content="https://eap.wtf" />
           <meta property="og:image" content="https://eap.wtf/static/icons/touch-icon-iphone.png" />
+          <GoogleAnalytics />
         </Head>
         <body>
           <Main />

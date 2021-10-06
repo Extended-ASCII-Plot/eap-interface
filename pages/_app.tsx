@@ -2,6 +2,7 @@ import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { injectGlobal } from '@emotion/css'
 import { UseWalletProvider } from 'use-wallet'
+import { reportWebVitals, useAppInit } from '@lukeshay/next-ga'
 
 injectGlobal`
 :root {
@@ -40,12 +41,16 @@ span {
 }
 `
 
-function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
+  useAppInit()
+
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="referrer" content="no-referrer" />
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+        />
         <title>Extended ASCII Plot</title>
       </Head>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
@@ -56,4 +61,4 @@ function App({ Component, pageProps }: AppProps) {
   )
 }
 
-export default App
+export { reportWebVitals }

@@ -275,7 +275,6 @@ function Token(props: { index: number }) {
     () => (token ? ethers.utils.hexZeroPad(token.toHexString(), 32) : undefined),
     [token],
   )
-  console.log(tokenURI)
 
   return (
     <Border width={4 + 2} height={4 + 2}>
