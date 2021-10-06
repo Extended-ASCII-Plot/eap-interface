@@ -9,15 +9,14 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     ethers.utils.hexZeroPad(ethers.BigNumber.from(token).toHexString(), 32).replace(/^0x/, ''),
     'hex',
   )
-  const url = `${BASE_URL}plot/0x${buf.toString('hex')}`
 
   res.json({
     name: `${base85.encode(buf)}`,
     description: `\`\`\`\n${chunk(buf.toString('hex').toUpperCase().split(''), 16)
       .map((c16) => c16.join(''))
       .join('\n')}\n\`\`\``,
-    image: url,
-    external_url: url,
+    image: `${BASE_URL}api/svg/0x${buf.toString('hex')}`,
+    external_url: `${BASE_URL}plot/0x${buf.toString('hex')}`,
     background_color: '000000',
   })
 }
