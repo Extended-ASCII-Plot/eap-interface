@@ -7,7 +7,7 @@ export default function TokenPage() {
   return null
 }
 
-const SCALE = 40
+const SCALE = 32
 
 export const getServerSideProps: GetServerSideProps<{}, { token: string }> = async ({
   res,
