@@ -10,7 +10,13 @@ import Plot from '../components/plot'
 import Text from '../components/text'
 import Input from '../components/input'
 import Button from '../components/button'
-import { CONTRACT_ADDRESS, FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
+import {
+  CHAIN_ID,
+  CONTRACT_ADDRESS,
+  FONT_HEIGHT,
+  FONT_SCALE_FACTOR,
+  FONT_WIDTH,
+} from '../utils/constants'
 import CodeMap from '../components/code-map'
 import AsciiDot from '../components/ascii-dot'
 
@@ -19,7 +25,7 @@ export default function IndexPage() {
   const signer = useMemo(
     () =>
       wallet.ethereum && wallet.account
-        ? new ethers.providers.Web3Provider(wallet.ethereum).getSigner(wallet.account)
+        ? new ethers.providers.Web3Provider(wallet.ethereum, CHAIN_ID).getSigner(wallet.account)
         : undefined,
     [wallet],
   )
@@ -117,25 +123,37 @@ export default function IndexPage() {
       >
         <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
-          <Button
-            disabled={!text}
-            onClick={async () => {
-              if (contract && signer) {
-                try {
-                  // throw if does now have owner
-                  await contract.ownerOf(`0x${text}`)
-                  confirm('Token already minted.')
-                } catch {
-                  await contract.mint(signer._address, `0x${text}`, {
-                    value: ethers.utils.parseEther('0.001'),
-                  })
-                  mutate()
+          wallet.chainId === CHAIN_ID ? (
+            <Button
+              disabled={!text}
+              onClick={async () => {
+                if (contract && signer) {
+                  try {
+                    // throw if does now have owner
+                    await contract.ownerOf(`0x${text}`)
+                    confirm('Token already minted.')
+                  } catch {
+                    await contract.mint(signer._address, `0x${text}`, {
+                      value: ethers.utils.parseEther('0.001'),
+                    })
+                    mutate()
+                  }
                 }
-              }
-            }}
-          >
-            MINT
-          </Button>
+              }}
+            >
+              MINT
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                signer?.provider?.send('wallet_switchEthereumChain', [
+                  { chainId: `0x${CHAIN_ID.toString(16)}` },
+                ])
+              }}
+            >
+              SWITCH NETWORK
+            </Button>
+          )
         ) : (
           <Button
             onClick={async () => {
@@ -214,7 +232,7 @@ function Token(props: { index: number }) {
   const signer = useMemo(
     () =>
       wallet.ethereum && wallet.account
-        ? new ethers.providers.Web3Provider(wallet.ethereum).getSigner(wallet.account)
+        ? new ethers.providers.Web3Provider(wallet.ethereum, CHAIN_ID).getSigner(wallet.account)
         : undefined,
     [wallet],
   )
