@@ -4,7 +4,7 @@
 async function getAscii(): Promise<BigUint64Array> {
   // const canvas = new Canvas(FONT_WIDTH * FONT_MAP_SIZE, FONT_HEIGHT * FONT_MAP_SIZE)
   // const ctx = canvas.getContext('2d')
-  // const image = await loadImage('public/kitchen-sink.png')
+  // const image = await loadImage('./kitchen-sink.png')
   // ctx.drawImage(image, 0, 0)
   const array: bigint[] = []
   // for (let y = 0; y < FONT_MAP_SIZE; y += 1) {

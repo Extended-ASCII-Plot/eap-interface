@@ -38,11 +38,6 @@ a {
 span {
   line-height: 0;
 }
-
-@font-face {
-  font-family: 'Kitchen Sink';
-  src: url('/Kitchen Sink.ttf') format('truetype');
-}
 `
 
 function App({ Component, pageProps }: AppProps) {
