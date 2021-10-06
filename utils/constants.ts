@@ -106,7 +106,7 @@ export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 export const FEE_RECIPIENT = process.env.FEE_RECIPIENT
 
-export const ASCII = BigUint64Array.from([
+export const ASCII = [
   0xffffffffffffn,
   0x3c5672563c00n,
   0x3c5a76523c00n,
@@ -363,4 +363,4 @@ export const ASCII = BigUint64Array.from([
   0xff0101010101n,
   0x010101010101n,
   0x0101010101ffn,
-])
+]
