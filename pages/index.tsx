@@ -24,7 +24,10 @@ export default function IndexPage() {
     [wallet],
   )
   const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
+    () =>
+      signer && CONTRACT_ADDRESS
+        ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer)
+        : undefined,
     [signer],
   )
   const [text, setText] = useState('')
@@ -216,7 +219,10 @@ function Token(props: { index: number }) {
     [wallet],
   )
   const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
+    () =>
+      signer && CONTRACT_ADDRESS
+        ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer)
+        : undefined,
     [signer],
   )
   const { data: token } = useSWR(
