@@ -85,8 +85,9 @@ export default function IndexPage() {
   return (
     <div
       className={css`
-        margin: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px auto;
-        width: ${36 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        margin: 0 auto;
+        width: ${38 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
       <div
