@@ -14,9 +14,9 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
 
   res.json({
     name: `${base85.encode(buf)}`,
-    description: `\`\`\`\n${chunk(buf.toString('hex').toUpperCase().split(''), 16)
+    description: `${chunk(buf.toString('hex').toUpperCase().split(''), 16)
       .map((c16) => c16.join(''))
-      .join('\n')}\n\`\`\``,
+      .join('\n\n')}`,
     image: url,
     external_url: url,
     background_color: '000000',
