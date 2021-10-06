@@ -1,6 +1,5 @@
 import { ethers } from 'ethers'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import base85 from 'base85'
 
 export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse) {
   const { token } = req.query
@@ -13,10 +12,10 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
   }/plot/0x${buf.toString('hex')}`
 
   res.json({
-    name: `${base85.encode(buf)}`,
-    description: `${chunk(buf.toString('hex').toUpperCase().split(''), 16)
+    name: `${buf.toString('base64')}`,
+    description: `\`\`\`\n${chunk(buf.toString('hex').toUpperCase().split(''), 16)
       .map((c16) => c16.join(''))
-      .join('\n\n')}`,
+      .join('\n')}\n\`\`\``,
     image: url,
     external_url: url,
     background_color: '000000',
