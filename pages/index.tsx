@@ -105,7 +105,7 @@ export default function IndexPage() {
             href="https://polyducks.itch.io/kitchen-sink-textmode-font"
             target="_blank"
           >
-            <AsciiDot value={0x1450} />
+            <AsciiDot value={0x1470} />
           </a>
           <Text> </Text>
           <a
@@ -117,7 +117,7 @@ export default function IndexPage() {
           </a>
           <Text> </Text>
           <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
-            <AsciiDot value={0xf906} />
+            <AsciiDot value={0xf907} />
           </a>
         </span>
       </div>
