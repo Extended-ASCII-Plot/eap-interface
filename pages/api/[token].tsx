@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import base85 from 'base85'
-import { ENDPOINT } from '../../utils/constants'
+import { BASE_URL } from '../../utils/constants'
 
 export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse) {
   const { token } = req.query
@@ -10,7 +10,7 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     'hex',
   )
   const url = `${
-    process.env.NODE_ENV === 'production' ? ENDPOINT : 'http://localhost:3000/'
+    process.env.NODE_ENV === 'production' ? BASE_URL : 'http://localhost:3000/'
   }plot/0x${buf.toString('hex')}`
 
   res.json({

@@ -96,7 +96,7 @@ export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
 
 export const CHAIN_ID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || '1', 10)
 
-export const ENDPOINT = process.env.NEXT_PUBLIC_ENDPOINT
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
 export const FEE_RECIPIENT = process.env.FEE_RECIPIENT
 
