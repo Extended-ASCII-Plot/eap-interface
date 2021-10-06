@@ -269,10 +269,6 @@ function Token(props: { index: number }) {
     () => contract!.tokenOfOwnerByIndex(signer!._address, props.index),
     { revalidateOnFocus: false },
   )
-  const { data: tokenURI } = useSWR(
-    token && contract ? ['tokenURI', token.toHexString(), contract.address] : null,
-    () => contract!.tokenURI(token!.toHexString()),
-  )
   const value = useMemo(
     () => (token ? ethers.utils.hexZeroPad(token.toHexString(), 32) : undefined),
     [token],
