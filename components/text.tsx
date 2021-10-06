@@ -1,5 +1,5 @@
-import { colorize2 } from '../utils/encoding'
-import AsciiDot from './ascii-dot'
+import { colorize } from '../utils/encoding'
+import Dot from './dot'
 
 export default function Text(props: { children?: Uint8Array | string; color?: number }) {
   return (
@@ -8,7 +8,7 @@ export default function Text(props: { children?: Uint8Array | string; color?: nu
         ? Array.from(
             typeof props.children === 'string' ? Buffer.from(props.children) : props.children,
           ).map((char, index) => (
-            <AsciiDot key={`${index}${char}`} value={colorize2(char, props.color || 7 << 4)} />
+            <Dot key={`${index}${char}`} value={colorize(char, props.color || 7 << 4)} />
           ))
         : null}
     </>

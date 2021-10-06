@@ -4,7 +4,7 @@ import useSWR from 'swr'
 import svgToMiniDataURI from 'mini-svg-data-uri'
 import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
-export default function AsciiDot(props: {
+export default function Dot(props: {
   value?: number
   top?: number
   right?: number
@@ -12,7 +12,7 @@ export default function AsciiDot(props: {
   left?: number
 }) {
   const { data } = useSWR(
-    props.value === undefined ? null : `/ascii-dot/${props.value}`,
+    props.value === undefined ? null : `/dot/${props.value}`,
     (url) => fetch(url).then((response) => response.text()),
     { revalidateOnFocus: false },
   )
@@ -49,7 +49,7 @@ export default function AsciiDot(props: {
   )
 
   return props.value === undefined ? null : backgroundImage === undefined ? (
-    <AsciiDotSvg style={style} value={props.value} className={className} />
+    <DotSvg style={style} value={props.value} className={className} />
   ) : (
     <i style={{ ...style, backgroundImage }} className={className} />
   )
@@ -61,7 +61,7 @@ export default function AsciiDot(props: {
  * 8~11: foreground
  * 12~15: background
  */
-export function AsciiDotSvg(props: { value: number; style?: CSSProperties; className?: string }) {
+export function DotSvg(props: { value: number; style?: CSSProperties; className?: string }) {
   const { value } = props
   const pixel = ASCII[(value & 0xff00) >> 0x8] >> 0x10n
   const foreground = (value & 0xf0) >> 0x4

@@ -1,6 +1,6 @@
 import { css, cx } from '@emotion/css'
 import { FONT_MAP_SIZE } from '../utils/constants'
-import AsciiDot from './ascii-dot'
+import Dot from './dot'
 import Box from './box'
 import Text from './text'
 
@@ -34,7 +34,7 @@ export default function CodeMap(props: { className?: string }) {
       <Box width={FONT_MAP_SIZE + 1} height={1} x={1} y={FONT_MAP_SIZE + 3}>
         <Text color={0xa0}>{Uint8Array.from([0x05])}</Text>
         {Array.from({ length: FONT_MAP_SIZE }).map((_, index) => (
-          <AsciiDot
+          <Dot
             key={index}
             value={
               (index.toString(16).toUpperCase().charCodeAt(0) << 8) +
@@ -47,7 +47,7 @@ export default function CodeMap(props: { className?: string }) {
       <Box width={FONT_MAP_SIZE + 1} height={1} x={1} y={FONT_MAP_SIZE + 5}>
         <Text color={0xa0}>{Uint8Array.from([0x06])}</Text>
         {Array.from({ length: FONT_MAP_SIZE }).map((_, index) => (
-          <AsciiDot
+          <Dot
             key={index}
             value={
               (index.toString(16).toUpperCase().charCodeAt(0) << 8) +

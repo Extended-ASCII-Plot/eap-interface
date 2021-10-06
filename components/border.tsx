@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import React, { ReactNode } from 'react'
-import { colorize2 } from '../utils/encoding'
-import AsciiDot from './ascii-dot'
+import { colorize } from '../utils/encoding'
+import Dot from './dot'
 import Box from './box'
 
 const defaultBorder: [
@@ -40,48 +40,28 @@ export default function Border(props: {
       `}
     >
       {Array.from({ length: props.width - 2 }).map((_, index) => (
-        <AsciiDot
-          key={index}
-          value={colorize2(value[0][1], props.color)}
-          top={0}
-          left={index + 1}
-        />
+        <Dot key={index} value={colorize(value[0][1], props.color)} top={0} left={index + 1} />
       ))}
       {Array.from({ length: props.width - 2 }).map((_, index) => (
-        <AsciiDot
-          key={index}
-          value={colorize2(value[2][1], props.color)}
-          bottom={0}
-          left={index + 1}
-        />
+        <Dot key={index} value={colorize(value[2][1], props.color)} bottom={0} left={index + 1} />
       ))}
       {Array.from({ length: props.height - 2 }).map((_, index) => (
-        <AsciiDot
-          key={index}
-          value={colorize2(value[1][0], props.color)}
-          top={index + 1}
-          left={0}
-        />
+        <Dot key={index} value={colorize(value[1][0], props.color)} top={index + 1} left={0} />
       ))}
       {Array.from({ length: props.height - 2 }).map((_, index) => (
-        <AsciiDot
-          key={index}
-          value={colorize2(value[1][2], props.color)}
-          top={index + 1}
-          right={0}
-        />
+        <Dot key={index} value={colorize(value[1][2], props.color)} top={index + 1} right={0} />
       ))}
-      <AsciiDot value={colorize2(value[0][0], props.color)} top={0} left={0} />
-      <AsciiDot value={colorize2(value[0][2], props.color)} top={0} right={0} />
-      <AsciiDot value={colorize2(value[2][0], props.color)} bottom={0} left={0} />
-      <AsciiDot value={colorize2(value[2][2], props.color)} bottom={0} right={0} />
+      <Dot value={colorize(value[0][0], props.color)} top={0} left={0} />
+      <Dot value={colorize(value[0][2], props.color)} top={0} right={0} />
+      <Dot value={colorize(value[2][0], props.color)} bottom={0} left={0} />
+      <Dot value={colorize(value[2][2], props.color)} bottom={0} right={0} />
       <Box
         width={props.width - 2}
         height={props.height - 2}
         x={1}
         y={1}
         className={css`
-          background-image: url('/ascii-dot/${colorize2(value[1][1], props.color).toString()}');
+          background-image: url('/dot/${colorize(value[1][1], props.color).toString()}');
           background-repeat: repeat;
         `}
       >

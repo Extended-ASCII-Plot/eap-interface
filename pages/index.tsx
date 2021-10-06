@@ -18,7 +18,7 @@ import {
   FONT_WIDTH,
 } from '../utils/constants'
 import CodeMap from '../components/code-map'
-import AsciiDot from '../components/ascii-dot'
+import Dot from '../components/dot'
 
 export default function IndexPage() {
   const wallet = useWallet()
@@ -105,7 +105,7 @@ export default function IndexPage() {
             href="https://polyducks.itch.io/kitchen-sink-textmode-font"
             target="_blank"
           >
-            <AsciiDot value={0x1470} />
+            <Dot value={0x1470} />
           </a>
           <Text> </Text>
           <a
@@ -113,11 +113,11 @@ export default function IndexPage() {
             href="https://opensea.io/collection/extended-ascii-plot"
             target="_blank"
           >
-            <AsciiDot value={0x067c} />
+            <Dot value={0x067c} />
           </a>
           <Text> </Text>
           <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
-            <AsciiDot value={0xf907} />
+            <Dot value={0xf907} />
           </a>
         </span>
       </div>
