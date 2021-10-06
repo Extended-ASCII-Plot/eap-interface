@@ -1,18 +1,16 @@
 import { css } from '@emotion/css'
-import type { ReactNode } from 'react'
-import React from 'react'
-import { ASCII } from '../utils/constants'
+import React, { ReactNode } from 'react'
+import AsciiDot from './ascii-dot'
 import Box from './box'
-import Dot from './dot'
 
 const defaultBorder: [
-  [bigint, bigint, bigint],
-  [bigint, bigint, bigint],
-  [bigint, bigint, bigint],
+  [number, number, number],
+  [number, number, number],
+  [number, number, number],
 ] = [
-  [ASCII[0x89], ASCII[0x96], ASCII[0x8a]],
-  [ASCII[0x86], ASCII[0x20], ASCII[0x86]],
-  [ASCII[0x99], ASCII[0x96], ASCII[0x9a]],
+  [0x8970, 0x9670, 0x8a70],
+  [0x8670, 0x2070, 0x8670],
+  [0x9970, 0x9670, 0x9a70],
 ]
 
 export default function Border(props: {
@@ -25,11 +23,10 @@ export default function Border(props: {
    *   [bottom-left, bottom-center, bottom-right],
    * ]
    */
-  value?: [[bigint, bigint, bigint], [bigint, bigint, bigint], [bigint, bigint, bigint]]
-  color?: bigint
+  value?: [[number, number, number], [number, number, number], [number, number, number]]
   children?: ReactNode
 }) {
-  const { value = defaultBorder, color } = props
+  const { value = defaultBorder } = props
 
   return (
     <Box
@@ -41,28 +38,28 @@ export default function Border(props: {
       `}
     >
       {Array.from({ length: props.width - 2 }).map((_, index) => (
-        <Dot key={index} value={value[0][1]} color={color} top={0} left={index + 1} />
+        <AsciiDot key={index} value={value[0][1]} top={0} left={index + 1} />
       ))}
       {Array.from({ length: props.width - 2 }).map((_, index) => (
-        <Dot key={index} value={value[2][1]} color={color} bottom={0} left={index + 1} />
+        <AsciiDot key={index} value={value[2][1]} bottom={0} left={index + 1} />
       ))}
       {Array.from({ length: props.height - 2 }).map((_, index) => (
-        <Dot key={index} value={value[1][0]} color={color} top={index + 1} left={0} />
+        <AsciiDot key={index} value={value[1][0]} top={index + 1} left={0} />
       ))}
       {Array.from({ length: props.height - 2 }).map((_, index) => (
-        <Dot key={index} value={value[1][2]} color={color} top={index + 1} right={0} />
+        <AsciiDot key={index} value={value[1][2]} top={index + 1} right={0} />
       ))}
-      <Dot value={value[0][0]} color={color} top={0} left={0} />
-      <Dot value={value[0][2]} color={color} top={0} right={0} />
-      <Dot value={value[2][0]} color={color} bottom={0} left={0} />
-      <Dot value={value[2][2]} color={color} bottom={0} right={0} />
+      <AsciiDot value={value[0][0]} top={0} left={0} />
+      <AsciiDot value={value[0][2]} top={0} right={0} />
+      <AsciiDot value={value[2][0]} bottom={0} left={0} />
+      <AsciiDot value={value[2][2]} bottom={0} right={0} />
       <Box
         width={props.width - 2}
         height={props.height - 2}
         x={1}
         y={1}
         className={css`
-          background-image: url('/dot/${value[1][1].toString()}');
+          background-image: url('/ascii-dot/${value[1][1].toString()}');
           background-repeat: repeat;
         `}
       >
