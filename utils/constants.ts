@@ -1,3 +1,5 @@
+import invariant from 'tiny-invariant'
+
 export const FONT_HEIGHT = 8
 
 export const FONT_WIDTH = 6
@@ -92,9 +94,13 @@ export const COLOR = [
   '#FFCCAA',
 ]
 
+invariant(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS, 'env NEXT_PUBLIC_CONTRACT_ADDRESS not set')
+
 export const CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS
 
 export const CHAIN_ID = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || '1', 10)
+
+invariant(process.env.NEXT_PUBLIC_BASE_URL, 'env NEXT_PUBLIC_BASE_URL not set')
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
