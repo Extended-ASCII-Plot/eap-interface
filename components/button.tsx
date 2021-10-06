@@ -25,7 +25,7 @@ export default function Button(props: {
         height={3}
         value={[
           [0x8b, 0x96, 0x8c],
-          [0x86, 0x20, 0x86],
+          [0x86, null, 0x86],
           [0x9b, 0x96, 0x9c],
         ]}
       >

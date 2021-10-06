@@ -4,15 +4,12 @@ import { colorize } from '../utils/encoding'
 import Dot from './dot'
 import Box from './box'
 
-const defaultBorder: [
-  [number, number, number],
-  [number, number, number],
-  [number, number, number],
-] = [
-  [0x89, 0x96, 0x8a],
-  [0x86, 0x20, 0x86],
-  [0x99, 0x96, 0x9a],
-]
+const defaultBorder: [[number, number, number], [number, null, number], [number, number, number]] =
+  [
+    [0x89, 0x96, 0x8a],
+    [0x86, null, 0x86],
+    [0x99, 0x96, 0x9a],
+  ]
 
 export default function Border(props: {
   width: number
@@ -20,11 +17,11 @@ export default function Border(props: {
   /**
    * [
    *   [top-left   , top-center   , top-right   ],
-   *   [middle-left, background   , middle-right],
+   *   [middle-left, ignored      , middle-right],
    *   [bottom-left, bottom-center, bottom-right],
    * ]
    */
-  value?: [[number, number, number], [number, number, number], [number, number, number]]
+  value?: [[number, number, number], [number, null, number], [number, number, number]]
   color?: number
   children?: ReactNode
 }) {
@@ -55,16 +52,7 @@ export default function Border(props: {
       <Dot value={colorize(value[0][2], props.color)} top={0} right={0} />
       <Dot value={colorize(value[2][0], props.color)} bottom={0} left={0} />
       <Dot value={colorize(value[2][2], props.color)} bottom={0} right={0} />
-      <Box
-        width={props.width - 2}
-        height={props.height - 2}
-        x={1}
-        y={1}
-        className={css`
-          background-image: url('/dot/${colorize(value[1][1], props.color).toString()}');
-          background-repeat: repeat;
-        `}
-      >
+      <Box width={props.width - 2} height={props.height - 2} x={1} y={1}>
         {props.children}
       </Box>
     </Box>
