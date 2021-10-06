@@ -21,18 +21,18 @@ export default function CodeMap(props: { className?: string }) {
       )}
     >
       <Box width={1} height={FONT_MAP_SIZE + 1} x={1} y={0}>
-        <Text color={0xff0fn}>{Uint8Array.from([0x03])}</Text>
-        <Text color={0xaaafn}>0123456789ABCDEF</Text>
+        <Text color={0xa0}>{Uint8Array.from([0x03])}</Text>
+        <Text color={0x60}>0123456789ABCDEF</Text>
       </Box>
       <Box width={FONT_MAP_SIZE} height={FONT_MAP_SIZE} x={2} y={1}>
         <Text>{charEncodingMap}</Text>
       </Box>
       <Box height={1} width={FONT_MAP_SIZE + 1} x={1} y={FONT_MAP_SIZE + 1}>
-        <Text color={0xff0fn}>{Uint8Array.from([0x04])}</Text>
-        <Text color={0xaaafn}>0123456789ABCDEF</Text>
+        <Text color={0xa0}>{Uint8Array.from([0x04])}</Text>
+        <Text color={0x60}>0123456789ABCDEF</Text>
       </Box>
       <Box width={FONT_MAP_SIZE + 1} height={1} x={1} y={FONT_MAP_SIZE + 3}>
-        <Text color={0xff0fn}>{Uint8Array.from([0x05])}</Text>
+        <Text color={0xa0}>{Uint8Array.from([0x05])}</Text>
         {Array.from({ length: FONT_MAP_SIZE }).map((_, index) => (
           <AsciiDot
             key={index}
@@ -45,7 +45,7 @@ export default function CodeMap(props: { className?: string }) {
         ))}
       </Box>
       <Box width={FONT_MAP_SIZE + 1} height={1} x={1} y={FONT_MAP_SIZE + 5}>
-        <Text color={0xff0fn}>{Uint8Array.from([0x06])}</Text>
+        <Text color={0xa0}>{Uint8Array.from([0x06])}</Text>
         {Array.from({ length: FONT_MAP_SIZE }).map((_, index) => (
           <AsciiDot
             key={index}
