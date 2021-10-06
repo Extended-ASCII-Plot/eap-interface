@@ -8,6 +8,16 @@ const charEncodingMap = Uint8Array.from(
   Array.from({ length: FONT_MAP_SIZE * FONT_MAP_SIZE }).map((_, index) => index),
 )
 
+const selector = Array.from({ length: FONT_MAP_SIZE })
+  .map((_, x) =>
+    Array.from({ length: FONT_MAP_SIZE }).map((_, y) =>
+      (x + y) % 2 === 1 ? `svg:nth-child(${x * FONT_MAP_SIZE + y + 1})` : '',
+    ),
+  )
+  .flat()
+  .filter((s) => !!s)
+  .join(',')
+
 export default function CodeMap(props: { className?: string }) {
   return (
     <Box
@@ -24,8 +34,18 @@ export default function CodeMap(props: { className?: string }) {
         <Text color={0xa0}>{Uint8Array.from([0x03])}</Text>
         <Text color={0x50}>0123456789ABCDEF</Text>
       </Box>
-      <Box width={FONT_MAP_SIZE} height={FONT_MAP_SIZE} x={2} y={1}>
-        <Text color={0x60}>{charEncodingMap}</Text>
+      <Box
+        width={FONT_MAP_SIZE}
+        height={FONT_MAP_SIZE}
+        x={2}
+        y={1}
+        className={css`
+          ${selector} {
+            background-color: #222 !important;
+          }
+        `}
+      >
+        <Text>{charEncodingMap}</Text>
       </Box>
       <Box height={1} width={FONT_MAP_SIZE + 1} x={1} y={FONT_MAP_SIZE + 1}>
         <Text color={0xa0}>{Uint8Array.from([0x04])}</Text>
