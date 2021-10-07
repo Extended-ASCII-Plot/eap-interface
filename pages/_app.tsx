@@ -7,8 +7,8 @@ import { reportWebVitals, useAppInit } from '@lukeshay/next-ga'
 injectGlobal`
 :root {
   --cursor-default: url(/cursors/cursor-default.svg), default;
-  --cursor-pointer: url(/cursors/cursor-pointer.svg) 4 0, pointer;
-  --cursor-text: url(/cursors/cursor-text.svg) 4 8, text;
+  --cursor-pointer: url(/cursors/cursor-pointer.svg) 14 0, pointer;
+  --cursor-text: url(/cursors/cursor-text.svg) 16 16, text;
 }
 
 ::-webkit-scrollbar {
