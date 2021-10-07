@@ -41,7 +41,7 @@ export default function CodeMap(props: { className?: string }) {
         y={1}
         className={css`
           ${selector} {
-            background-color: #222 !important;
+            background-color: #333 !important;
           }
         `}
       >
