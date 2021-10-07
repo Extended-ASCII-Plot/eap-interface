@@ -225,8 +225,8 @@ export default function IndexPage() {
         <div>
           <Text color={0x50}>{Uint8Array.from([0x96, 0x8a])}</Text>
           <div>
-            <Text color={0x50}>{Uint8Array.from([0x20, 0x1e])}</Text>
-            <Text color={0x60}> CODEBOOK</Text>
+            <Text color={0x50}>{Uint8Array.from([0x20, 0x1f])}</Text>
+            <Text color={0x6}> CODEBOOK</Text>
           </div>
           <CodeMap />
         </div>
