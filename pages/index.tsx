@@ -152,10 +152,29 @@ export default function IndexPage() {
             </Button>
           ) : (
             <Button
-              onClick={() => {
-                signer?.provider?.send('wallet_switchEthereumChain', [
-                  { chainId: `0x${CHAIN_ID.toString(16)}` },
-                ])
+              onClick={async () => {
+                if (!signer) {
+                  return
+                }
+                try {
+                  await signer.provider.send('wallet_switchEthereumChain', [
+                    { chainId: `0x${CHAIN_ID.toString(16)}` },
+                  ])
+                } catch {
+                  await signer.provider.send('wallet_addEthereumChain', [
+                    {
+                      chainId: `0x${CHAIN_ID.toString(16)}`,
+                      chainName: 'Polygon Mainnet',
+                      nativeCurrency: {
+                        name: 'Matic',
+                        symbol: 'MATIC',
+                        decimals: 18,
+                      },
+                      rpcUrls: ['https://polygon-rpc.com/'],
+                      blockExplorerUrls: ['https://polygonscan.com/'],
+                    },
+                  ])
+                }
               }}
             >
               SWITCH NETWORK
