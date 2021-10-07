@@ -7,7 +7,7 @@ import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '
 
 const SIZE = 4
 
-export default function Plot(props: { value?: string; factor?: number }) {
+export default function Plot(props: { value?: string; scale?: number }) {
   const { data } = useSWR(
     props.value === undefined ? null : `/api/svg/${props.value}`,
     (url) => fetch(url).then((response) => response.text()),
@@ -19,8 +19,8 @@ export default function Plot(props: { value?: string; factor?: number }) {
   )
   const className = css`
     display: inline-block;
-    width: ${FONT_WIDTH * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}px;
-    height: ${FONT_HEIGHT * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}px;
+    width: ${FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}px;
+    height: ${FONT_HEIGHT * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}px;
     background-repeat: no-repeat;
     background-position: 0 0;
   `
@@ -29,8 +29,8 @@ export default function Plot(props: { value?: string; factor?: number }) {
     <PlotSvg
       value={props.value}
       className={className}
-      width={FONT_WIDTH * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}
-      height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.factor || 1) * SIZE}
+      width={FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
+      height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
     />
   ) : (
     <i style={{ backgroundImage, backgroundSize: 'cover' }} className={className} />

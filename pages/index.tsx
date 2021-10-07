@@ -3,7 +3,6 @@ import { ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
-import Link from 'next/link'
 import { ExtendedAsciiPlot__factory } from '../abi'
 import Border from '../components/border'
 import Plot from '../components/plot'
@@ -19,6 +18,7 @@ import {
 } from '../utils/constants'
 import CodeMap from '../components/code-map'
 import Dot from '../components/dot'
+import Token from '../components/token'
 
 export default function IndexPage() {
   const wallet = useWallet()
@@ -209,7 +209,7 @@ export default function IndexPage() {
                   ethers.BigNumber.from(`0x${value}`).toHexString(),
                   32,
                 )}
-                factor={4}
+                scale={4}
               />
             ) : null}
           </Border>
@@ -243,41 +243,5 @@ export default function IndexPage() {
         </div>
       ) : null}
     </div>
-  )
-}
-
-function Token(props: { index: number }) {
-  const wallet = useWallet()
-  const signer = useMemo(
-    () =>
-      wallet.ethereum && wallet.account
-        ? new ethers.providers.Web3Provider(wallet.ethereum, CHAIN_ID).getSigner(wallet.account)
-        : undefined,
-    [wallet],
-  )
-  const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
-    [signer],
-  )
-  const { data: token } = useSWR(
-    contract && signer
-      ? ['tokenOfOwnerByIndex', contract.address, signer._address, props.index]
-      : null,
-    () => contract!.tokenOfOwnerByIndex(signer!._address, props.index),
-    { revalidateOnFocus: false },
-  )
-  const value = useMemo(
-    () => (token ? ethers.utils.hexZeroPad(token.toHexString(), 32) : undefined),
-    [token],
-  )
-
-  return (
-    <Border width={4 + 2} height={4 + 2}>
-      <Link href={`/plot/${value}`} passHref={true}>
-        <a target="_blank">
-          <Plot value={value} />
-        </a>
-      </Link>
-    </Border>
   )
 }
