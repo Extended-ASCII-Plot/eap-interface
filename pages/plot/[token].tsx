@@ -3,11 +3,12 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/dist/client/router'
 import useSWR from 'swr'
 import Border from '../../components/border'
+import Dot from '../../components/dot'
 import Plot from '../../components/plot'
 import Text from '../../components/text'
 import useContract from '../../hooks/use-contract'
 import useProvider from '../../hooks/use-provider'
-import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../../utils/constants'
+import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT, CONTRACT_ADDRESS } from '../../utils/constants'
 
 const SCALE = 8
 
@@ -29,7 +30,28 @@ export default function PlotPage() {
         padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
-      <Text>{`Extended ASCII Plot #${index?.toBigInt().toString() || ''}`}</Text>
+      <div
+        className={css`
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        `}
+      >
+        <span>
+          <Text>{`Extended ASCII Plot`}</Text>
+        </span>
+        <a
+          title="OpenSea"
+          href={`https://opensea.io/assets/${CONTRACT_ADDRESS}/${token}`}
+          target="_blank"
+        >
+          <Dot value={0x067c} />
+        </a>
+      </div>
+      <div>
+        <Text> </Text>
+      </div>
+      <Text>{`#${index?.toBigInt().toString() || ''}`}</Text>
       <div>
         <Text> </Text>
       </div>

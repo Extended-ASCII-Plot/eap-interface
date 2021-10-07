@@ -122,16 +122,16 @@ export default function IndexPage() {
             <Dot value={0x1470} />
           </a>
           <Text> </Text>
+          <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
+            <Dot value={0xf907} />
+          </a>
+          <Text> </Text>
           <a
             title="OpenSea"
             href="https://opensea.io/collection/extended-ascii-plot"
             target="_blank"
           >
             <Dot value={0x067c} />
-          </a>
-          <Text> </Text>
-          <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
-            <Dot value={0xf907} />
           </a>
         </span>
       </div>
