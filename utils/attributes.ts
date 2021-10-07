@@ -11,7 +11,7 @@ export function differentColors(token: string): number {
   }
   return (
     array
-      .reduce((prev, dot) => (1 << (dot & 0xf)) | (1 << ((dot & 0xf0) >> 4)) | prev, 0)
+      .reduce((prev, dot) => (1 << ((dot & 0xf) + 1)) | (1 << (((dot & 0xf0) >> 4) + 1)) | prev, 0)
       .toString(2)
       .split('1').length - 1
   )
@@ -28,7 +28,7 @@ export function differentCharacters(token: string): number {
   }
   return (
     array
-      .reduce((prev, dot) => (1 << ((dot & 0xf00) >> 8)) | (1 << ((dot & 0xf000) >> 4)) | prev, 0)
+      .reduce((prev, dot) => (1 << (((dot & 0xff00) >> 8) + 1)) | prev, 0)
       .toString(2)
       .split('1').length - 1
   )
