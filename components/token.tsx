@@ -2,30 +2,21 @@ import { ethers } from 'ethers'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
-import useWallet from 'use-wallet'
 import { ExtendedAsciiPlot__factory } from '../abi'
-import { CHAIN_ID, CONTRACT_ADDRESS } from '../utils/constants'
+import useProvider from '../hooks/use-provider'
+import { CONTRACT_ADDRESS } from '../utils/constants'
 import Border from './border'
 import Plot from './plot'
 
-export default function Token(props: { index: number; scale?: number }) {
-  const wallet = useWallet()
-  const signer = useMemo(
-    () =>
-      wallet.ethereum && wallet.account
-        ? new ethers.providers.Web3Provider(wallet.ethereum, CHAIN_ID).getSigner(wallet.account)
-        : undefined,
-    [wallet],
-  )
+export default function Token(props: { address: string; index: number; scale?: number }) {
+  const provider = useProvider()
   const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
-    [signer],
+    () => ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, provider),
+    [provider],
   )
   const { data: token } = useSWR(
-    contract && signer
-      ? ['tokenOfOwnerByIndex', contract.address, signer._address, props.index]
-      : null,
-    () => contract!.tokenOfOwnerByIndex(signer!._address, props.index),
+    ['tokenOfOwnerByIndex', contract.address, props.address, props.index],
+    () => contract.tokenOfOwnerByIndex(props.address, props.index),
     { revalidateOnFocus: false },
   )
   const value = useMemo(

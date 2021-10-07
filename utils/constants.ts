@@ -104,6 +104,8 @@ invariant(process.env.NEXT_PUBLIC_BASE_URL, 'env NEXT_PUBLIC_BASE_URL not set')
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
+export const JSON_RPC = process.env.NEXT_PUBLIC_JSON_RPC
+
 export const FEE_RECIPIENT = process.env.FEE_RECIPIENT
 
 export const ASCII = [

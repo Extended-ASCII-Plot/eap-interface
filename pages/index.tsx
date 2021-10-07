@@ -223,7 +223,7 @@ export default function IndexPage() {
           <CodeMap />
         </div>
       </div>
-      {balance ? (
+      {signer && balance ? (
         <div
           className={css`
             margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
@@ -237,7 +237,11 @@ export default function IndexPage() {
             `}
           >
             {Array.from({ length: balance.toNumber() }).map((_, index) => (
-              <Token key={index} index={balance.toNumber() - index - 1} />
+              <Token
+                key={index}
+                address={signer?._address}
+                index={balance.toNumber() - index - 1}
+              />
             ))}
           </div>
         </div>
