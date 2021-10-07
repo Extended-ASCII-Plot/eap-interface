@@ -115,7 +115,7 @@ export default function IndexPage() {
         </span>
         <span>
           <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
-            <Dot value={0xf907} />
+            <Dot value={0xf207} />
           </a>
           <Text> </Text>
           <a
