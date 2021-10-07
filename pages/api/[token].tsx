@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ExtendedAsciiPlot__factory } from '../../abi'
-import { calcColors } from '../../utils/attributes'
+import { differentCharacters, differentColors } from '../../utils/attributes'
 import { BASE_URL, CONTRACT_ADDRESS, JSON_RPC } from '../../utils/constants'
 
 const provider = new ethers.providers.JsonRpcProvider(JSON_RPC)
@@ -24,7 +24,10 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     image: `${BASE_URL}api/png/0x${buf.toString('hex')}`,
     external_url: `${BASE_URL}plot/0x${buf.toString('hex')}`,
     background_color: '000000',
-    attributes: [{ trait_type: 'Colors', value: calcColors(token) }],
+    attributes: [
+      { trait_type: 'Different Colors', value: differentColors(token) },
+      { trait_type: 'Different Characters', value: differentCharacters(token) },
+    ],
   })
 }
 
