@@ -231,6 +231,7 @@ export default function IndexPage() {
             className={css`
               display: flex;
               flex-wrap: wrap;
+              margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
             `}
           >
             {Array.from({ length: balance.toNumber() }).map((_, index) => (
