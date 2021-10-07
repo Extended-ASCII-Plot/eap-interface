@@ -2,21 +2,17 @@ import { ethers } from 'ethers'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
-import { ExtendedAsciiPlot__factory } from '../abi'
+import useContract from '../hooks/use-contract'
 import useProvider from '../hooks/use-provider'
-import { CONTRACT_ADDRESS } from '../utils/constants'
 import Border from './border'
 import Plot from './plot'
 
 export default function Token(props: { address: string; index: number; scale?: number }) {
   const provider = useProvider()
-  const contract = useMemo(
-    () => ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, provider),
-    [provider],
-  )
+  const contract = useContract(provider)
   const { data: token } = useSWR(
-    ['tokenOfOwnerByIndex', contract.address, props.address, props.index],
-    () => contract.tokenOfOwnerByIndex(props.address, props.index),
+    ['tokenOfOwnerByIndex', contract!.address, props.address, props.index],
+    () => contract!.tokenOfOwnerByIndex(props.address, props.index),
     { revalidateOnFocus: false },
   )
   const value = useMemo(

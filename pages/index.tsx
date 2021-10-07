@@ -3,7 +3,6 @@ import { ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
-import { ExtendedAsciiPlot__factory } from '../abi'
 import Border from '../components/border'
 import Plot from '../components/plot'
 import Text from '../components/text'
@@ -19,6 +18,7 @@ import {
 import CodeMap from '../components/code-map'
 import Dot from '../components/dot'
 import Token from '../components/token'
+import useContract from '../hooks/use-contract'
 
 export default function IndexPage() {
   const wallet = useWallet()
@@ -29,10 +29,7 @@ export default function IndexPage() {
         : undefined,
     [wallet],
   )
-  const contract = useMemo(
-    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
-    [signer],
-  )
+  const contract = useContract(signer)
   const [value, setValue] = useState('')
   const [pending, setPending] = useState(false)
   const { data: balance, mutate } = useSWR(
