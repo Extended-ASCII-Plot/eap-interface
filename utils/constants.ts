@@ -366,3 +366,6 @@ export const ASCII = [
   0x010101010101n,
   0x0101010101ffn,
 ]
+
+export const DESCRIPTION =
+  'Extended ASCII Plot (EAP) is user created ASCII Art and stored on chain. Everyone can mint via https://eap.wtf/ for free.'
