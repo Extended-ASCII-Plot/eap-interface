@@ -123,7 +123,7 @@ export default function IndexPage() {
             href="https://opensea.io/collection/extended-ascii-plot"
             target="_blank"
           >
-            <Dot value={0x067c} />
+            <Dot value={0xfa7c} />
           </a>
         </span>
       </div>

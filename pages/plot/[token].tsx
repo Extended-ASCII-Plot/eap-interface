@@ -45,7 +45,7 @@ export default function PlotPage() {
           href={`https://opensea.io/assets/matic/${CONTRACT_ADDRESS}/${token}`}
           target="_blank"
         >
-          <Dot value={0x067c} />
+          <Dot value={0xfa7c} />
         </a>
       </div>
       <div>
