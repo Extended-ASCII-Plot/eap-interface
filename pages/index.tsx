@@ -237,7 +237,7 @@ export default function IndexPage() {
             margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           `}
         >
-          <Text>{`Balance:${balance.toBigInt().toString()}`}</Text>
+          <Text>{`Owned:${balance.toBigInt().toString()}`}</Text>
           <div
             className={css`
               display: flex;
