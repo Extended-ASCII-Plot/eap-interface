@@ -10,7 +10,7 @@ import useContract from '../../hooks/use-contract'
 import useProvider from '../../hooks/use-provider'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT, CONTRACT_ADDRESS } from '../../utils/constants'
 
-const SCALE = 8
+const SCALE = 10
 
 export default function PlotPage() {
   const router = useRouter()
@@ -21,12 +21,16 @@ export default function PlotPage() {
     contract && token ? ['indexByToken', contract.address, token] : null,
     () => contract!.indexByToken(ethers.BigNumber.from(token!)),
   )
+  const { data: owner } = useSWR(
+    contract && token ? ['ownerOf', contract.address, token] : null,
+    () => contract!.ownerOf(ethers.BigNumber.from(token!)),
+  )
 
   return (
     <div
       className={css`
         margin: 0 auto;
-        width: ${36 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${44 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
         padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
@@ -38,7 +42,7 @@ export default function PlotPage() {
         `}
       >
         <span>
-          <Text>{`Extended ASCII Plot`}</Text>
+          <Text>{`Extended ASCII Plot #${index?.toBigInt().toString() || ''}`}</Text>
         </span>
         <a
           title="OpenSea"
@@ -51,13 +55,17 @@ export default function PlotPage() {
       <div>
         <Text> </Text>
       </div>
-      <Text>{`#${index?.toBigInt().toString() || ''}`}</Text>
-      <div>
-        <Text> </Text>
-      </div>
       <Border width={4 * SCALE + 2} height={4 * SCALE + 2}>
         <Plot value={token} scale={SCALE} />
       </Border>
+      <div>
+        <Text> </Text>
+      </div>
+      <Text>Owned by:</Text>
+      <div>
+        <Text> </Text>
+      </div>
+      <Text>{owner}</Text>
     </div>
   )
 }
