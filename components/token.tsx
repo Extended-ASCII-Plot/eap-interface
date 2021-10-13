@@ -7,12 +7,20 @@ import useProvider from '../hooks/use-provider'
 import Border from './border'
 import Plot from './plot'
 
-export default function Token(props: { address: string; index: number; scale?: number }) {
+export default function Token(props: { address?: string; index: number; scale?: number }) {
   const provider = useProvider()
   const contract = useContract(provider)
   const { data: token } = useSWR(
-    ['tokenOfOwnerByIndex', contract!.address, props.address, props.index],
-    () => contract!.tokenOfOwnerByIndex(props.address, props.index),
+    [
+      props.address ? 'tokenOfOwnerByIndex' : 'tokenByIndex',
+      contract!.address,
+      props.address,
+      props.index,
+    ],
+    () =>
+      props.address
+        ? contract!.tokenOfOwnerByIndex(props.address, props.index)
+        : contract!.tokenByIndex(props.index),
     { revalidateOnFocus: false },
   )
   const value = useMemo(

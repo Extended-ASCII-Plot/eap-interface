@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
+import { useRouter } from 'next/router'
 import Border from '../components/border'
 import Plot from '../components/plot'
 import Text from '../components/text'
@@ -21,6 +22,7 @@ import Token from '../components/token'
 import useContract from '../hooks/use-contract'
 
 export default function IndexPage() {
+  const router = useRouter()
   const wallet = useWallet()
   const signer = useMemo(
     () =>
@@ -137,6 +139,13 @@ export default function IndexPage() {
         `}
       >
         <Button onClick={handleRandom}>RANDOM</Button>
+        <Button
+          onClick={() => {
+            router.push('/gallery')
+          }}
+        >
+          GALLERY
+        </Button>
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
             <Button disabled={!value || pending} onClick={handleMint}>
@@ -246,11 +255,7 @@ export default function IndexPage() {
             `}
           >
             {Array.from({ length: balance.toNumber() }).map((_, index) => (
-              <Token
-                key={index}
-                address={signer?._address}
-                index={balance.toNumber() - index - 1}
-              />
+              <Token key={index} address={signer._address} index={balance.toNumber() - index - 1} />
             ))}
           </div>
         </div>

@@ -4,7 +4,7 @@ import Text from './text'
 
 export default function Button(props: {
   children: string
-  onClick: () => void
+  onClick?: () => void
   disabled?: boolean
 }) {
   const color = props.disabled ? 0x50 : 0x70
