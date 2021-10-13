@@ -210,7 +210,7 @@ export default function IndexPage() {
             ))}
             <Text color={0x50}>{Uint8Array.from([0x96])}</Text>
           </div>
-          <Border width={18} height={6}>
+          <Border width={18} height={6} color={0xa0}>
             <Input
               value={value}
               onChange={(v) => {
