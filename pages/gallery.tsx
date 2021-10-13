@@ -17,11 +17,12 @@ export default function GalleryPage() {
     contract!.totalSupply(),
   )
   const Cell = useCallback(
-    ({ columnIndex, rowIndex, style, data }: GridChildComponentProps<{ totalSupply: number }>) => (
-      <div style={style}>
-        <Token index={data.totalSupply - (rowIndex * 8 + columnIndex) - 1} />
-      </div>
-    ),
+    ({ columnIndex, rowIndex, style, data }: GridChildComponentProps<{ totalSupply: number }>) =>
+      rowIndex * 8 + columnIndex < data.totalSupply ? (
+        <div style={style}>
+          <Token index={data.totalSupply - (rowIndex * 8 + columnIndex) - 1} />
+        </div>
+      ) : null,
     [],
   )
 
