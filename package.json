@@ -9,7 +9,7 @@
     "build": "next build",
     "export": "next export",
     "format": "prettier --config .prettierrc.json --write .",
-    "gen": "cross-env typechain --target ethers-v5 --out-dir abi '../eap-contracts/artifacts/contracts/ExtendedAsciiPlot.sol/ExtendedAsciiPlot.json'",
+    "gen": "cross-env typechain --target ethers-v5 --out-dir abi '../eap-contracts/artifacts/contracts/ExtendedAsciiPlotPolygon.sol/ExtendedAsciiPlotPolygon.json'",
     "lint": "eslint ."
   },
   "author": "",

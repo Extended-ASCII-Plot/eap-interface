@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useMemo } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
-import { ExtendedAsciiPlot, ExtendedAsciiPlot__factory } from '../abi'
+import { ExtendedAsciiPlotPolygon, ExtendedAsciiPlotPolygon__factory } from '../abi'
 import useContract from '../hooks/use-contract'
 import { CHAIN_ID } from '../utils/constants'
 
@@ -55,7 +55,7 @@ export default function Migrate() {
   )
 }
 
-function Token(props: { index: number; contract: ExtendedAsciiPlot }) {
+function Token(props: { index: number; contract: ExtendedAsciiPlotPolygon }) {
   const { data: token } = useSWR(
     ['tokenByIndex', props.contract.address, props.index],
     () => props.contract.tokenByIndex(props.index),
@@ -81,7 +81,10 @@ function Token(props: { index: number; contract: ExtendedAsciiPlot }) {
   const newContract = useMemo(
     () =>
       signer
-        ? ExtendedAsciiPlot__factory.connect('0x4b68e53E3B3d6Ff159bf274327F04c808892Aec9', signer)
+        ? ExtendedAsciiPlotPolygon__factory.connect(
+            '0x4b68e53E3B3d6Ff159bf274327F04c808892Aec9',
+            signer,
+          )
         : undefined,
     [signer],
   )

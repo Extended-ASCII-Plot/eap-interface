@@ -20,7 +20,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
+interface ExtendedAsciiPlotPolygonInterface extends ethers.utils.Interface {
   functions: {
     "ERC712_VERSION()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -45,6 +45,7 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseTokenURI(string)": FunctionFragment;
     "setMintFee(uint256)": FunctionFragment;
+    "setProxyRegistryAddress(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
@@ -132,6 +133,10 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setMintFee",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setProxyRegistryAddress",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -227,6 +232,10 @@ interface ExtendedAsciiPlotInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setMintFee", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "setProxyRegistryAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
@@ -301,7 +310,7 @@ export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
 >;
 
-export class ExtendedAsciiPlot extends BaseContract {
+export class ExtendedAsciiPlotPolygon extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -342,7 +351,7 @@ export class ExtendedAsciiPlot extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: ExtendedAsciiPlotInterface;
+  interface: ExtendedAsciiPlotPolygonInterface;
 
   functions: {
     ERC712_VERSION(overrides?: CallOverrides): Promise<[string]>;
@@ -449,6 +458,11 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     setMintFee(
       _fee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setProxyRegistryAddress(
+      _proxyRegistryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -595,6 +609,11 @@ export class ExtendedAsciiPlot extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setProxyRegistryAddress(
+    _proxyRegistryAddress: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -727,6 +746,11 @@ export class ExtendedAsciiPlot extends BaseContract {
     ): Promise<void>;
 
     setMintFee(_fee: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    setProxyRegistryAddress(
+      _proxyRegistryAddress: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -963,6 +987,11 @@ export class ExtendedAsciiPlot extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setProxyRegistryAddress(
+      _proxyRegistryAddress: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1115,6 +1144,11 @@ export class ExtendedAsciiPlot extends BaseContract {
 
     setMintFee(
       _fee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setProxyRegistryAddress(
+      _proxyRegistryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
