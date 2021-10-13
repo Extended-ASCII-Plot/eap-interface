@@ -167,14 +167,14 @@ export default function IndexPage() {
                   await signer.provider.send('wallet_addEthereumChain', [
                     {
                       chainId: `0x${CHAIN_ID.toString(16)}`,
-                      chainName: 'Matic(Polygon) Mainnet',
+                      chainName: 'Polygon Mainnet',
                       nativeCurrency: {
                         name: 'Matic',
                         symbol: 'MATIC',
                         decimals: 18,
                       },
-                      rpcUrls: ['https://rpc-mainnet.matic.network'],
-                      blockExplorerUrls: ['https://polygonscan.com'],
+                      rpcUrls: ['https://polygon-rpc.com/'],
+                      blockExplorerUrls: ['https://polygonscan.com/'],
                     },
                   ])
                 }
