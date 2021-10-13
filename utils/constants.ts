@@ -4,7 +4,7 @@ export const FONT_HEIGHT = 8
 
 export const FONT_WIDTH = 8
 
-export const FONT_SCALE_FACTOR = 2
+export const FONT_SCALE_FACTOR = typeof window === 'undefined' ? 2 : window.devicePixelRatio
 
 export const FONT_MAP_SIZE = 16
 

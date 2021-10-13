@@ -10,6 +10,10 @@ import useContract from '../hooks/use-contract'
 import useProvider from '../hooks/use-provider'
 import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 
+const COLUMNS = 8
+
+const TOKEN_SIZE = 6
+
 export default function GalleryPage() {
   const provider = useProvider()
   const contract = useContract(provider)
@@ -18,9 +22,9 @@ export default function GalleryPage() {
   )
   const Cell = useCallback(
     ({ columnIndex, rowIndex, style, data }: GridChildComponentProps<{ totalSupply: number }>) =>
-      rowIndex * 8 + columnIndex < data.totalSupply ? (
+      rowIndex * COLUMNS + columnIndex < data.totalSupply ? (
         <div style={style}>
-          <Token index={data.totalSupply - (rowIndex * 8 + columnIndex) - 1} />
+          <Token index={data.totalSupply - (rowIndex * COLUMNS + columnIndex) - 1} />
         </div>
       ) : null,
     [],
@@ -30,7 +34,7 @@ export default function GalleryPage() {
     <div
       className={css`
         margin: 0 auto;
-        width: ${50 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${(COLUMNS * TOKEN_SIZE + 2) * FONT_WIDTH * FONT_SCALE_FACTOR}px;
         height: 100vh;
         padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
@@ -62,15 +66,18 @@ export default function GalleryPage() {
             height: calc(100% - ${FONT_HEIGHT * FONT_SCALE_FACTOR * 2}px);
           `}
         >
-          <AutoSizer defaultWidth={48 * FONT_WIDTH * FONT_SCALE_FACTOR} disableWidth={true}>
+          <AutoSizer
+            defaultWidth={COLUMNS * TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
+            disableWidth={true}
+          >
             {({ height }) => (
               <FixedSizeGrid
-                columnCount={8}
-                columnWidth={96}
+                columnCount={COLUMNS}
+                columnWidth={TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
                 height={height}
                 rowCount={Math.ceil(totalSupply.toNumber() / 8)}
-                rowHeight={96}
-                width={48 * FONT_WIDTH * FONT_SCALE_FACTOR}
+                rowHeight={TOKEN_SIZE * FONT_HEIGHT * FONT_SCALE_FACTOR}
+                width={COLUMNS * TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
                 itemData={{ totalSupply: totalSupply.toNumber() }}
               >
                 {Cell}
