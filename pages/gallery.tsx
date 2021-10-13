@@ -1,6 +1,7 @@
 import { css } from '@emotion/css'
 import React from 'react'
 import useSWR from 'swr'
+import Link from 'next/link'
 import Text from '../components/text'
 import Token from '../components/token'
 import useContract from '../hooks/use-contract'
@@ -29,6 +30,11 @@ export default function GalleryPage() {
         `}
       >
         <span>
+          <Link href="/" passHref={true}>
+            <a>
+              <Text>{Uint8Array.from([0x1b, 0x20])}</Text>
+            </a>
+          </Link>
           <Text>Extended ASCII Plot Gallery</Text>
         </span>
         <span>

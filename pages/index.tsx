@@ -138,14 +138,16 @@ export default function IndexPage() {
           margin-bottom: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
         `}
       >
-        <Button onClick={handleRandom}>RANDOM</Button>
-        <Button
-          onClick={() => {
-            router.push('/gallery')
-          }}
-        >
-          GALLERY
-        </Button>
+        <div>
+          <Button onClick={handleRandom}>RANDOM</Button>
+          <Button
+            onClick={() => {
+              router.push('/gallery')
+            }}
+          >
+            GALLERY
+          </Button>
+        </div>
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
             <Button disabled={!value || pending} onClick={handleMint}>

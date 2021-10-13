@@ -31,7 +31,7 @@ export default function Token(props: { address?: string; index: number; scale?: 
   return (
     <Border width={4 * (props.scale || 1) + 2} height={4 * (props.scale || 1) + 2}>
       <Link href={`/plot/${value}`} passHref={true}>
-        <a target="_blank">
+        <a>
           <Plot value={value} />
         </a>
       </Link>

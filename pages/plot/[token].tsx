@@ -2,6 +2,7 @@ import { css } from '@emotion/css'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/dist/client/router'
 import useSWR from 'swr'
+import Link from 'next/link'
 import Border from '../../components/border'
 import Dot from '../../components/dot'
 import Plot from '../../components/plot'
@@ -42,6 +43,11 @@ export default function PlotPage() {
         `}
       >
         <span>
+          <Link href="/" passHref={true}>
+            <a>
+              <Text>{Uint8Array.from([0x1b, 0x20])}</Text>
+            </a>
+          </Link>
           <Text>{`Extended ASCII Plot #${index?.toBigInt().toString() || ''}`}</Text>
         </span>
         <a
