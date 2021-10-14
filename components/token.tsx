@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import useSWR from 'swr'
 import useContract from '../hooks/use-contract'
@@ -9,6 +10,7 @@ import Plot from './plot'
 
 export default function Token(props: { address?: string; index: number; scale?: number }) {
   const provider = useProvider()
+  const router = useRouter()
   const contract = useContract(provider)
   const { data: token } = useSWR(
     [
@@ -30,7 +32,7 @@ export default function Token(props: { address?: string; index: number; scale?: 
 
   return (
     <Border width={4 * (props.scale || 1) + 2} height={4 * (props.scale || 1) + 2}>
-      <Link href={`/plot/${value}`} passHref={true}>
+      <Link href={`/plot/${value}?from=${router.asPath}`} passHref={true}>
         <a>
           <Plot value={value} />
         </a>

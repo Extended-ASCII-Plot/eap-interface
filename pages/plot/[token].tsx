@@ -15,7 +15,7 @@ const SCALE = 10
 
 export default function PlotPage() {
   const router = useRouter()
-  const { token } = router.query as { token?: string }
+  const { token, from } = router.query as { token?: string; from?: string }
   const provider = useProvider()
   const contract = useContract(provider)
   const { data: index } = useSWR(
@@ -43,7 +43,7 @@ export default function PlotPage() {
         `}
       >
         <span>
-          <Link href="/" passHref={true}>
+          <Link href={from || '/'} passHref={true}>
             <a>
               <Text>{Uint8Array.from([0x1b, 0x20])}</Text>
             </a>
