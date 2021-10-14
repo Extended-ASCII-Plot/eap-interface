@@ -65,6 +65,9 @@ export default function Input(props: {
           props.onChange(
             props.value.substring(0, i) + e.key.toUpperCase() + props.value.substring(i + 1),
           )
+        } else if (e.key === 'Delete' || e.key === 'Backspace') {
+          const i = cursorY * props.width + cursorX
+          props.onChange(props.value.substring(0, i) + '0' + props.value.substring(i + 1))
         }
       }}
       className={css`
