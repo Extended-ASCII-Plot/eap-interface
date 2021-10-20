@@ -162,7 +162,7 @@ export default function IndexPage() {
         <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
-            nativeBalance?.toNumber() === 0 ? (
+            nativeBalance?.toBigInt() === 0n ? (
               <Button
                 onClick={() => {
                   router.push('/help')
