@@ -1,22 +1,10 @@
 import { ethers } from 'ethers'
-import { useMemo } from 'react'
-import useSWR from 'swr'
-import svgToMiniDataURI from 'mini-svg-data-uri'
 import { css } from '@emotion/css'
 import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
 const SIZE = 4
 
 export default function Plot(props: { value?: string; scale?: number }) {
-  const { data } = useSWR(
-    props.value === undefined ? null : `/api/svg/${props.value}`,
-    (url) => fetch(url).then((response) => response.text()),
-    { revalidateOnFocus: false },
-  )
-  const backgroundImage = useMemo(
-    () => (data === undefined ? undefined : `url("${svgToMiniDataURI(data)}")`),
-    [data],
-  )
   const className = css`
     display: inline-block;
     width: ${FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}px;
@@ -25,16 +13,14 @@ export default function Plot(props: { value?: string; scale?: number }) {
     background-position: 0 0;
   `
 
-  return props.value === undefined ? null : backgroundImage === undefined ? (
+  return props.value ? (
     <PlotSvg
       value={props.value}
       className={className}
       width={FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
       height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
     />
-  ) : (
-    <i style={{ backgroundImage, backgroundSize: 'cover' }} className={className} />
-  )
+  ) : null
 }
 
 /**
