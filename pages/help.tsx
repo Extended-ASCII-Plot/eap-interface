@@ -59,7 +59,7 @@ export default function HelpPage() {
       <div>
         <Text> </Text>
       </div>
-      <Text>2. Type your keyboard</Text>
+      <Text>2. Press your keyboard</Text>
     </div>
   )
 }
