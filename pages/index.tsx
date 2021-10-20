@@ -116,6 +116,14 @@ export default function IndexPage() {
           <Text>Extended ASCII Plot</Text>
         </span>
         <span>
+          <a title="Twitter" href="https://twitter.com/RenzHoly" target="_blank">
+            <Dot value={0xf47c} />
+          </a>
+          <Text> </Text>
+          <a title="Discord" href="https://discord.gg/bABrmStQ" target="_blank">
+            <Dot value={0xf57d} />
+          </a>
+          <Text> </Text>
           <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
             <Dot value={0xf207} />
           </a>
