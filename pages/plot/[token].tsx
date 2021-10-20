@@ -10,7 +10,7 @@ import Text from '../../components/text'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT, CONTRACT_ADDRESS } from '../../utils/constants'
 import { useContract } from '../../contexts/contract-context'
 
-const SCALE = 10
+const SCALE = 8
 
 export default function PlotPage() {
   const router = useRouter()
@@ -27,7 +27,7 @@ export default function PlotPage() {
     <div
       className={css`
         margin: 0 auto;
-        width: ${44 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        width: ${(4 * SCALE + 2 + 2) * FONT_WIDTH * FONT_SCALE_FACTOR}px;
         padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
@@ -63,11 +63,40 @@ export default function PlotPage() {
       <div>
         <Text> </Text>
       </div>
-      <Text>Owned by:</Text>
-      <div>
-        <Text> </Text>
+      <div
+        className={css`
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+        `}
+      >
+        <div
+          className={css`
+            width: ${16 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+          `}
+        >
+          <Text>Data:</Text>
+          <div>
+            <Text> </Text>
+          </div>
+          <Text>
+            {token
+              ? ethers.BigNumber.from(token).toHexString().replace(/^0x/, '').toUpperCase()
+              : undefined}
+          </Text>
+        </div>
+        <div
+          className={css`
+            width: ${10 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+          `}
+        >
+          <Text>Owned by:</Text>
+          <div>
+            <Text> </Text>
+          </div>
+          <Text>{owner?.replace(/^0x/, '').toUpperCase()}</Text>
+        </div>
       </div>
-      <Text>{owner}</Text>
     </div>
   )
 }
