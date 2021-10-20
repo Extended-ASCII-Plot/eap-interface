@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Border from '../components/border'
 import Plot from '../components/plot'
 import Text from '../components/text'
@@ -24,6 +25,7 @@ import { useContract } from '../contexts/contract-context'
 
 export default function IndexPage() {
   const wallet = useWallet()
+  const router = useRouter()
   const signer = useMemo(
     () =>
       wallet.ethereum && wallet.account
@@ -42,6 +44,9 @@ export default function IndexPage() {
   const { data: balance, mutate } = useSWR(
     signer && contract ? ['balanceOf', signer._address, contract.address] : null,
     () => contract!.balanceOf(signer!._address),
+  )
+  const { data: nativeBalance } = useSWR(signer ? ['getBalance', signer._address] : null, () =>
+    signer?.getBalance(),
   )
   const event = useMemo(
     () =>
@@ -157,9 +162,19 @@ export default function IndexPage() {
         <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
-            <Button disabled={!value || pending} onClick={handleMint}>
-              {pending ? 'PENDING' : 'MINT'}
-            </Button>
+            nativeBalance?.toNumber() === 0 ? (
+              <Button
+                onClick={() => {
+                  router.push('/help')
+                }}
+              >
+                GET MATIC
+              </Button>
+            ) : (
+              <Button disabled={!value || pending} onClick={handleMint}>
+                {pending ? 'PENDING' : 'MINT'}
+              </Button>
+            )
           ) : (
             <Button
               onClick={async () => {
