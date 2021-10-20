@@ -3,6 +3,11 @@ import type { AppProps } from 'next/app'
 import { injectGlobal } from '@emotion/css'
 import { UseWalletProvider } from 'use-wallet'
 import { reportWebVitals, useAppInit } from '@lukeshay/next-ga'
+import { ethers } from 'ethers'
+import { useMemo } from 'react'
+import { CONTRACT_ADDRESS, JSON_RPC } from '../utils/constants'
+import { ExtendedAsciiPlotPolygon__factory } from '../abi'
+import { ContractProvider } from '../contexts/contract-context'
 
 injectGlobal`
 :root {
@@ -43,6 +48,11 @@ div, span {
 
 export default function App({ Component, pageProps }: AppProps) {
   useAppInit()
+  const provider = useMemo(() => new ethers.providers.JsonRpcBatchProvider(JSON_RPC), [])
+  const contract = useMemo(
+    () => ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, provider),
+    [provider],
+  )
 
   return (
     <>
@@ -53,10 +63,11 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <title>Extended ASCII Plot</title>
       </Head>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <UseWalletProvider>
-        <Component {...pageProps} />
-      </UseWalletProvider>
+      <ContractProvider value={contract}>
+        <UseWalletProvider>
+          <Component {...pageProps} />
+        </UseWalletProvider>
+      </ContractProvider>
     </>
   )
 }

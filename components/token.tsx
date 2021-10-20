@@ -1,17 +1,15 @@
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import useSWR from 'swr'
-import useContract from '../hooks/use-contract'
-import useProvider from '../hooks/use-provider'
+import { useContract } from '../contexts/contract-context'
 import Border from './border'
 import Plot from './plot'
 
 export default function Token(props: { address?: string; index: number; scale?: number }) {
-  const provider = useProvider()
+  const contract = useContract()
   const router = useRouter()
-  const contract = useContract(provider)
   const { data: token } = useSWR(
     [
       props.address ? 'tokenOfOwnerByIndex' : 'tokenByIndex',

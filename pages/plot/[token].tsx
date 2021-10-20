@@ -7,24 +7,20 @@ import Border from '../../components/border'
 import Dot from '../../components/dot'
 import Plot from '../../components/plot'
 import Text from '../../components/text'
-import useContract from '../../hooks/use-contract'
-import useProvider from '../../hooks/use-provider'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT, CONTRACT_ADDRESS } from '../../utils/constants'
+import { useContract } from '../../contexts/contract-context'
 
 const SCALE = 10
 
 export default function PlotPage() {
   const router = useRouter()
   const { token, from } = router.query as { token?: string; from?: string }
-  const provider = useProvider()
-  const contract = useContract(provider)
-  const { data: index } = useSWR(
-    contract && token ? ['indexByToken', contract.address, token] : null,
-    () => contract!.indexByToken(ethers.BigNumber.from(token!)),
+  const contract = useContract()
+  const { data: index } = useSWR(token ? ['indexByToken', contract.address, token] : null, () =>
+    contract.indexByToken(ethers.BigNumber.from(token!)),
   )
-  const { data: owner } = useSWR(
-    contract && token ? ['ownerOf', contract.address, token] : null,
-    () => contract!.ownerOf(ethers.BigNumber.from(token!)),
+  const { data: owner } = useSWR(token ? ['ownerOf', contract.address, token] : null, () =>
+    contract.ownerOf(ethers.BigNumber.from(token!)),
   )
 
   return (

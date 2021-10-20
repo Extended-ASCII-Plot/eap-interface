@@ -4,8 +4,7 @@ import { useMemo } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
 import { ExtendedAsciiPlotPolygon, ExtendedAsciiPlotPolygon__factory } from '../abi'
-import useContract from '../hooks/use-contract'
-import { CHAIN_ID } from '../utils/constants'
+import { CHAIN_ID, CONTRACT_ADDRESS } from '../utils/constants'
 
 export default function Migrate() {
   const wallet = useWallet()
@@ -16,9 +15,13 @@ export default function Migrate() {
         : undefined,
     [wallet],
   )
-  const contract = useContract(signer)
-  const { data: totalSupply } = useSWR(contract ? ['totalSupply', contract?.address] : null, () =>
-    contract?.totalSupply(),
+  const contract = useMemo(
+    () =>
+      signer ? ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, signer) : undefined,
+    [signer],
+  )
+  const { data: totalSupply } = useSWR(contract ? ['totalSupply', contract.address] : null, () =>
+    contract!.totalSupply(),
   )
   console.log(totalSupply)
 

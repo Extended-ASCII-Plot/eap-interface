@@ -1,22 +1,20 @@
 import { css } from '@emotion/css'
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import useSWR from 'swr'
 import Link from 'next/link'
 import { FixedSizeGrid, GridChildComponentProps } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import Text from '../components/text'
 import Token from '../components/token'
-import useContract from '../hooks/use-contract'
-import useProvider from '../hooks/use-provider'
 import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
+import { useContract } from '../contexts/contract-context'
 
 const COLUMNS = 8
 
 const TOKEN_SIZE = 6
 
 export default function GalleryPage() {
-  const provider = useProvider()
-  const contract = useContract(provider)
+  const contract = useContract()
   const { data: totalSupply } = useSWR(contract ? ['totalSupply', contract.address] : null, () =>
     contract!.totalSupply(),
   )

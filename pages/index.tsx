@@ -19,7 +19,7 @@ import {
 import CodeMap from '../components/code-map'
 import Dot from '../components/dot'
 import Token from '../components/token'
-import useContract from '../hooks/use-contract'
+import { ExtendedAsciiPlotPolygon__factory } from '../abi'
 
 export default function IndexPage() {
   const router = useRouter()
@@ -31,7 +31,11 @@ export default function IndexPage() {
         : undefined,
     [wallet],
   )
-  const contract = useContract(signer)
+  const contract = useMemo(
+    () =>
+      signer ? ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, signer) : undefined,
+    [signer],
+  )
   const [value, setValue] = useState('')
   const [pending, setPending] = useState(false)
   const { data: balance, mutate } = useSWR(

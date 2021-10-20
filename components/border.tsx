@@ -1,5 +1,5 @@
 import { css } from '@emotion/css'
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { colorize } from '../utils/encoding'
 import Dot from './dot'
 import Box from './box'
