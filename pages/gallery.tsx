@@ -9,7 +9,7 @@ import Token from '../components/token'
 import { FONT_HEIGHT, FONT_SCALE_FACTOR, FONT_WIDTH } from '../utils/constants'
 import { useContract } from '../contexts/contract-context'
 
-const COLUMNS = 8
+const COLUMNS = 6
 
 const TOKEN_SIZE = 6
 
@@ -49,7 +49,7 @@ export default function GalleryPage() {
               <Text>{Uint8Array.from([0x1b, 0x20])}</Text>
             </a>
           </Link>
-          <Text>Extended ASCII Plot Gallery</Text>
+          <Text>Gallery</Text>
         </span>
         <span>
           <Text>{totalSupply?.toString() || ''}</Text>
