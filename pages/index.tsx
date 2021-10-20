@@ -260,6 +260,11 @@ export default function IndexPage() {
           <div>
             <Text color={0x50}>{Uint8Array.from([0x20, 0x1f])}</Text>
             <Text color={0x60}> CODEBOOK</Text>
+            <Link href="/help" passHref={true}>
+              <a>
+                <Text color={0xa0}> ?</Text>
+              </a>
+            </Link>
           </div>
           <CodeMap />
         </div>
