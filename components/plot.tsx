@@ -45,6 +45,7 @@ export function PlotSvg(props: {
       viewBox={`0 0 ${FONT_WIDTH * SIZE} ${FONT_HEIGHT * SIZE}`}
       width={props.width}
       height={props.height}
+      shapeRendering="crispEdges"
       className={props.className}
     >
       {Array.from({ length: SIZE }).map((_, y) =>

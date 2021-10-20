@@ -65,6 +65,7 @@ function DotSvg(props: { value: number; style?: CSSProperties; className?: strin
         ...props.style,
         backgroundColor: COLOR[background],
       }}
+      shapeRendering="crispEdges"
       className={props.className}
     >
       {MASK.map((line, y) =>
