@@ -15,8 +15,8 @@ const TOKEN_SIZE = 6
 
 export default function GalleryPage() {
   const contract = useContract()
-  const { data: totalSupply } = useSWR(contract ? ['totalSupply', contract.address] : null, () =>
-    contract!.totalSupply(),
+  const { data: totalSupply } = useSWR(['totalSupply', contract.address], () =>
+    contract.totalSupply(),
   )
   const Cell = useCallback(
     ({ columnIndex, rowIndex, style, data }: GridChildComponentProps<{ totalSupply: number }>) =>

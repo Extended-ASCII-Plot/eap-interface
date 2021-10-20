@@ -13,14 +13,14 @@ export default function Token(props: { address?: string; index: number; scale?: 
   const { data: token } = useSWR(
     [
       props.address ? 'tokenOfOwnerByIndex' : 'tokenByIndex',
-      contract!.address,
+      contract.address,
       props.address,
       props.index,
     ],
     () =>
       props.address
-        ? contract!.tokenOfOwnerByIndex(props.address, props.index)
-        : contract!.tokenByIndex(props.index),
+        ? contract.tokenOfOwnerByIndex(props.address, props.index)
+        : contract.tokenByIndex(props.index),
     { revalidateOnFocus: false },
   )
   const value = useMemo(
