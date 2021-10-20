@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 import { useWallet } from 'use-wallet'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import Border from '../components/border'
 import Plot from '../components/plot'
 import Text from '../components/text'
@@ -20,9 +20,9 @@ import CodeMap from '../components/code-map'
 import Dot from '../components/dot'
 import Token from '../components/token'
 import { ExtendedAsciiPlotPolygon__factory } from '../abi'
+import { useContract } from '../contexts/contract-context'
 
 export default function IndexPage() {
-  const router = useRouter()
   const wallet = useWallet()
   const signer = useMemo(
     () =>
@@ -36,6 +36,7 @@ export default function IndexPage() {
       signer ? ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, signer) : undefined,
     [signer],
   )
+  const contractRead = useContract()
   const [value, setValue] = useState('')
   const [pending, setPending] = useState(false)
   const { data: balance, mutate } = useSWR(
@@ -100,6 +101,9 @@ export default function IndexPage() {
       }
     }
   }, [contract, signer, value])
+  const { data: totalSupply } = useSWR(['totalSupply', contractRead.address], () =>
+    contractRead.totalSupply(),
+  )
 
   return (
     <div
@@ -150,16 +154,7 @@ export default function IndexPage() {
           margin-bottom: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
         `}
       >
-        <div>
-          <Button onClick={handleRandom}>RANDOM</Button>
-          <Button
-            onClick={() => {
-              router.push('/gallery')
-            }}
-          >
-            GALLERY
-          </Button>
-        </div>
+        <Button onClick={handleRandom}>RANDOM</Button>
         {wallet.status === 'connected' ? (
           wallet.chainId === CHAIN_ID ? (
             <Button disabled={!value || pending} onClick={handleMint}>
@@ -260,7 +255,22 @@ export default function IndexPage() {
             margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
           `}
         >
-          <Text>{`Owned:${balance.toBigInt().toString()}`}</Text>
+          <div
+            className={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
+            <span>
+              <Text>{`Owned:${balance.toBigInt().toString()}`}</Text>
+            </span>
+            <Link href="/gallery" passHref={true}>
+              <a>
+                <Text>GALLERY </Text>
+                <Text>{Uint8Array.from([0x1a])}</Text>
+              </a>
+            </Link>
+          </div>
           <div
             className={css`
               display: flex;
@@ -270,6 +280,40 @@ export default function IndexPage() {
           >
             {Array.from({ length: balance.toNumber() }).map((_, index) => (
               <Token key={index} address={signer._address} index={balance.toNumber() - index - 1} />
+            ))}
+          </div>
+        </div>
+      ) : totalSupply ? (
+        <div
+          className={css`
+            margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+          `}
+        >
+          <div
+            className={css`
+              display: flex;
+              justify-content: space-between;
+            `}
+          >
+            <span>
+              <Text>Recently minted:</Text>
+            </span>
+            <Link href="/gallery" passHref={true}>
+              <a>
+                <Text>GALLERY </Text>
+                <Text>{Uint8Array.from([0x1a])}</Text>
+              </a>
+            </Link>
+          </div>
+          <div
+            className={css`
+              display: flex;
+              flex-wrap: wrap;
+              margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+            `}
+          >
+            {Array.from({ length: 12 }).map((_, index) => (
+              <Token key={index} index={totalSupply.toNumber() - index - 1} />
             ))}
           </div>
         </div>
