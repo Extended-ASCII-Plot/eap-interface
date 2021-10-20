@@ -81,7 +81,10 @@ export default function PlotPage() {
           </div>
           <Text>
             {token
-              ? ethers.BigNumber.from(token).toHexString().replace(/^0x/, '').toUpperCase()
+              ? ethers.utils
+                  .hexZeroPad(ethers.BigNumber.from(token).toHexString(), 32)
+                  .replace(/^0x/, '')
+                  .toUpperCase()
               : undefined}
           </Text>
         </div>
@@ -94,7 +97,11 @@ export default function PlotPage() {
           <div>
             <Text> </Text>
           </div>
-          <Text>{owner?.replace(/^0x/, '').toUpperCase()}</Text>
+          <Text>
+            {owner
+              ? ethers.utils.hexZeroPad(owner, 20).replace(/^0x/, '').toUpperCase()
+              : undefined}
+          </Text>
         </div>
       </div>
     </div>
