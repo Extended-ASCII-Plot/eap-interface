@@ -21,7 +21,7 @@ export default memo(function Token(props: { address?: string; index: number; sca
       props.address
         ? contract.tokenOfOwnerByIndex(props.address, props.index)
         : contract.tokenByIndex(props.index),
-    { revalidateOnFocus: false },
+    { revalidateOnFocus: false, revalidateIfStale: false },
   )
   const value = useMemo(
     () => (token ? ethers.utils.hexZeroPad(token.toHexString(), 32) : undefined),
