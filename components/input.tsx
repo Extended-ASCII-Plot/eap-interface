@@ -69,6 +69,7 @@ export default function Input(props: {
           const i = cursorY * props.width + cursorX
           props.onChange(props.value.substring(0, i) + '0' + props.value.substring(i + 1))
         }
+        e.preventDefault()
       }}
       className={css`
         position: relative;
