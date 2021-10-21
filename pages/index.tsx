@@ -303,7 +303,7 @@ export default function IndexPage() {
             ))}
           </div>
         </div>
-      ) : totalSupply ? (
+      ) : (
         <div
           className={css`
             margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
@@ -325,19 +325,21 @@ export default function IndexPage() {
               </a>
             </Link>
           </div>
-          <div
-            className={css`
-              display: flex;
-              flex-wrap: wrap;
-              margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
-            `}
-          >
-            {Array.from({ length: 18 }).map((_, index) => (
-              <Token key={index} index={totalSupply.toNumber() - index - 1} />
-            ))}
-          </div>
+          {totalSupply ? (
+            <div
+              className={css`
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+              `}
+            >
+              {Array.from({ length: 18 }).map((_, index) => (
+                <Token key={index} index={totalSupply.toNumber() - index - 1} />
+              ))}
+            </div>
+          ) : null}
         </div>
-      ) : null}
+      )}
     </div>
   )
 }

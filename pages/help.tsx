@@ -9,7 +9,6 @@ export default function HelpPage() {
       className={css`
         margin: 0 auto;
         width: ${24 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
-        height: 100vh;
         padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >

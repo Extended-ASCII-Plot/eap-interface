@@ -27,13 +27,30 @@ export default function GalleryPage() {
       ) : null,
     [],
   )
+  const renderGrid = useCallback(
+    ({ height }) =>
+      totalSupply ? (
+        <FixedSizeGrid
+          columnCount={COLUMNS}
+          columnWidth={TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
+          height={height}
+          rowCount={Math.ceil(totalSupply.toNumber() / 8)}
+          rowHeight={TOKEN_SIZE * FONT_HEIGHT * FONT_SCALE_FACTOR}
+          width={COLUMNS * TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
+          itemData={{ totalSupply: totalSupply.toNumber() }}
+        >
+          {Cell}
+        </FixedSizeGrid>
+      ) : null,
+    [totalSupply, Cell],
+  )
 
   return (
     <div
       className={css`
         margin: 0 auto;
         width: ${(COLUMNS * TOKEN_SIZE + 2) * FONT_WIDTH * FONT_SCALE_FACTOR}px;
-        height: 100vh;
+        height: calc(100vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
         padding: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
       `}
     >
@@ -68,19 +85,7 @@ export default function GalleryPage() {
             defaultWidth={COLUMNS * TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
             disableWidth={true}
           >
-            {({ height }) => (
-              <FixedSizeGrid
-                columnCount={COLUMNS}
-                columnWidth={TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
-                height={height}
-                rowCount={Math.ceil(totalSupply.toNumber() / 8)}
-                rowHeight={TOKEN_SIZE * FONT_HEIGHT * FONT_SCALE_FACTOR}
-                width={COLUMNS * TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
-                itemData={{ totalSupply: totalSupply.toNumber() }}
-              >
-                {Cell}
-              </FixedSizeGrid>
-            )}
+            {renderGrid}
           </AutoSizer>
         </div>
       ) : null}
