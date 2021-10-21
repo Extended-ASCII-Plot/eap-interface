@@ -316,7 +316,7 @@ export default function IndexPage() {
             `}
           >
             <span>
-              <Text>Recently minted:</Text>
+              <Text>Minted by others:</Text>
             </span>
             <Link href="/gallery" passHref={true}>
               <a>
@@ -332,7 +332,7 @@ export default function IndexPage() {
               margin-top: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
             `}
           >
-            {Array.from({ length: 12 }).map((_, index) => (
+            {Array.from({ length: 18 }).map((_, index) => (
               <Token key={index} index={totalSupply.toNumber() - index - 1} />
             ))}
           </div>
