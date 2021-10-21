@@ -1,14 +1,22 @@
 import { css } from '@emotion/css'
-import { CSSProperties, memo, useMemo } from 'react'
+import { useMemo } from 'react'
+import { renderToStaticMarkup } from 'react-dom/server'
+import svgToMiniDataURI from 'mini-svg-data-uri'
+import useSWR from 'swr'
 import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
-export default memo(function Dot(props: {
+export default function Dot(props: {
   value?: number
   top?: number
   right?: number
   bottom?: number
   left?: number
 }) {
+  const { data: backgroundImage } = useSWR(
+    props.value === undefined ? null : ['dot', props.value],
+    () => `url("${svgToMiniDataURI(renderToStaticMarkup(<DotSvg value={props.value!} />))}")`,
+    { revalidateOnFocus: false, revalidateIfStale: false },
+  )
   const style = useMemo(
     () => ({
       top: props?.top === undefined ? undefined : props.top * FONT_SCALE_FACTOR * FONT_HEIGHT,
@@ -23,14 +31,14 @@ export default memo(function Dot(props: {
         props.left !== undefined
           ? ('absolute' as 'absolute')
           : undefined,
+      backgroundImage,
     }),
-    [props.bottom, props.left, props.right, props.top],
+    [props.bottom, props.left, props.right, props.top, backgroundImage],
   )
 
-  return props.value === undefined ? null : (
-    <DotSvg
+  return (
+    <i
       style={style}
-      value={props.value}
       className={css`
         display: inline-block;
         width: ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
@@ -40,7 +48,7 @@ export default memo(function Dot(props: {
       `}
     />
   )
-})
+}
 
 /**
  * 16 bit:
@@ -48,7 +56,7 @@ export default memo(function Dot(props: {
  * 8~11: foreground
  * 12~15: background
  */
-function DotSvg(props: { value: number; style?: CSSProperties; className?: string }) {
+function DotSvg(props: { value: number }) {
   const { value } = props
   const pixel = ASCII[(value & 0xff00) >> 0x8]
   const foreground = (value & 0xf0) >> 0x4
@@ -62,11 +70,9 @@ function DotSvg(props: { value: number; style?: CSSProperties; className?: strin
       width={FONT_WIDTH * FONT_SCALE_FACTOR}
       height={FONT_HEIGHT * FONT_SCALE_FACTOR}
       style={{
-        ...props.style,
         backgroundColor: COLOR[background],
       }}
       shapeRendering="crispEdges"
-      className={props.className}
     >
       {MASK.map((line, y) =>
         line.map((n, x) =>

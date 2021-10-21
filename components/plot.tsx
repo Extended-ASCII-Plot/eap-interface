@@ -1,11 +1,13 @@
 import { ethers } from 'ethers'
 import { css } from '@emotion/css'
-import { memo } from 'react'
+import svgToMiniDataURI from 'mini-svg-data-uri'
+import { renderToStaticMarkup } from 'react-dom/server'
+import useSWR from 'swr'
 import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
 const SIZE = 4
 
-export default memo(function Plot(props: { value?: string; scale?: number }) {
+export default function Plot(props: { value?: string; scale?: number }) {
   const className = css`
     display: inline-block;
     width: ${FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}px;
@@ -13,16 +15,23 @@ export default memo(function Plot(props: { value?: string; scale?: number }) {
     background-repeat: no-repeat;
     background-position: 0 0;
   `
+  const { data: backgroundImage } = useSWR(
+    props.value === undefined ? null : ['plot', props.value],
+    () =>
+      `url("${svgToMiniDataURI(
+        renderToStaticMarkup(
+          <PlotSvg
+            value={props.value!}
+            width={FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
+            height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
+          />,
+        ),
+      )}")`,
+    { revalidateOnFocus: false, revalidateIfStale: false },
+  )
 
-  return props.value ? (
-    <PlotSvg
-      value={props.value}
-      className={className}
-      width={FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
-      height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
-    />
-  ) : null
-})
+  return props.value ? <i style={{ backgroundImage }} className={className} /> : null
+}
 
 /**
  * split uint256 into 16 x uint16
