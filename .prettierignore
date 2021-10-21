@@ -6,3 +6,4 @@ nginx.conf
 .next/
 out/
 abi/
+public/

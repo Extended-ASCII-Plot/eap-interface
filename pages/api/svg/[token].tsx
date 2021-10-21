@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { renderToStaticMarkup } from 'react-dom/server'
-import { PlotSvg } from '../../../components/plot'
+import { PlotSvg } from '../../../components/svg'
 import { FONT_WIDTH, FONT_SCALE_FACTOR, FONT_HEIGHT } from '../../../utils/constants'
 
 const SCALE = 32

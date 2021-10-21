@@ -3,7 +3,9 @@ import { useMemo } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import svgToMiniDataURI from 'mini-svg-data-uri'
 import useSWR from 'swr'
-import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
+import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR } from '../utils/constants'
+import { useRender } from '../contexts/render-context'
+import { DotSvg } from './svg'
 
 export default function Dot(props: {
   value?: number
@@ -12,9 +14,13 @@ export default function Dot(props: {
   bottom?: number
   left?: number
 }) {
+  const render = useRender()
   const { data: backgroundImage } = useSWR(
     props.value === undefined ? null : ['dot', props.value],
-    () => `url("${svgToMiniDataURI(renderToStaticMarkup(<DotSvg value={props.value!} />))}")`,
+    () =>
+      render
+        ? render.renderDot(props.value!)
+        : `url("${svgToMiniDataURI(renderToStaticMarkup(<DotSvg value={props.value!} />))}")`,
     { revalidateOnFocus: false, revalidateIfStale: false },
   )
   const style = useMemo(
@@ -47,38 +53,5 @@ export default function Dot(props: {
         background-position: 0 0;
       `}
     />
-  )
-}
-
-/**
- * 16 bit:
- * 0~7: ascii
- * 8~11: foreground
- * 12~15: background
- */
-function DotSvg(props: { value: number }) {
-  const { value } = props
-  const pixel = ASCII[(value & 0xff00) >> 0x8]
-  const foreground = (value & 0xf0) >> 0x4
-  const background = value & 0xf
-
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 ${FONT_WIDTH} ${FONT_HEIGHT}`}
-      fill={COLOR[foreground]}
-      width={FONT_WIDTH * FONT_SCALE_FACTOR}
-      height={FONT_HEIGHT * FONT_SCALE_FACTOR}
-      style={{
-        backgroundColor: COLOR[background],
-      }}
-      shapeRendering="crispEdges"
-    >
-      {MASK.map((line, y) =>
-        line.map((n, x) =>
-          n & pixel ? <rect key={`${x}-${y}`} x={x} y={y} width={1} height={1} /> : null,
-        ),
-      )}
-    </svg>
   )
 }

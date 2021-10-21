@@ -4,10 +4,13 @@ import { injectGlobal } from '@emotion/css'
 import { UseWalletProvider } from 'use-wallet'
 import { reportWebVitals, useAppInit } from '@lukeshay/next-ga'
 import { ethers } from 'ethers'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
+import * as Comlink from 'comlink'
 import { CONTRACT_ADDRESS, JSON_RPC } from '../utils/constants'
 import { ExtendedAsciiPlotPolygon__factory } from '../abi'
 import { ContractProvider } from '../contexts/contract-context'
+import { RenderProvider } from '../contexts/render-context'
+import { RenderWorkerApi } from '../workers/render.worker'
 
 injectGlobal`
 :root {
@@ -53,6 +56,13 @@ export default function App({ Component, pageProps }: AppProps) {
     () => ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, provider),
     [provider],
   )
+  const workerRef = useRef<Worker>()
+  const comlinkWorkerRef = useRef<Comlink.Remote<RenderWorkerApi>>()
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('../workers/render.worker', import.meta.url))
+    comlinkWorkerRef.current = Comlink.wrap<RenderWorkerApi>(workerRef.current)
+    return workerRef.current?.terminate
+  }, [])
 
   return (
     <>
@@ -63,11 +73,13 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <title>Extended ASCII Plot</title>
       </Head>
-      <ContractProvider value={contract}>
-        <UseWalletProvider>
-          <Component {...pageProps} />
-        </UseWalletProvider>
-      </ContractProvider>
+      <RenderProvider value={comlinkWorkerRef.current}>
+        <ContractProvider value={contract}>
+          <UseWalletProvider>
+            <Component {...pageProps} />
+          </UseWalletProvider>
+        </ContractProvider>
+      </RenderProvider>
     </>
   )
 }
