@@ -1,5 +1,5 @@
 import { css } from '@emotion/css'
-import { ReactNode } from 'react'
+import { memo, ReactNode } from 'react'
 import { colorize } from '../utils/encoding'
 import Dot from './dot'
 import Box from './box'
@@ -11,7 +11,7 @@ const defaultBorder: [[number, number, number], [number, null, number], [number,
     [0x99, 0x96, 0x9a],
   ]
 
-export default function Border(props: {
+export default memo(function Border(props: {
   width: number
   height: number
   /**
@@ -57,4 +57,4 @@ export default function Border(props: {
       </Box>
     </Box>
   )
-}
+})

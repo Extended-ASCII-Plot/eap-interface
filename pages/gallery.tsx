@@ -34,7 +34,7 @@ export default function GalleryPage() {
           columnCount={COLUMNS}
           columnWidth={TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
           height={height}
-          rowCount={Math.ceil(totalSupply.toNumber() / 8)}
+          rowCount={Math.ceil(totalSupply.toNumber() / COLUMNS)}
           rowHeight={TOKEN_SIZE * FONT_HEIGHT * FONT_SCALE_FACTOR}
           width={COLUMNS * TOKEN_SIZE * FONT_WIDTH * FONT_SCALE_FACTOR}
           itemData={{ totalSupply: totalSupply.toNumber() }}

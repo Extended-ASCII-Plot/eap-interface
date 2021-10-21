@@ -1,10 +1,11 @@
 import { ethers } from 'ethers'
 import { css } from '@emotion/css'
+import { memo } from 'react'
 import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
 const SIZE = 4
 
-export default function Plot(props: { value?: string; scale?: number }) {
+export default memo(function Plot(props: { value?: string; scale?: number }) {
   const className = css`
     display: inline-block;
     width: ${FONT_WIDTH * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}px;
@@ -21,7 +22,7 @@ export default function Plot(props: { value?: string; scale?: number }) {
       height={FONT_HEIGHT * FONT_SCALE_FACTOR * (props.scale || 1) * SIZE}
     />
   ) : null
-}
+})
 
 /**
  * split uint256 into 16 x uint16

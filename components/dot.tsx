@@ -1,8 +1,8 @@
-import { css, cx } from '@emotion/css'
-import { CSSProperties, useMemo } from 'react'
+import { css } from '@emotion/css'
+import { CSSProperties, memo, useMemo } from 'react'
 import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR, MASK, COLOR, ASCII } from '../utils/constants'
 
-export default function Dot(props: {
+export default memo(function Dot(props: {
   value?: number
   top?: number
   right?: number
@@ -16,31 +16,31 @@ export default function Dot(props: {
       bottom:
         props?.bottom === undefined ? undefined : props.bottom * FONT_SCALE_FACTOR * FONT_HEIGHT,
       left: props?.left === undefined ? undefined : props.left * FONT_SCALE_FACTOR * FONT_WIDTH,
+      position:
+        props.top !== undefined ||
+        props.right !== undefined ||
+        props.bottom !== undefined ||
+        props.left !== undefined
+          ? ('absolute' as 'absolute')
+          : undefined,
     }),
     [props.bottom, props.left, props.right, props.top],
   )
-  const className = cx(
-    css`
-      display: inline-block;
-      width: ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
-      height: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
-      background-repeat: no-repeat;
-      background-position: 0 0;
-    `,
-    props.top !== undefined ||
-      props.right !== undefined ||
-      props.bottom !== undefined ||
-      props.left !== undefined
-      ? css`
-          position: absolute;
-        `
-      : undefined,
-  )
 
   return props.value === undefined ? null : (
-    <DotSvg style={style} value={props.value} className={className} />
+    <DotSvg
+      style={style}
+      value={props.value}
+      className={css`
+        display: inline-block;
+        width: ${FONT_WIDTH * FONT_SCALE_FACTOR}px;
+        height: ${FONT_HEIGHT * FONT_SCALE_FACTOR}px;
+        background-repeat: no-repeat;
+        background-position: 0 0;
+      `}
+    />
   )
-}
+})
 
 /**
  * 16 bit:

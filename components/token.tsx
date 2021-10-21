@@ -1,13 +1,13 @@
 import { ethers } from 'ethers'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import useSWR from 'swr'
 import { useContract } from '../contexts/contract-context'
 import Border from './border'
 import Plot from './plot'
 
-export default function Token(props: { address?: string; index: number; scale?: number }) {
+export default memo(function Token(props: { address?: string; index: number; scale?: number }) {
   const contract = useContract()
   const router = useRouter()
   const { data: token } = useSWR(
@@ -37,4 +37,4 @@ export default function Token(props: { address?: string; index: number; scale?: 
       </Link>
     </Border>
   )
-}
+})
