@@ -1,11 +1,9 @@
 import { css } from '@emotion/css'
 import { useMemo } from 'react'
-import { renderToStaticMarkup } from 'react-dom/server'
-import svgToMiniDataURI from 'mini-svg-data-uri'
 import useSWR from 'swr'
 import { FONT_HEIGHT, FONT_WIDTH, FONT_SCALE_FACTOR } from '../utils/constants'
 import { useRender } from '../contexts/render-context'
-import { DotSvg } from './svg'
+import { renderDot } from '../utils/svg'
 
 export default function Dot(props: {
   value?: number
@@ -17,10 +15,7 @@ export default function Dot(props: {
   const render = useRender()
   const { data: backgroundImage } = useSWR(
     props.value === undefined ? null : ['dot', props.value],
-    () =>
-      render
-        ? render.renderDot(props.value!)
-        : `url("${svgToMiniDataURI(renderToStaticMarkup(<DotSvg value={props.value!} />))}")`,
+    () => (render ? render.renderDot(props.value!) : renderDot(props.value!)),
     { revalidateOnFocus: false, revalidateIfStale: false },
   )
   const style = useMemo(

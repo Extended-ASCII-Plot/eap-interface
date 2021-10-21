@@ -1,10 +1,8 @@
 import { css } from '@emotion/css'
-import svgToMiniDataURI from 'mini-svg-data-uri'
-import { renderToStaticMarkup } from 'react-dom/server'
 import useSWR from 'swr'
 import { FONT_WIDTH, FONT_HEIGHT, FONT_SCALE_FACTOR } from '../utils/constants'
 import { useRender } from '../contexts/render-context'
-import { PlotSvg } from './svg'
+import { renderPlot } from '../utils/svg'
 
 const PLOT_SIZE = 4
 
@@ -17,9 +15,7 @@ export default function Plot(props: { value?: string; scale?: number }) {
     () =>
       render
         ? render.renderPlot(props.value!, width, height)
-        : `url("${svgToMiniDataURI(
-            renderToStaticMarkup(<PlotSvg value={props.value!} width={width} height={height} />),
-          )}")`,
+        : renderPlot(props.value!, width, height),
     { revalidateOnFocus: false, revalidateIfStale: false },
   )
 
