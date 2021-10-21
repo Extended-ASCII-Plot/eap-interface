@@ -21,7 +21,7 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     description: `\`\`\`\n${chunk(buf.toString('hex').toUpperCase().split(''), 16)
       .map((c16) => c16.join(''))
       .join('\n')}\n\`\`\``,
-    image: `${BASE_URL}api/png/0x${buf.toString('hex')}`,
+    image: `${BASE_URL}api/svg/0x${buf.toString('hex')}`,
     external_url: `${BASE_URL}plot/0x${buf.toString('hex')}`,
     background_color: '000000',
     attributes: [
