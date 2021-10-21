@@ -50,6 +50,7 @@ export default function PlotPage() {
           title="OpenSea"
           href={`https://opensea.io/assets/matic/${CONTRACT_ADDRESS}/${token}`}
           target="_blank"
+          rel="noopener noreferrer"
         >
           <Dot value={0xfa7c} />
         </a>

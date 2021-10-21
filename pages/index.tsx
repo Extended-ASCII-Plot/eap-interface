@@ -129,15 +129,30 @@ export default function IndexPage() {
           <Text>Extended ASCII Plot</Text>
         </span>
         <span>
-          <a title="Twitter" href="https://twitter.com/RenzHoly" target="_blank">
+          <a
+            title="Twitter"
+            href="https://twitter.com/RenzHoly"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Dot value={0xf47c} />
           </a>
           <Text> </Text>
-          <a title="Discord" href="https://discord.gg/bABrmStQ" target="_blank">
+          <a
+            title="Discord"
+            href="https://discord.gg/bABrmStQ"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Dot value={0xf57d} />
           </a>
           <Text> </Text>
-          <a title="GitHub" href="https://github.com/Extended-ASCII-Plot" target="_blank">
+          <a
+            title="GitHub"
+            href="https://github.com/Extended-ASCII-Plot"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Dot value={0xf207} />
           </a>
           <Text> </Text>
@@ -145,6 +160,7 @@ export default function IndexPage() {
             title="OpenSea"
             href="https://opensea.io/collection/extended-ascii-plot"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <Dot value={0xfa7c} />
           </a>

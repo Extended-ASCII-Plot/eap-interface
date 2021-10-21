@@ -34,6 +34,7 @@ export default function HelpPage() {
       <a
         href="https://app.uniswap.org/#/swap?inputCurrency=ETH&outputCurrency=0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0"
         target="_blank"
+        rel="noopener noreferrer"
       >
         <Text>{Uint8Array.from([0x20, 0x1a])}</Text>
       </a>
@@ -41,7 +42,7 @@ export default function HelpPage() {
         <Text> </Text>
       </div>
       <Text>2. Bridge to Polygon</Text>
-      <a href="https://wallet.polygon.technology/bridge" target="_blank">
+      <a href="https://wallet.polygon.technology/bridge" target="_blank" rel="noopener noreferrer">
         <Text>{Uint8Array.from([0x20, 0x1a])}</Text>
       </a>
       <div>
