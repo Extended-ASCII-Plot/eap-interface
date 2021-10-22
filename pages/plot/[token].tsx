@@ -34,8 +34,8 @@ export default function PlotPage(props: { token: string }) {
   return (
     <>
       <Head>
-        <meta key="og:image" property="og:image" content={`${BASE_URL}api/svg/${token}`} />
-        <meta key="twitter:image" name="twitter:image" content={`${BASE_URL}api/svg/${token}`} />
+        <meta key="og:image" property="og:image" content={`${BASE_URL}api/png/${token}`} />
+        <meta key="twitter:image" name="twitter:image" content={`${BASE_URL}api/png/${token}`} />
       </Head>
       <div
         className={css`
