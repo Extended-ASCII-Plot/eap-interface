@@ -5,6 +5,7 @@ import useSWR from 'swr'
 import Link from 'next/link'
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
+import { useMemo } from 'react'
 import Border from '../../components/border'
 import Dot from '../../components/dot'
 import Plot from '../../components/plot'
@@ -24,11 +25,31 @@ export default function PlotPage(props: { token: string }) {
   const router = useRouter()
   const { token = props.token, from } = router.query as { token?: string; from?: string }
   const contract = useContract()
-  const { data: index } = useSWR(token ? ['indexByToken', contract.address, token] : null, () =>
-    contract.indexByToken(ethers.BigNumber.from(token!)),
+  const { data: index } = useSWR(
+    token ? ['indexByToken', contract.address, token] : null,
+    () => contract.indexByToken(ethers.BigNumber.from(token!)),
+    { revalidateOnFocus: false, revalidateIfStale: false },
   )
-  const { data: owner } = useSWR(token ? ['ownerOf', contract.address, token] : null, () =>
-    contract.ownerOf(ethers.BigNumber.from(token!)),
+  const { data: owner } = useSWR(
+    token ? ['ownerOf', contract.address, token] : null,
+    () => contract.ownerOf(ethers.BigNumber.from(token!)),
+    { revalidateOnFocus: false, revalidateIfStale: false },
+  )
+  const { data: txs } = useSWR<{ result: { timeStamp: string; tokenID: string }[] | string }>(
+    owner ? ['txs', owner] : null,
+    () =>
+      fetch(
+        `https://api.polygonscan.com/api?module=account&action=tokennfttx&contractaddress=${CONTRACT_ADDRESS}&address=${owner}&sort=asc`,
+      ).then((response) => response.json()),
+    { revalidateOnFocus: false, revalidateIfStale: false },
+  )
+  const timestamp = useMemo(
+    () =>
+      typeof txs?.result === 'string'
+        ? undefined
+        : txs?.result.find((item) => item.tokenID === ethers.BigNumber.from(token).toString())
+            ?.timeStamp,
+    [txs, token],
   )
 
   return (
@@ -114,6 +135,26 @@ export default function PlotPage(props: { token: string }) {
             <Text>
               {owner
                 ? ethers.utils.hexZeroPad(owner, 20).replace(/^0x/, '').toUpperCase()
+                : undefined}
+            </Text>
+          </div>
+          <div
+            className={css`
+              width: ${4 * FONT_WIDTH * FONT_SCALE_FACTOR}px;
+            `}
+          >
+            <Text>UTC:</Text>
+            <div>
+              <Text> </Text>
+            </div>
+            <Text>
+              {timestamp
+                ? new Date(parseInt(timestamp, 10) * 1000)
+                    .toISOString()
+                    .replace('T', '')
+                    .replaceAll('-', '')
+                    .replaceAll(':', '')
+                    .replace(/.000Z$/, '00')
                 : undefined}
             </Text>
           </div>
