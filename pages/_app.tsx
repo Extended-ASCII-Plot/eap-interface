@@ -6,7 +6,7 @@ import { reportWebVitals, useAppInit } from '@lukeshay/next-ga'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef } from 'react'
 import * as Comlink from 'comlink'
-import { CONTRACT_ADDRESS, JSON_RPC } from '../utils/constants'
+import { BASE_URL, CONTRACT_ADDRESS, DESCRIPTION, JSON_RPC } from '../utils/constants'
 import { ExtendedAsciiPlotPolygon__factory } from '../abi'
 import { ContractProvider } from '../contexts/contract-context'
 import { RenderProvider } from '../contexts/render-context'
@@ -72,6 +72,28 @@ export default function App({ Component, pageProps }: AppProps) {
           content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
         />
         <title>Extended ASCII Plot</title>
+        <meta name="description" content={DESCRIPTION} />
+
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:url" content={BASE_URL} />
+        <meta name="twitter:title" content="Extended ASCII Plot" />
+        <meta name="twitter:description" content={DESCRIPTION} />
+        <meta
+          key="twitter:image"
+          name="twitter:image"
+          content={`${BASE_URL}static/icons/android-chrome-192x192.png`}
+        />
+        <meta name="twitter:creator" content="@RenzHoly" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Extended ASCII Plot" />
+        <meta property="og:description" content={DESCRIPTION} />
+        <meta property="og:site_name" content="Extended ASCII Plot" />
+        <meta property="og:url" content={BASE_URL} />
+        <meta
+          key="og:image"
+          property="og:image"
+          content={`${BASE_URL}static/icons/touch-icon-iphone.png`}
+        />
       </Head>
       <RenderProvider value={comlinkWorkerRef.current}>
         <ContractProvider value={contract}>

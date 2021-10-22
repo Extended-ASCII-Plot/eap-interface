@@ -2,7 +2,6 @@ import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/do
 import createEmotionServer from '@emotion/server/create-instance'
 import { cache } from '@emotion/css'
 import { GoogleAnalytics } from '@lukeshay/next-ga'
-import { BASE_URL, DESCRIPTION } from '../utils/constants'
 
 const renderStatic = async (html: string) => {
   const { extractCritical } = createEmotionServer(cache)
@@ -43,7 +42,6 @@ export default class MyDocument extends Document {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="default" />
           <meta name="apple-mobile-web-app-title" content="Extended ASCII Plot" />
-          <meta name="description" content={DESCRIPTION} />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#f9f7f1" />
@@ -66,21 +64,6 @@ export default class MyDocument extends Document {
           <link rel="mask-icon" href="/static/icons/icon-512x512.svg" color="#f9f7f1" />
           <link rel="shortcut icon" href="/favicon.ico" />
 
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:url" content={BASE_URL} />
-          <meta name="twitter:title" content="Extended ASCII Plot" />
-          <meta name="twitter:description" content={DESCRIPTION} />
-          <meta
-            name="twitter:image"
-            content={`${BASE_URL}static/icons/android-chrome-192x192.png`}
-          />
-          <meta name="twitter:creator" content="@RenzHoly" />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" content="Extended ASCII Plot" />
-          <meta property="og:description" content={DESCRIPTION} />
-          <meta property="og:site_name" content="Extended ASCII Plot" />
-          <meta property="og:url" content={BASE_URL} />
-          <meta property="og:image" content={`${BASE_URL}static/icons/touch-icon-iphone.png`} />
           <GoogleAnalytics />
         </Head>
         <body>
