@@ -15,7 +15,8 @@
     "noEmit": true,
     "jsx": "preserve",
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "incremental": true
   },
   "include": ["**/*", "next.config.js", "next-env.d.ts"],
   "exclude": ["node_modules"]

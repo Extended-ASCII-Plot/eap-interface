@@ -14,6 +14,7 @@ module.exports = withPWA({
       ...config,
       experiments: {
         topLevelAwait: true,
+        layers: true,
       },
     }
   },

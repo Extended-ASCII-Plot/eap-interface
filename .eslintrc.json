@@ -1,5 +1,5 @@
 {
-  "extends": ["plugin:react-hooks/recommended", "prettier"],
+  "extends": ["plugin:react-hooks/recommended", "prettier", "plugin:@next/next/recommended"],
   "plugins": ["prettier", "react", "import", "react-hooks"],
   "env": {
     "browser": true
