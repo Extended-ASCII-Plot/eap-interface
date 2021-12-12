@@ -83,7 +83,7 @@ export default function App({ Component, pageProps }: AppProps) {
           name="twitter:image"
           content={`${BASE_URL}static/icons/android-chrome-192x192.png`}
         />
-        <meta name="twitter:creator" content="@RenzHoly" />
+        <meta name="twitter:creator" content="@aliez_eth" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Extended ASCII Plot" />
         <meta property="og:description" content={DESCRIPTION} />
