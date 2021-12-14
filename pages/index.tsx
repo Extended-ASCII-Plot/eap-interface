@@ -146,7 +146,7 @@ export default function IndexPage() {
           <Text> </Text>
           <a
             title="Discord"
-            href="https://discord.gg/bABrmStQ"
+            href="https://discord.gg/btyVYANhNy"
             target="_blank"
             rel="noopener noreferrer"
           >
