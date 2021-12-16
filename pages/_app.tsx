@@ -97,7 +97,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <RenderProvider value={comlinkWorkerRef.current}>
         <ContractProvider value={contract}>
-          <UseWalletProvider autoConnect={true}>
+          <UseWalletProvider>
             <Component {...pageProps} />
           </UseWalletProvider>
         </ContractProvider>
