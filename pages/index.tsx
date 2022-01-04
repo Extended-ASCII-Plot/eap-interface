@@ -99,7 +99,7 @@ export default function IndexPage() {
         confirm('Token already minted.')
       } catch {
         await contract.mint(signer._address, `0x${value}`, {
-          value: ethers.utils.parseEther('0'),
+          value: ethers.utils.parseEther('1'),
         })
         localStorage.setItem('value', value)
         setPending(true)
