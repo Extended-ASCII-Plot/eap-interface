@@ -399,4 +399,4 @@ export const ASCII = [
 ]
 
 export const DESCRIPTION =
-  'Extended ASCII Plot (EAP) is user created ASCII Art and stored on chain. Everyone can mint via https://eap.wtf/ for free.'
+  'Extended ASCII Plot (EAP) is user created textmode art fully stored on chain.'

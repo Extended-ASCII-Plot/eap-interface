@@ -73,7 +73,6 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <title>Extended ASCII Plot</title>
         <meta name="description" content={DESCRIPTION} />
-
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:url" content={BASE_URL} />
         <meta name="twitter:title" content="Extended ASCII Plot" />

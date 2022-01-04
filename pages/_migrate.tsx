@@ -103,7 +103,7 @@ function Token(props: { index: number; contract: ExtendedAsciiPlotPolygon }) {
         disabled={!!newOwner && newOwner === owner}
         onClick={() => {
           if (owner && value) {
-            newContract?.mint(owner, value)
+            newContract?.mint(owner, value, { value: ethers.utils.parseEther('1') })
           }
         }}
       >
