@@ -18,7 +18,7 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface ExtendedAsciiPlotPolygonInterface extends utils.Interface {
+export interface ExtendedAsciiPlotInterface extends utils.Interface {
   functions: {
     "ERC712_VERSION()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -43,7 +43,6 @@ export interface ExtendedAsciiPlotPolygonInterface extends utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseTokenURI(string)": FunctionFragment;
     "setMintFee(uint256)": FunctionFragment;
-    "setProxyRegistryAddress(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
@@ -131,10 +130,6 @@ export interface ExtendedAsciiPlotPolygonInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "setMintFee",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setProxyRegistryAddress",
-    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -230,10 +225,6 @@ export interface ExtendedAsciiPlotPolygonInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setMintFee", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setProxyRegistryAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
@@ -313,12 +304,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface ExtendedAsciiPlotPolygon extends BaseContract {
+export interface ExtendedAsciiPlot extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ExtendedAsciiPlotPolygonInterface;
+  interface: ExtendedAsciiPlotInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -444,11 +435,6 @@ export interface ExtendedAsciiPlotPolygon extends BaseContract {
 
     setMintFee(
       _fee: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setProxyRegistryAddress(
-      _proxyRegistryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -595,11 +581,6 @@ export interface ExtendedAsciiPlotPolygon extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setProxyRegistryAddress(
-    _proxyRegistryAddress: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -732,11 +713,6 @@ export interface ExtendedAsciiPlotPolygon extends BaseContract {
     ): Promise<void>;
 
     setMintFee(_fee: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    setProxyRegistryAddress(
-      _proxyRegistryAddress: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -938,11 +914,6 @@ export interface ExtendedAsciiPlotPolygon extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setProxyRegistryAddress(
-      _proxyRegistryAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1095,11 +1066,6 @@ export interface ExtendedAsciiPlotPolygon extends BaseContract {
 
     setMintFee(
       _fee: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setProxyRegistryAddress(
-      _proxyRegistryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
