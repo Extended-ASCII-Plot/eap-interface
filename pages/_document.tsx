@@ -1,7 +1,6 @@
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import createEmotionServer from '@emotion/server/create-instance'
 import { cache } from '@emotion/css'
-import { GoogleAnalytics } from '@lukeshay/next-ga'
 
 const renderStatic = async (html: string) => {
   const { extractCritical } = createEmotionServer(cache)
@@ -63,8 +62,6 @@ export default class MyDocument extends Document {
           <link rel="manifest" href="/static/manifest.json" />
           <link rel="mask-icon" href="/static/icons/icon-512x512.svg" color="#f9f7f1" />
           <link rel="shortcut icon" href="/favicon.ico" />
-
-          <GoogleAnalytics />
         </Head>
         <body>
           <Main />

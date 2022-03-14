@@ -2,7 +2,6 @@ import Head from 'next/head'
 import type { AppProps } from 'next/app'
 import { injectGlobal } from '@emotion/css'
 import { UseWalletProvider } from 'use-wallet'
-import { reportWebVitals, useAppInit } from '@lukeshay/next-ga'
 import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef } from 'react'
 import * as Comlink from 'comlink'
@@ -50,7 +49,6 @@ div, span {
 `
 
 export default function App({ Component, pageProps }: AppProps) {
-  useAppInit()
   const provider = useMemo(() => new ethers.providers.JsonRpcBatchProvider(JSON_RPC), [])
   const contract = useMemo(
     () => ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, provider),
@@ -104,5 +102,3 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   )
 }
-
-export { reportWebVitals }
