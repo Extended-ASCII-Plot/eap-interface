@@ -125,7 +125,7 @@ export const JSON_RPC = process.env.NEXT_PUBLIC_JSON_RPC
 export const FEE_RECIPIENT = process.env.FEE_RECIPIENT
 
 export const ASCII = [
-  0xffffffffffffffffn,
+  0x8142241818244281n,
   0x7ed7dbfbfbdbd77en,
   0x7edbd7f7f7d7db7en,
   0x70f8fc7efcf87000n,
