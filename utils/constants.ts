@@ -1,3 +1,4 @@
+import { chunk, padEnd, padStart } from 'lodash'
 import invariant from 'tiny-invariant'
 
 export const FONT_HEIGHT = 8
@@ -397,6 +398,27 @@ export const ASCII = [
   0x0303030303030303n,
   0x030303030303ffffn,
 ]
+
+console.log(
+  ASCII.map((a) =>
+    chunk(
+      padStart(
+        BigInt('0b' + padEnd(a.toString(2).split('').slice().reverse().join(''), 64, '0')).toString(
+          16,
+        ),
+        16,
+        '0',
+      ).split(''),
+      2,
+    )
+      .slice()
+      .reverse()
+      .map((c) => c[0] + c[1])
+      .join(''),
+  )
+    .join('')
+    .toUpperCase(),
+)
 
 export const DESCRIPTION =
   'Extended ASCII Plot (EAP) is user created textmode art fully stored on chain.'
