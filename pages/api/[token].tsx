@@ -14,7 +14,7 @@ export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse
     ethers.utils.hexZeroPad(ethers.BigNumber.from(token).toHexString(), 32).replace(/^0x/, ''),
     'hex',
   )
-  const index = await contract.indexByToken(ethers.BigNumber.from(token))
+  const index = await contract.tokensIndex(ethers.BigNumber.from(token))
 
   res.json({
     name: `EAP #${index}`,

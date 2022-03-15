@@ -90,21 +90,22 @@ export default function IndexPage() {
       handleRandom()
     }
   }, [handleRandom])
+  const { data: price } = useSWR(contract ? ['price'] : null, () => contract!.price())
   const handleMint = useCallback(async () => {
-    if (contract && signer) {
+    if (contract && signer && price) {
       try {
         // throw if does now have owner
         await contract.ownerOf(`0x${value}`)
         confirm('Token already minted.')
       } catch {
         await contract.mint(signer._address, `0x${value}`, {
-          value: ethers.utils.parseEther('1'),
+          value: price,
         })
         localStorage.setItem('value', value)
         setPending(true)
       }
     }
-  }, [contract, signer, value])
+  }, [contract, signer, value, price])
   const { data: totalSupply } = useSWR(['totalSupply', contractRead.address], () =>
     contractRead.totalSupply(),
   )
@@ -189,7 +190,7 @@ export default function IndexPage() {
                   router.push('/help')
                 }}
               >
-                GET MATIC
+                NO ETH
               </Button>
             ) : (
               <Button disabled={!value || pending} onClick={handleMint}>
@@ -202,25 +203,9 @@ export default function IndexPage() {
                 if (!signer) {
                   return
                 }
-                try {
-                  await signer.provider.send('wallet_switchEthereumChain', [
-                    { chainId: `0x${CHAIN_ID.toString(16)}` },
-                  ])
-                } catch {
-                  await signer.provider.send('wallet_addEthereumChain', [
-                    {
-                      chainId: `0x${CHAIN_ID.toString(16)}`,
-                      chainName: 'Polygon Mainnet',
-                      nativeCurrency: {
-                        name: 'Matic',
-                        symbol: 'MATIC',
-                        decimals: 18,
-                      },
-                      rpcUrls: ['https://polygon-rpc.com/'],
-                      blockExplorerUrls: ['https://polygonscan.com/'],
-                    },
-                  ])
-                }
+                await signer.provider.send('wallet_switchEthereumChain', [
+                  { chainId: `0x${CHAIN_ID.toString(16)}` },
+                ])
               }}
             >
               SWITCH NETWORK

@@ -26,8 +26,8 @@ export default function PlotPage(props: { token: string }) {
   const { token = props.token, from } = router.query as { token?: string; from?: string }
   const contract = useContract()
   const { data: index } = useSWR(
-    token ? ['indexByToken', contract.address, token] : null,
-    () => contract.indexByToken(ethers.BigNumber.from(token!)),
+    token ? ['tokensIndex', contract.address, token] : null,
+    () => contract.tokensIndex(ethers.BigNumber.from(token!)),
     { revalidateOnFocus: false, revalidateIfStale: false },
   )
   const { data: owner } = useSWR(
