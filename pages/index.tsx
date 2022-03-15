@@ -20,7 +20,7 @@ import {
 import CodeMap from '../components/code-map'
 import Dot from '../components/dot'
 import Token from '../components/token'
-import { ExtendedAsciiPlotPolygon__factory } from '../abi'
+import { ExtendedAsciiPlot__factory } from '../abi'
 import { useContract } from '../contexts/contract-context'
 
 export default function IndexPage() {
@@ -34,8 +34,7 @@ export default function IndexPage() {
     [wallet],
   )
   const contract = useMemo(
-    () =>
-      signer ? ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, signer) : undefined,
+    () => (signer ? ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, signer) : undefined),
     [signer],
   )
   const contractRead = useContract()

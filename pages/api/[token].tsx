@@ -1,12 +1,12 @@
 import { ethers } from 'ethers'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ExtendedAsciiPlotPolygon__factory } from '../../abi'
+import { ExtendedAsciiPlot__factory } from '../../abi'
 import { differentCharacters, differentColors } from '../../utils/attributes'
 import { BASE_URL, CONTRACT_ADDRESS, JSON_RPC } from '../../utils/constants'
 
 const provider = new ethers.providers.JsonRpcBatchProvider(JSON_RPC)
 
-const contract = ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, provider)
+const contract = ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, provider)
 
 export default async function TokenAPI(req: NextApiRequest, res: NextApiResponse) {
   const { token } = req.query as { token: string }

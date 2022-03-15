@@ -6,7 +6,7 @@ import { ethers } from 'ethers'
 import { useEffect, useMemo, useRef } from 'react'
 import * as Comlink from 'comlink'
 import { BASE_URL, CONTRACT_ADDRESS, DESCRIPTION, JSON_RPC } from '../utils/constants'
-import { ExtendedAsciiPlotPolygon__factory } from '../abi'
+import { ExtendedAsciiPlot__factory } from '../abi'
 import { ContractProvider } from '../contexts/contract-context'
 import { RenderProvider } from '../contexts/render-context'
 import { RenderWorkerApi } from '../workers/render.worker'
@@ -51,7 +51,7 @@ div, span {
 export default function App({ Component, pageProps }: AppProps) {
   const provider = useMemo(() => new ethers.providers.JsonRpcBatchProvider(JSON_RPC), [])
   const contract = useMemo(
-    () => ExtendedAsciiPlotPolygon__factory.connect(CONTRACT_ADDRESS, provider),
+    () => ExtendedAsciiPlot__factory.connect(CONTRACT_ADDRESS, provider),
     [provider],
   )
   const workerRef = useRef<Worker>()

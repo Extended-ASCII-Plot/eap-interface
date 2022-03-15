@@ -19,35 +19,28 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface ExtendedAsciiPlotInterface extends utils.Interface {
+  contractName: "ExtendedAsciiPlot";
   functions: {
-    "ERC712_VERSION()": FunctionFragment;
+    "MAX_SUPPLY()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "baseTokenURI()": FunctionFragment;
-    "contractURI()": FunctionFragment;
-    "destory()": FunctionFragment;
-    "executeMetaTransaction(address,bytes,bytes32,bytes32,uint8)": FunctionFragment;
+    "freeMint(address,uint256)": FunctionFragment;
+    "freeMintPrivileges(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getChainId()": FunctionFragment;
-    "getDomainSeperator()": FunctionFragment;
-    "getNonce(address)": FunctionFragment;
-    "indexByToken(uint256)": FunctionFragment;
-    "indexOfOwnerByToken(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "price()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseTokenURI(string)": FunctionFragment;
-    "setMintFee(uint256)": FunctionFragment;
+    "setPrice(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "tokenByIndex(uint256)": FunctionFragment;
-    "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
+    "tokensIndex(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -55,7 +48,7 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   };
 
   encodeFunctionData(
-    functionFragment: "ERC712_VERSION",
+    functionFragment: "MAX_SUPPLY",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -64,37 +57,15 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "baseTokenURI",
-    values?: undefined
+    functionFragment: "freeMint",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "contractURI",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "destory", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "executeMetaTransaction",
-    values: [string, BytesLike, BytesLike, BytesLike, BigNumberish]
+    functionFragment: "freeMintPrivileges",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getChainId",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getDomainSeperator",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "getNonce", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "indexByToken",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "indexOfOwnerByToken",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -111,6 +82,7 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "price", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -124,11 +96,7 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     values: [string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBaseTokenURI",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setMintFee",
+    functionFragment: "setPrice",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -137,15 +105,11 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "tokenByIndex",
+    functionFragment: "tokenURI",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokenOfOwnerByIndex",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokenURI",
+    functionFragment: "tokensIndex",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -162,41 +126,16 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
-  decodeFunctionResult(
-    functionFragment: "ERC712_VERSION",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "MAX_SUPPLY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "freeMint", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "baseTokenURI",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "contractURI",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "destory", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "executeMetaTransaction",
+    functionFragment: "freeMintPrivileges",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getChainId", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getDomainSeperator",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getNonce", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "indexByToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "indexOfOwnerByToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -207,6 +146,7 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "price", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -219,25 +159,17 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "setBaseTokenURI",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setMintFee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setPrice", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenByIndex",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenOfOwnerByIndex",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokensIndex",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
@@ -255,14 +187,12 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "MetaTransactionExecuted(address,address,bytes)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "MetaTransactionExecuted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -281,14 +211,6 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
-export type MetaTransactionExecutedEvent = TypedEvent<
-  [string, string, string],
-  { userAddress: string; relayerAddress: string; functionSignature: string }
->;
-
-export type MetaTransactionExecutedEventFilter =
-  TypedEventFilter<MetaTransactionExecutedEvent>;
-
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
   { previousOwner: string; newOwner: string }
@@ -305,6 +227,7 @@ export type TransferEvent = TypedEvent<
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface ExtendedAsciiPlot extends BaseContract {
+  contractName: "ExtendedAsciiPlot";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -331,7 +254,7 @@ export interface ExtendedAsciiPlot extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    ERC712_VERSION(overrides?: CallOverrides): Promise<[string]>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     approve(
       to: string,
@@ -341,46 +264,21 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<[string]>;
-
-    contractURI(overrides?: CallOverrides): Promise<[string]>;
-
-    destory(
+    freeMint(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    executeMetaTransaction(
-      userAddress: string,
-      functionSignature: BytesLike,
-      sigR: BytesLike,
-      sigS: BytesLike,
-      sigV: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    freeMintPrivileges(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    getChainId(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getDomainSeperator(overrides?: CallOverrides): Promise<[string]>;
-
-    getNonce(
-      user: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { nonce: BigNumber }>;
-
-    indexByToken(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    indexOfOwnerByToken(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     isApprovedForAll(
       owner: string,
@@ -402,6 +300,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    price(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -428,13 +328,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setBaseTokenURI(
-      newBaseTokenURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setMintFee(
-      _fee: BigNumberish,
+    setPrice(
+      _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -445,21 +340,15 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    tokenByIndex(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    tokenOfOwnerByIndex(
-      owner: string,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     tokenURI(
-      _tokenId: BigNumberish,
+      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    tokensIndex(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -480,7 +369,7 @@ export interface ExtendedAsciiPlot extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  ERC712_VERSION(overrides?: CallOverrides): Promise<string>;
+  MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
   approve(
     to: string,
@@ -490,43 +379,21 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  baseTokenURI(overrides?: CallOverrides): Promise<string>;
-
-  contractURI(overrides?: CallOverrides): Promise<string>;
-
-  destory(
+  freeMint(
+    to: string,
+    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  executeMetaTransaction(
-    userAddress: string,
-    functionSignature: BytesLike,
-    sigR: BytesLike,
-    sigS: BytesLike,
-    sigV: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  freeMintPrivileges(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  getChainId(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getDomainSeperator(overrides?: CallOverrides): Promise<string>;
-
-  getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  indexByToken(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  indexOfOwnerByToken(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: string,
@@ -545,6 +412,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  price(overrides?: CallOverrides): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -571,13 +440,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setBaseTokenURI(
-    newBaseTokenURI: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setMintFee(
-    _fee: BigNumberish,
+  setPrice(
+    _price: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -588,18 +452,12 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  tokenByIndex(
-    index: BigNumberish,
+  tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  tokensIndex(
+    arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  tokenOfOwnerByIndex(
-    owner: string,
-    index: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  tokenURI(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -620,7 +478,7 @@ export interface ExtendedAsciiPlot extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    ERC712_VERSION(overrides?: CallOverrides): Promise<string>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
     approve(
       to: string,
@@ -630,41 +488,21 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<string>;
-
-    contractURI(overrides?: CallOverrides): Promise<string>;
-
-    destory(overrides?: CallOverrides): Promise<void>;
-
-    executeMetaTransaction(
-      userAddress: string,
-      functionSignature: BytesLike,
-      sigR: BytesLike,
-      sigS: BytesLike,
-      sigV: BigNumberish,
+    freeMint(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<void>;
+
+    freeMintPrivileges(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    getChainId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getDomainSeperator(overrides?: CallOverrides): Promise<string>;
-
-    getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    indexByToken(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    indexOfOwnerByToken(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -683,6 +521,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    price(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -707,12 +547,7 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setBaseTokenURI(
-      newBaseTokenURI: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setMintFee(_fee: BigNumberish, overrides?: CallOverrides): Promise<void>;
+    setPrice(_price: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -721,21 +556,12 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    tokenByIndex(
-      index: BigNumberish,
+    tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    tokensIndex(
+      arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    tokenOfOwnerByIndex(
-      owner: string,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    tokenURI(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -777,17 +603,6 @@ export interface ExtendedAsciiPlot extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
-    "MetaTransactionExecuted(address,address,bytes)"(
-      userAddress?: null,
-      relayerAddress?: null,
-      functionSignature?: null
-    ): MetaTransactionExecutedEventFilter;
-    MetaTransactionExecuted(
-      userAddress?: null,
-      relayerAddress?: null,
-      functionSignature?: null
-    ): MetaTransactionExecutedEventFilter;
-
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -810,7 +625,7 @@ export interface ExtendedAsciiPlot extends BaseContract {
   };
 
   estimateGas: {
-    ERC712_VERSION(overrides?: CallOverrides): Promise<BigNumber>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
 
     approve(
       to: string,
@@ -820,40 +635,18 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<BigNumber>;
-
-    contractURI(overrides?: CallOverrides): Promise<BigNumber>;
-
-    destory(
+    freeMint(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    executeMetaTransaction(
-      userAddress: string,
-      functionSignature: BytesLike,
-      sigR: BytesLike,
-      sigS: BytesLike,
-      sigV: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    freeMintPrivileges(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getChainId(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getDomainSeperator(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getNonce(user: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    indexByToken(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    indexOfOwnerByToken(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -879,6 +672,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    price(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -904,13 +699,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setBaseTokenURI(
-      newBaseTokenURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setMintFee(
-      _fee: BigNumberish,
+    setPrice(
+      _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -921,19 +711,13 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    tokenByIndex(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    tokenOfOwnerByIndex(
-      owner: string,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     tokenURI(
-      _tokenId: BigNumberish,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    tokensIndex(
+      arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -957,7 +741,7 @@ export interface ExtendedAsciiPlot extends BaseContract {
   };
 
   populateTransaction: {
-    ERC712_VERSION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     approve(
       to: string,
@@ -970,45 +754,18 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    baseTokenURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    contractURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    destory(
+    freeMint(
+      to: string,
+      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    executeMetaTransaction(
-      userAddress: string,
-      functionSignature: BytesLike,
-      sigR: BytesLike,
-      sigS: BytesLike,
-      sigV: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    freeMintPrivileges(
+      arg0: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getChainId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getDomainSeperator(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getNonce(
-      user: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    indexByToken(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    indexOfOwnerByToken(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1034,6 +791,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    price(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1059,13 +818,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setBaseTokenURI(
-      newBaseTokenURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setMintFee(
-      _fee: BigNumberish,
+    setPrice(
+      _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1076,19 +830,13 @@ export interface ExtendedAsciiPlot extends BaseContract {
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    tokenByIndex(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    tokenOfOwnerByIndex(
-      owner: string,
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     tokenURI(
-      _tokenId: BigNumberish,
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokensIndex(
+      arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

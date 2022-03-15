@@ -2,7 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { ExtendedAsciiPlot } from "./ExtendedAsciiPlot";
-export type { ExtendedAsciiPlotPolygon } from "./ExtendedAsciiPlotPolygon";
 
 export { ExtendedAsciiPlot__factory } from "./factories/ExtendedAsciiPlot__factory";
-export { ExtendedAsciiPlotPolygon__factory } from "./factories/ExtendedAsciiPlotPolygon__factory";
