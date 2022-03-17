@@ -82,7 +82,9 @@ export default function PlotPage(props: { token: string }) {
           </span>
           <a
             title="OpenSea"
-            href={`https://opensea.io/assets/matic/${CONTRACT_ADDRESS}/${token}`}
+            href={`https://opensea.io/assets/matic/${CONTRACT_ADDRESS}/${ethers.BigNumber.from(
+              token,
+            ).toString()}`}
             target="_blank"
             rel="noopener noreferrer"
           >
