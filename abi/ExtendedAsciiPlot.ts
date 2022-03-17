@@ -28,11 +28,13 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     "freeMintPrivileges(address)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "latestRefundabilityTimestamp()": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "price()": FunctionFragment;
+    "refund(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -41,7 +43,6 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "tokensIndex(uint256)": FunctionFragment;
-    "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "withdraw()": FunctionFragment;
@@ -73,6 +74,10 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "latestRefundabilityTimestamp",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "mint",
     values: [string, BigNumberish]
   ): string;
@@ -83,6 +88,10 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "price", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "refund",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -113,10 +122,6 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
@@ -142,11 +147,16 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "latestRefundabilityTimestamp",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "price", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "refund", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -168,10 +178,6 @@ export interface ExtendedAsciiPlotInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokensIndex",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -286,6 +292,10 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    latestRefundabilityTimestamp(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     mint(
       to: string,
       tokenId: BigNumberish,
@@ -302,6 +312,11 @@ export interface ExtendedAsciiPlot extends BaseContract {
     ): Promise<[string]>;
 
     price(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    refund(
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -349,8 +364,6 @@ export interface ExtendedAsciiPlot extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferFrom(
       from: string,
@@ -401,6 +414,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  latestRefundabilityTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
   mint(
     to: string,
     tokenId: BigNumberish,
@@ -414,6 +429,11 @@ export interface ExtendedAsciiPlot extends BaseContract {
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   price(overrides?: CallOverrides): Promise<BigNumber>;
+
+  refund(
+    tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -458,8 +478,6 @@ export interface ExtendedAsciiPlot extends BaseContract {
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferFrom(
     from: string,
@@ -510,6 +528,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    latestRefundabilityTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
     mint(
       to: string,
       tokenId: BigNumberish,
@@ -523,6 +543,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     price(overrides?: CallOverrides): Promise<BigNumber>;
+
+    refund(tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -562,8 +584,6 @@ export interface ExtendedAsciiPlot extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -657,6 +677,8 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    latestRefundabilityTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
     mint(
       to: string,
       tokenId: BigNumberish,
@@ -673,6 +695,11 @@ export interface ExtendedAsciiPlot extends BaseContract {
     ): Promise<BigNumber>;
 
     price(overrides?: CallOverrides): Promise<BigNumber>;
+
+    refund(
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -720,8 +747,6 @@ export interface ExtendedAsciiPlot extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -776,6 +801,10 @@ export interface ExtendedAsciiPlot extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    latestRefundabilityTimestamp(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     mint(
       to: string,
       tokenId: BigNumberish,
@@ -792,6 +821,11 @@ export interface ExtendedAsciiPlot extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     price(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    refund(
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -839,8 +873,6 @@ export interface ExtendedAsciiPlot extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: string,
