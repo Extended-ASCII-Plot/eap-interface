@@ -137,7 +137,7 @@ export default function IndexPage() {
           <Text> </Text>
           <a
             title="Twitter"
-            href="https://twitter.com/aliez_eth"
+            href="https://twitter.com/aliez_ren"
             target="_blank"
             rel="noopener noreferrer"
           >
