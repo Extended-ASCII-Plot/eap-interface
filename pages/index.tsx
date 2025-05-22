@@ -136,15 +136,15 @@ export default function IndexPage() {
           </Link>
           <Text> </Text>
           <a
-            title="Twitter"
-            href="https://twitter.com/aliez_ren"
+            title="X"
+            href="https://x.com/aliez_ren"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Dot value={0xf47c} />
           </a>
           <Text> </Text>
-          <a
+          {/* <a
             title="Discord"
             href="https://discord.gg/btyVYANhNy"
             target="_blank"
@@ -152,7 +152,7 @@ export default function IndexPage() {
           >
             <Dot value={0xf57d} />
           </a>
-          <Text> </Text>
+          <Text> </Text> */}
           <a
             title="GitHub"
             href="https://github.com/Extended-ASCII-Plot"
